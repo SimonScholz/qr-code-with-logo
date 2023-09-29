@@ -24,13 +24,12 @@ enum class FileTypes(val value: String) {
 fun main() {
     val qrCodeCreator = QrCodeCreator()
     qrCodeCreator.createQrImageWithPositionals(
-        "https://github.com/lome/niceqr",//"https://simonscholz.github.io/",
-        circularPositionals = true,
-        relativePositionalsRound = .0,
-        fillColor = Color(0x0063,0x000B,0x00A5),
+        "https://github.com/lome/niceqr", // "https://simonscholz.github.io/",
+        circularPositionals = false,
+        fillColor = Color(0x0063, 0x000B, 0x00A5),
         quiteZone = 0,
     ).let {
-        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-10.png"))
+        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-14.png"))
     }
 }
 
@@ -42,10 +41,12 @@ class QrCodeCreator {
         circularPositionals: Boolean = false,
         relativePositionalsRound: Double = 0.5,
         fillColor: Color = Color.BLACK,
+        bgColor: Color = Color.WHITE,
+        internalCircleColor: Color = Color.RED,
         quiteZone: Int = 1,
     ): BufferedImage {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
-        val (positionals, dataSquares) = PositionalsUtil.renderResult(qrCode, size, size, quiteZone)
+        val (positionals, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quiteZone)
 
         val image = BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR_PRE)
         val graphics = image.graphics as Graphics2D
@@ -73,7 +74,7 @@ class QrCodeCreator {
             val ir: Int = r - 2 * it.onColor - 2 * it.offColor
 
             // White External Circle
-            graphics.color = Color.WHITE
+            graphics.color = bgColor
             drawPositional(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
 
             // Black External Circle
@@ -82,14 +83,15 @@ class QrCodeCreator {
             cx += it.onColor
             cy += it.onColor
             // White Internal Circle
-            graphics.color = Color.WHITE
+            graphics.color = bgColor
             drawPositional(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
             cx += it.offColor
             cy += it.offColor
             // Black Internal Circle
-            graphics.color = Color.RED
+            graphics.color = internalCircleColor
             drawPositional(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
         }
+        graphics.dispose()
 
         return image
     }

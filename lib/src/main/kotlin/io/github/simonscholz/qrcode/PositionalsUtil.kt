@@ -1,10 +1,11 @@
 package io.github.simonscholz.qrcode
 
 import com.google.zxing.client.j2se.MatrixToImageConfig
-import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.Version
 import com.google.zxing.qrcode.encoder.ByteMatrix
 import com.google.zxing.qrcode.encoder.QRCode
+import io.github.simonscholz.qrcode.MatrixUtil.embedDarkDotAtLeftBottomCorner
+import io.github.simonscholz.qrcode.MatrixUtil.embedPositionDetectionPatternsAndSeparators
 import kotlin.math.max
 import kotlin.math.min
 
@@ -69,17 +70,17 @@ private val POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE = arrayOf(
     intArrayOf(6, 30, 58, 86, 114, 142, 170),
 )
 
-object PositionalsUtil {
+internal object PositionalsUtil {
 
-    fun renderResult(qrCode: QRCode, width: Int, height: Int, quietZone: Int): Pair<List<PositionalSquare>, List<DataSquare>> {
+    fun renderResult(qrCode: QRCode, size: Int, quietZone: Int): Pair<List<PositionalSquare>, List<DataSquare>> {
         requireNotNull(qrCode.matrix) { "No matrix available on given QRCode" }
 
         val inputWidth: Int = qrCode.matrix.width
         val inputHeight: Int = qrCode.matrix.height
         val qrWidth = inputWidth + quietZone * 2
         val qrHeight = inputHeight + quietZone * 2
-        val outputWidth = max(width, qrWidth)
-        val outputHeight = max(height, qrHeight)
+        val outputWidth = max(size, qrWidth)
+        val outputHeight = max(size, qrHeight)
 
         val multiple = min(outputWidth / qrWidth, outputHeight / qrHeight)
         // Padding includes both the quiet zone and the extra white pixels to accommodate the requested
@@ -93,7 +94,7 @@ object PositionalsUtil {
         val leftPadding = (outputWidth - inputWidth * multiple) / 2
         val topPadding = (outputHeight - inputHeight * multiple) / 2
 
-        val positionals = positionals(qrCode.version, qrCode.matrix)
+        val positionals = positionalSquares(qrCode.version, qrCode.matrix.width, qrCode.matrix.height)
         val mappedPoistionals = positionals.map {
             PositionalSquare(
                 it.top * multiple + topPadding,
@@ -151,8 +152,12 @@ object PositionalsUtil {
         return squares
     }
 
-    @JvmStatic
-    private fun positionals(version: Version, matrix: ByteMatrix): List<PositionalSquare> {
+    private fun positionalSquares(version: Version, width: Int, height: Int): List<PositionalSquare> {
+        val matrix = ByteMatrix(width, height)
+        matrix.clear(-1)
+        embedPositionDetectionPatternsAndSeparators(matrix)
+        embedDarkDotAtLeftBottomCorner(matrix)
+
         val positionals: MutableList<PositionalSquare> = mutableListOf()
         val pdpWidth: Int = 7
 
@@ -176,8 +181,7 @@ object PositionalsUtil {
                     continue
                 }
                 // If the cell is unset, we embed the position adjustment pattern here.
-                val point = matrix.get(x, y).toInt()
-                if (isEmpty(point)) {
+                if (isEmpty(matrix[x, y].toInt())) {
                     // -2 is necessary since the x/y coordinates point to the center of the pattern, not the
                     // left top corner.
                     positionals.add(PositionalSquare(x - 2, y - 2, 5, 1, 1))
@@ -187,5 +191,5 @@ object PositionalsUtil {
         return positionals
     }
 
-    private fun isEmpty(value: Int): Boolean = value == -1
+    fun isEmpty(value: Int): Boolean = value == -1
 }
