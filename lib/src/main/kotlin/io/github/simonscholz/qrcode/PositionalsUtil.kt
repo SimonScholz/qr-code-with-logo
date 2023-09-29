@@ -64,7 +64,7 @@ private val POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE = arrayOf(
     intArrayOf(6, 28, 54, 80, 106, 132, 158),
     intArrayOf(6, 32, 58, 84, 110, 136, 162),
     intArrayOf(6, 26, 54, 82, 110, 138, 166),
-    intArrayOf(6, 30, 58, 86, 114, 142, 170)
+    intArrayOf(6, 30, 58, 86, 114, 142, 170),
 )
 
 object PositionalsUtil {
@@ -94,12 +94,15 @@ object PositionalsUtil {
         val output = BitMatrix(outputWidth, outputHeight)
 
         val positionals = positionals(qrCode.version, qrCode.matrix)
-        val mappedPoistionals = positionals.map { PositionalSquare(
-            it.top*multiple+topPadding,
-            it.left*multiple+leftPadding,
-            it.size*multiple,
-            it.onColor*multiple,
-            it.offColor*multiple) }
+        val mappedPoistionals = positionals.map {
+            PositionalSquare(
+                it.top * multiple + topPadding,
+                it.left * multiple + leftPadding,
+                it.size * multiple,
+                it.onColor * multiple,
+                it.offColor * multiple,
+            )
+        }
 
         val squares: List<DataSquare> = dataSquares(topPadding, inputHeight, multiple, leftPadding, inputWidth, qrCode, output)
         val removedPositionalsFromSquares: List<DataSquare> = squares.filter { !positionalsContains(positionals, it.x, it.y) }
@@ -121,13 +124,13 @@ object PositionalsUtil {
 
         var inputY = 0
         var outputY = topPadding
-        while (inputY < inputHeight-1) {
+        while (inputY < inputHeight - 1) {
             inputY++
             outputY += multiple
 
             var inputX = 0
             var outputX = leftPadding
-            while (inputX < inputWidth-1) {
+            while (inputX < inputWidth - 1) {
                 inputX++
                 outputX += multiple
 
@@ -153,7 +156,7 @@ object PositionalsUtil {
         positionals.add(PositionalSquare(matrix.width - pdpWidth, 0, pdpWidth, 1, 1))
         // Left bottom corner.
         positionals.add(PositionalSquare(0, matrix.width - pdpWidth, pdpWidth, 1, 1))
-        if (version.versionNumber < 2) {  // The patterns appear if version >= 2
+        if (version.versionNumber < 2) { // The patterns appear if version >= 2
             return positionals
         }
         val index = version.versionNumber - 1

@@ -7,6 +7,7 @@ plugins {
 
     id("com.github.ben-manes.versions") version "0.48.0"
     id("io.gitlab.arturbosch.detekt") version("1.23.1")
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
 }
 
 repositories {

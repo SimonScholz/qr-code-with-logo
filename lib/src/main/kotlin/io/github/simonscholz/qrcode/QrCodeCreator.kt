@@ -18,7 +18,7 @@ import javax.imageio.ImageIO
 import kotlin.math.floor
 
 enum class FileTypes(val value: String) {
-    PNG("png")
+    PNG("png"),
 }
 
 fun main() {
@@ -27,16 +27,16 @@ fun main() {
 //        qrCodeText = "https://simonscholz.github.io/",
 //        onColor = Color(0x0063, 0x000B, 0x00A5).rgb
 //    )
-    //ImageIO.write(bufferedImage, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-code-5.png"));
+    // ImageIO.write(bufferedImage, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-code-5.png"));
 
     qrCodeCreator.createQrImageWithPositionals("https://simonscholz.github.io/", circularPositionals = true, relativePositionalsRound = 0.5).let {
-        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-2.png"));
+        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-2.png"))
     }
 }
 
 class QrCodeCreator {
 
-    fun createQrImageWithPositionals(qrCodeText: String, size: Int = 200, circularPositionals: Boolean = false, relativePositionalsRound: Double = 0.5) : BufferedImage {
+    fun createQrImageWithPositionals(qrCodeText: String, size: Int = 200, circularPositionals: Boolean = false, relativePositionalsRound: Double = 0.5): BufferedImage {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
         val (positionals, dataSquares) = PositionalsUtil.renderResult(qrCode, size, size, 0)
 
@@ -46,7 +46,7 @@ class QrCodeCreator {
         graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
         graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
 
-        //Data Squares
+        // Data Squares
         dataSquares.forEach { s ->
             if (s.black) {
                 graphics.color = Color.BLACK
@@ -57,7 +57,7 @@ class QrCodeCreator {
             }
         }
 
-        //Positionals
+        // Positionals
         positionals.forEach { p ->
             val r: Int = p.size
             var cx: Int = p.left
@@ -65,22 +65,21 @@ class QrCodeCreator {
             val wr: Int = r - 2 * p.onColor
             val ir: Int = r - 2 * p.onColor - 2 * p.offColor
 
-
-            //White External Circle
+            // White External Circle
             graphics.color = Color.WHITE
             drawPositional(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
 
-            //Black External Circle
+            // Black External Circle
             graphics.color = Color.BLACK
             drawPositional(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
             cx += p.onColor
             cy += p.onColor
-            //White Internal Circle
+            // White Internal Circle
             graphics.color = Color.WHITE
             drawPositional(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
             cx += p.offColor
             cy += p.offColor
-            //Black Internal Circle
+            // Black Internal Circle
             graphics.color = Color.ORANGE
             drawPositional(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
         }
@@ -107,7 +106,7 @@ class QrCodeCreator {
         size: Int = 200,
         onColor: Int = MatrixToImageConfig.BLACK,
         offColor: Int = MatrixToImageConfig.WHITE,
-    ) : BufferedImage {
+    ): BufferedImage {
         require(size >= 0)
         require(onColor != offColor)
 
@@ -130,6 +129,6 @@ class QrCodeCreator {
     private fun encodeHintTypes() = mapOf(
         EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H,
         EncodeHintType.MARGIN to 0,
-        EncodeHintType.CHARACTER_SET to "UTF-8"
+        EncodeHintType.CHARACTER_SET to "UTF-8",
     )
 }
