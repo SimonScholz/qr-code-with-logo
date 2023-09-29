@@ -23,22 +23,29 @@ enum class FileTypes(val value: String) {
 
 fun main() {
     val qrCodeCreator = QrCodeCreator()
-//    val bufferedImage: BufferedImage = qrCodeCreator.createQrImage(
-//        qrCodeText = "https://simonscholz.github.io/",
-//        onColor = Color(0x0063, 0x000B, 0x00A5).rgb
-//    )
-    // ImageIO.write(bufferedImage, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-code-5.png"));
-
-    qrCodeCreator.createQrImageWithPositionals("https://simonscholz.github.io/", circularPositionals = true, relativePositionalsRound = 0.5).let {
-        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-2.png"))
+    qrCodeCreator.createQrImageWithPositionals(
+        "https://github.com/lome/niceqr",//"https://simonscholz.github.io/",
+        circularPositionals = true,
+        relativePositionalsRound = .0,
+        fillColor = Color(0x0063,0x000B,0x00A5),
+        quiteZone = 0,
+    ).let {
+        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-10.png"))
     }
 }
 
 class QrCodeCreator {
 
-    fun createQrImageWithPositionals(qrCodeText: String, size: Int = 200, circularPositionals: Boolean = false, relativePositionalsRound: Double = 0.5): BufferedImage {
+    fun createQrImageWithPositionals(
+        qrCodeText: String,
+        size: Int = 200,
+        circularPositionals: Boolean = false,
+        relativePositionalsRound: Double = 0.5,
+        fillColor: Color = Color.BLACK,
+        quiteZone: Int = 1,
+    ): BufferedImage {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
-        val (positionals, dataSquares) = PositionalsUtil.renderResult(qrCode, size, size, 0)
+        val (positionals, dataSquares) = PositionalsUtil.renderResult(qrCode, size, size, quiteZone)
 
         val image = BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR_PRE)
         val graphics = image.graphics as Graphics2D
@@ -49,7 +56,7 @@ class QrCodeCreator {
         // Data Squares
         dataSquares.forEach { s ->
             if (s.black) {
-                graphics.color = Color.BLACK
+                graphics.color = fillColor
                 graphics.fillRect(s.x, s.y, s.size, s.size)
             } else {
                 graphics.color = Color.WHITE
@@ -58,29 +65,29 @@ class QrCodeCreator {
         }
 
         // Positionals
-        positionals.forEach { p ->
-            val r: Int = p.size
-            var cx: Int = p.left
-            var cy: Int = p.top
-            val wr: Int = r - 2 * p.onColor
-            val ir: Int = r - 2 * p.onColor - 2 * p.offColor
+        positionals.forEach {
+            val r: Int = it.size
+            var cx: Int = it.left
+            var cy: Int = it.top
+            val wr: Int = r - 2 * it.onColor
+            val ir: Int = r - 2 * it.onColor - 2 * it.offColor
 
             // White External Circle
             graphics.color = Color.WHITE
             drawPositional(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
 
             // Black External Circle
-            graphics.color = Color.BLACK
+            graphics.color = fillColor
             drawPositional(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
-            cx += p.onColor
-            cy += p.onColor
+            cx += it.onColor
+            cy += it.onColor
             // White Internal Circle
             graphics.color = Color.WHITE
             drawPositional(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
-            cx += p.offColor
-            cy += p.offColor
+            cx += it.offColor
+            cy += it.offColor
             // Black Internal Circle
-            graphics.color = Color.ORANGE
+            graphics.color = Color.RED
             drawPositional(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
         }
 

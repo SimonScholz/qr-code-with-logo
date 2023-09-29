@@ -23,7 +23,9 @@ data class DataSquare(
     val size: Int,
 )
 
-// From Appendix E. Table 1, JIS0510X:2004 (p 71). The table was double-checked by komatsu.
+/**
+ * This has been taken from com.google.zxing.qrcode.encoder.MatrixUtil.POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE
+ */
 private val POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE = arrayOf(
     intArrayOf(-1, -1, -1, -1, -1, -1, -1),
     intArrayOf(6, 18, -1, -1, -1, -1, -1),
@@ -70,7 +72,7 @@ private val POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE = arrayOf(
 object PositionalsUtil {
 
     fun renderResult(qrCode: QRCode, width: Int, height: Int, quietZone: Int): Pair<List<PositionalSquare>, List<DataSquare>> {
-        require(qrCode.matrix != null) { "No matrix available on given QRCode" }
+        requireNotNull(qrCode.matrix) { "No matrix available on given QRCode" }
 
         val inputWidth: Int = qrCode.matrix.width
         val inputHeight: Int = qrCode.matrix.height
@@ -91,8 +93,6 @@ object PositionalsUtil {
         val leftPadding = (outputWidth - inputWidth * multiple) / 2
         val topPadding = (outputHeight - inputHeight * multiple) / 2
 
-        val output = BitMatrix(outputWidth, outputHeight)
-
         val positionals = positionals(qrCode.version, qrCode.matrix)
         val mappedPoistionals = positionals.map {
             PositionalSquare(
@@ -104,7 +104,7 @@ object PositionalsUtil {
             )
         }
 
-        val squares: List<DataSquare> = dataSquares(topPadding, inputHeight, multiple, leftPadding, inputWidth, qrCode, output)
+        val squares: List<DataSquare> = dataSquares(topPadding, inputHeight, multiple, leftPadding, inputWidth, qrCode)
         val removedPositionalsFromSquares: List<DataSquare> = squares.filter { !positionalsContains(positionals, it.x, it.y) }
 
         return Pair(mappedPoistionals, removedPositionalsFromSquares)
@@ -119,7 +119,14 @@ object PositionalsUtil {
             .filter { (top, _, size): PositionalSquare -> top + size >= y }
             .count() > 0L
 
-    private fun dataSquares(topPadding: Int, inputHeight: Int, multiple: Int, leftPadding: Int, inputWidth: Int, qrCode: QRCode, output: BitMatrix): List<DataSquare> {
+    private fun dataSquares(
+        topPadding: Int,
+        inputHeight: Int,
+        multiple: Int,
+        leftPadding: Int,
+        inputWidth: Int,
+        qrCode: QRCode,
+    ): List<DataSquare> {
         val squares: MutableList<DataSquare> = mutableListOf()
 
         var inputY = 0
@@ -135,7 +142,6 @@ object PositionalsUtil {
                 outputX += multiple
 
                 if (qrCode.matrix.get(inputX, inputY).toInt() == 1) {
-                    output.setRegion(outputX, outputY, multiple, multiple)
                     squares.add(DataSquare(true, outputX, outputY, multiple))
                 } else {
                     squares.add(DataSquare(false, outputX, outputY, multiple))
@@ -161,7 +167,7 @@ object PositionalsUtil {
         }
         val index = version.versionNumber - 1
         val coordinates: IntArray = POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE[index]
-        val numCoordinates: Int = 7
+        val numCoordinates: Int = POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE[index].size
         for (i in 0 until numCoordinates) {
             for (j in 0 until numCoordinates) {
                 val y = coordinates[i]
@@ -170,7 +176,8 @@ object PositionalsUtil {
                     continue
                 }
                 // If the cell is unset, we embed the position adjustment pattern here.
-                if (isEmpty(matrix[x, y].toInt())) {
+                val point = matrix.get(x, y).toInt()
+                if (isEmpty(point)) {
                     // -2 is necessary since the x/y coordinates point to the center of the pattern, not the
                     // left top corner.
                     positionals.add(PositionalSquare(x - 2, y - 2, 5, 1, 1))
