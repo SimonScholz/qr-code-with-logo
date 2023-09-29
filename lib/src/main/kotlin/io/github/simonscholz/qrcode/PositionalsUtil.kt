@@ -13,12 +13,12 @@ data class PositionalSquare(
     val top: Int,
     val left: Int,
     val size: Int,
-    val onColor: Int = MatrixToImageConfig.BLACK,
-    val offColor: Int = MatrixToImageConfig.WHITE,
+    val fillColor: Int = MatrixToImageConfig.BLACK,
+    val bgColor: Int = MatrixToImageConfig.WHITE,
 )
 
 data class DataSquare(
-    val black: Boolean,
+    val isFilled: Boolean,
     val x: Int,
     val y: Int,
     val size: Int,
@@ -100,8 +100,8 @@ internal object PositionalsUtil {
                 it.top * multiple + topPadding,
                 it.left * multiple + leftPadding,
                 it.size * multiple,
-                it.onColor * multiple,
-                it.offColor * multiple,
+                it.fillColor * multiple,
+                it.bgColor * multiple,
             )
         }
 
@@ -132,22 +132,20 @@ internal object PositionalsUtil {
 
         var inputY = 0
         var outputY = topPadding
-        while (inputY < inputHeight - 1) {
-            inputY++
-            outputY += multiple
-
+        while (inputY < inputHeight) {
             var inputX = 0
             var outputX = leftPadding
-            while (inputX < inputWidth - 1) {
-                inputX++
-                outputX += multiple
-
+            while (inputX < inputWidth) {
                 if (qrCode.matrix.get(inputX, inputY).toInt() == 1) {
                     squares.add(DataSquare(true, outputX, outputY, multiple))
                 } else {
                     squares.add(DataSquare(false, outputX, outputY, multiple))
                 }
+                inputX++
+                outputX += multiple
             }
+            inputY++
+            outputY += multiple
         }
         return squares
     }

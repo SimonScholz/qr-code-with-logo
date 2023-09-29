@@ -56,7 +56,7 @@ class QrCodeCreator {
 
         // Data Squares
         dataSquares.forEach { s ->
-            if (s.black) {
+            if (s.isFilled) {
                 graphics.color = fillColor
                 graphics.fillRect(s.x, s.y, s.size, s.size)
             } else {
@@ -70,8 +70,8 @@ class QrCodeCreator {
             val r: Int = it.size
             var cx: Int = it.left
             var cy: Int = it.top
-            val wr: Int = r - 2 * it.onColor
-            val ir: Int = r - 2 * it.onColor - 2 * it.offColor
+            val wr: Int = r - 2 * it.fillColor
+            val ir: Int = r - 2 * it.fillColor - 2 * it.bgColor
 
             // White External Circle
             graphics.color = bgColor
@@ -80,13 +80,13 @@ class QrCodeCreator {
             // Black External Circle
             graphics.color = fillColor
             drawPositional(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
-            cx += it.onColor
-            cy += it.onColor
+            cx += it.fillColor
+            cy += it.fillColor
             // White Internal Circle
             graphics.color = bgColor
             drawPositional(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
-            cx += it.offColor
-            cy += it.offColor
+            cx += it.bgColor
+            cy += it.bgColor
             // Black Internal Circle
             graphics.color = internalCircleColor
             drawPositional(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
