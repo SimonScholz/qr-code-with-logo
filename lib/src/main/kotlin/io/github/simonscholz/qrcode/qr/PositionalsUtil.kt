@@ -1,14 +1,38 @@
-package io.github.simonscholz.qrcode
+/**
+ * MIT License
+ *
+ * Copyright (c) 2021 lome, Simon Scholz
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package io.github.simonscholz.qrcode.qr
 
 import com.google.zxing.qrcode.decoder.Version
 import com.google.zxing.qrcode.encoder.ByteMatrix
 import com.google.zxing.qrcode.encoder.QRCode
-import io.github.simonscholz.qrcode.MatrixUtil.embedDarkDotAtLeftBottomCorner
-import io.github.simonscholz.qrcode.MatrixUtil.embedPositionDetectionPatternsAndSeparators
+import io.github.simonscholz.qrcode.qr.MatrixUtil.embedDarkDotAtLeftBottomCorner
+import io.github.simonscholz.qrcode.qr.MatrixUtil.embedPositionDetectionPatternsAndSeparators
 import kotlin.math.max
 import kotlin.math.min
 
-data class PositionalSquare(
+internal data class PositionalSquare(
     val top: Int,
     val left: Int,
     val size: Int,
@@ -16,60 +40,60 @@ data class PositionalSquare(
     val bgColorBorderWidth: Int = 1,
 )
 
-data class DataSquare(
+internal data class DataSquare(
     val isFilled: Boolean,
     val x: Int,
     val y: Int,
     val size: Int,
 )
 
-/**
- * This has been taken from com.google.zxing.qrcode.encoder.MatrixUtil.POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE
- */
-private val POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE = arrayOf(
-    intArrayOf(-1, -1, -1, -1, -1, -1, -1),
-    intArrayOf(6, 18, -1, -1, -1, -1, -1),
-    intArrayOf(6, 22, -1, -1, -1, -1, -1),
-    intArrayOf(6, 26, -1, -1, -1, -1, -1),
-    intArrayOf(6, 30, -1, -1, -1, -1, -1),
-    intArrayOf(6, 34, -1, -1, -1, -1, -1),
-    intArrayOf(6, 22, 38, -1, -1, -1, -1),
-    intArrayOf(6, 24, 42, -1, -1, -1, -1),
-    intArrayOf(6, 26, 46, -1, -1, -1, -1),
-    intArrayOf(6, 28, 50, -1, -1, -1, -1),
-    intArrayOf(6, 30, 54, -1, -1, -1, -1),
-    intArrayOf(6, 32, 58, -1, -1, -1, -1),
-    intArrayOf(6, 34, 62, -1, -1, -1, -1),
-    intArrayOf(6, 26, 46, 66, -1, -1, -1),
-    intArrayOf(6, 26, 48, 70, -1, -1, -1),
-    intArrayOf(6, 26, 50, 74, -1, -1, -1),
-    intArrayOf(6, 30, 54, 78, -1, -1, -1),
-    intArrayOf(6, 30, 56, 82, -1, -1, -1),
-    intArrayOf(6, 30, 58, 86, -1, -1, -1),
-    intArrayOf(6, 34, 62, 90, -1, -1, -1),
-    intArrayOf(6, 28, 50, 72, 94, -1, -1),
-    intArrayOf(6, 26, 50, 74, 98, -1, -1),
-    intArrayOf(6, 30, 54, 78, 102, -1, -1),
-    intArrayOf(6, 28, 54, 80, 106, -1, -1),
-    intArrayOf(6, 32, 58, 84, 110, -1, -1),
-    intArrayOf(6, 30, 58, 86, 114, -1, -1),
-    intArrayOf(6, 34, 62, 90, 118, -1, -1),
-    intArrayOf(6, 26, 50, 74, 98, 122, -1),
-    intArrayOf(6, 30, 54, 78, 102, 126, -1),
-    intArrayOf(6, 26, 52, 78, 104, 130, -1),
-    intArrayOf(6, 30, 56, 82, 108, 134, -1),
-    intArrayOf(6, 34, 60, 86, 112, 138, -1),
-    intArrayOf(6, 30, 58, 86, 114, 142, -1),
-    intArrayOf(6, 34, 62, 90, 118, 146, -1),
-    intArrayOf(6, 30, 54, 78, 102, 126, 150),
-    intArrayOf(6, 24, 50, 76, 102, 128, 154),
-    intArrayOf(6, 28, 54, 80, 106, 132, 158),
-    intArrayOf(6, 32, 58, 84, 110, 136, 162),
-    intArrayOf(6, 26, 54, 82, 110, 138, 166),
-    intArrayOf(6, 30, 58, 86, 114, 142, 170),
-)
-
 internal object PositionalsUtil {
+
+    /**
+     * This has been taken from com.google.zxing.qrcode.encoder.MatrixUtil.POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE
+     */
+    private val POSITION_ADJUSTMENT_PATTERN_COORDINATE_TABLE = arrayOf(
+        intArrayOf(-1, -1, -1, -1, -1, -1, -1),
+        intArrayOf(6, 18, -1, -1, -1, -1, -1),
+        intArrayOf(6, 22, -1, -1, -1, -1, -1),
+        intArrayOf(6, 26, -1, -1, -1, -1, -1),
+        intArrayOf(6, 30, -1, -1, -1, -1, -1),
+        intArrayOf(6, 34, -1, -1, -1, -1, -1),
+        intArrayOf(6, 22, 38, -1, -1, -1, -1),
+        intArrayOf(6, 24, 42, -1, -1, -1, -1),
+        intArrayOf(6, 26, 46, -1, -1, -1, -1),
+        intArrayOf(6, 28, 50, -1, -1, -1, -1),
+        intArrayOf(6, 30, 54, -1, -1, -1, -1),
+        intArrayOf(6, 32, 58, -1, -1, -1, -1),
+        intArrayOf(6, 34, 62, -1, -1, -1, -1),
+        intArrayOf(6, 26, 46, 66, -1, -1, -1),
+        intArrayOf(6, 26, 48, 70, -1, -1, -1),
+        intArrayOf(6, 26, 50, 74, -1, -1, -1),
+        intArrayOf(6, 30, 54, 78, -1, -1, -1),
+        intArrayOf(6, 30, 56, 82, -1, -1, -1),
+        intArrayOf(6, 30, 58, 86, -1, -1, -1),
+        intArrayOf(6, 34, 62, 90, -1, -1, -1),
+        intArrayOf(6, 28, 50, 72, 94, -1, -1),
+        intArrayOf(6, 26, 50, 74, 98, -1, -1),
+        intArrayOf(6, 30, 54, 78, 102, -1, -1),
+        intArrayOf(6, 28, 54, 80, 106, -1, -1),
+        intArrayOf(6, 32, 58, 84, 110, -1, -1),
+        intArrayOf(6, 30, 58, 86, 114, -1, -1),
+        intArrayOf(6, 34, 62, 90, 118, -1, -1),
+        intArrayOf(6, 26, 50, 74, 98, 122, -1),
+        intArrayOf(6, 30, 54, 78, 102, 126, -1),
+        intArrayOf(6, 26, 52, 78, 104, 130, -1),
+        intArrayOf(6, 30, 56, 82, 108, 134, -1),
+        intArrayOf(6, 34, 60, 86, 112, 138, -1),
+        intArrayOf(6, 30, 58, 86, 114, 142, -1),
+        intArrayOf(6, 34, 62, 90, 118, 146, -1),
+        intArrayOf(6, 30, 54, 78, 102, 126, 150),
+        intArrayOf(6, 24, 50, 76, 102, 128, 154),
+        intArrayOf(6, 28, 54, 80, 106, 132, 158),
+        intArrayOf(6, 32, 58, 84, 110, 136, 162),
+        intArrayOf(6, 26, 54, 82, 110, 138, 166),
+        intArrayOf(6, 30, 58, 86, 114, 142, 170),
+    )
 
     fun renderResult(qrCode: QRCode, size: Int, quietZone: Int): Pair<List<PositionalSquare>, List<DataSquare>> {
         requireNotNull(qrCode.matrix) { "No matrix available on given QRCode" }
