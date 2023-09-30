@@ -28,7 +28,7 @@ fun main() {
         circularPositionals = true,
         relativePositionalsRound = 0.2,
         fillColor = Color(0x0063, 0x000B, 0x00A5),
-        bgColor = Color(0f,0f,0f,0f),
+        bgColor = Color(0f, 0f, 0f, 0f),
         quiteZone = 1,
     ).let {
         ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-26.png"))
@@ -43,7 +43,7 @@ class QrCodeCreator {
         circularPositionals: Boolean = false,
         relativePositionalsRound: Double = 0.5,
         fillColor: Color? = Color.BLACK,
-        bgColor: Color = Color(0f,0f,0f,0f),
+        bgColor: Color = Color(0f, 0f, 0f, 0f),
         internalCircleColor: Color = Color.RED,
         quiteZone: Int = 1,
     ): BufferedImage {
@@ -72,8 +72,8 @@ class QrCodeCreator {
             val r: Int = it.size
             var cx: Int = it.left
             var cy: Int = it.top
-            val wr: Int = r - 2 * it.fillColor
-            val ir: Int = r - 2 * it.fillColor - 2 * it.bgColor
+            val wr: Int = r - 2 * it.fillColorBorderWidth
+            val ir: Int = r - 2 * it.fillColorBorderWidth - 2 * it.bgColorBorderWidth
 
             // White External Circle
             graphics.color = bgColor
@@ -82,13 +82,13 @@ class QrCodeCreator {
             // Black External Circle
             graphics.color = fillColor
             drawPositional(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
-            cx += it.fillColor
-            cy += it.fillColor
+            cx += it.fillColorBorderWidth
+            cy += it.fillColorBorderWidth
             // White Internal Circle
             graphics.color = bgColor
             drawPositional(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
-            cx += it.bgColor
-            cy += it.bgColor
+            cx += it.bgColorBorderWidth
+            cy += it.bgColorBorderWidth
             // Black Internal Circle
             graphics.color = internalCircleColor
             drawPositional(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)

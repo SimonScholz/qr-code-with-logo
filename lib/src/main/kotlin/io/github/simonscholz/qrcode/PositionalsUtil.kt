@@ -1,6 +1,5 @@
 package io.github.simonscholz.qrcode
 
-import com.google.zxing.client.j2se.MatrixToImageConfig
 import com.google.zxing.qrcode.decoder.Version
 import com.google.zxing.qrcode.encoder.ByteMatrix
 import com.google.zxing.qrcode.encoder.QRCode
@@ -13,8 +12,8 @@ data class PositionalSquare(
     val top: Int,
     val left: Int,
     val size: Int,
-    val fillColor: Int = MatrixToImageConfig.BLACK,
-    val bgColor: Int = MatrixToImageConfig.WHITE,
+    val fillColorBorderWidth: Int = 1,
+    val bgColorBorderWidth: Int = 1,
 )
 
 data class DataSquare(
@@ -115,8 +114,8 @@ internal object PositionalsUtil {
                 it.top * multiple + topPadding,
                 it.left * multiple + leftPadding,
                 it.size * multiple,
-                it.fillColor * multiple,
-                it.bgColor * multiple,
+                it.fillColorBorderWidth * multiple,
+                it.bgColorBorderWidth * multiple,
             )
         }
         return mappedPoistionals
