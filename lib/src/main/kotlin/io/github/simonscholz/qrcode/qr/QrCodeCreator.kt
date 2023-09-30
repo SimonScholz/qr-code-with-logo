@@ -31,7 +31,6 @@ import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
-import kotlin.math.floor
 
 internal class QrCodeCreator {
 
@@ -50,56 +49,59 @@ internal class QrCodeCreator {
 
         val image = BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR_PRE)
         val graphics = image.graphics as Graphics2D
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-        graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
 
-        // Data Squares
-        dataSquares.forEach { s ->
-            if (s.isFilled) {
-                graphics.color = fillColor
-                graphics.fillRect(s.x, s.y, s.size, s.size)
-            } else {
-                graphics.color = bgColor
-                graphics.fillRect(s.x, s.y, s.size, s.size)
+        return try {
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+
+            // Data Squares
+            dataSquares.forEach { s ->
+                if (s.isFilled) {
+                    graphics.color = fillColor
+                    graphics.fillRect(s.x, s.y, s.size, s.size)
+                } else {
+                    graphics.color = bgColor
+                    graphics.fillRect(s.x, s.y, s.size, s.size)
+                }
             }
+
+            positionalSquares.forEach {
+                val r: Int = it.size
+                var cx: Int = it.left
+                var cy: Int = it.top
+                val wr: Int = r - 2 * it.fillColorBorderWidth
+                val ir: Int = r - 2 * it.fillColorBorderWidth - 2 * it.bgColorBorderWidth
+
+                // White External Circle
+                graphics.color = bgColor
+                drawPositionalSquare(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
+
+                // Black External Circle
+                graphics.color = fillColor
+                drawPositionalSquare(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
+                cx += it.fillColorBorderWidth
+                cy += it.fillColorBorderWidth
+                // White Internal Circle
+                graphics.color = bgColor
+                drawPositionalSquare(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
+                cx += it.bgColorBorderWidth
+                cy += it.bgColorBorderWidth
+                // Black Internal Circle
+                graphics.color = internalCircleColor
+                drawPositionalSquare(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
+            }
+            image
+        } finally {
+            graphics.dispose()
         }
-
-        positionalSquares.forEach {
-            val r: Int = it.size
-            var cx: Int = it.left
-            var cy: Int = it.top
-            val wr: Int = r - 2 * it.fillColorBorderWidth
-            val ir: Int = r - 2 * it.fillColorBorderWidth - 2 * it.bgColorBorderWidth
-
-            // White External Circle
-            graphics.color = bgColor
-            drawPositional(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
-
-            // Black External Circle
-            graphics.color = fillColor
-            drawPositional(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
-            cx += it.fillColorBorderWidth
-            cy += it.fillColorBorderWidth
-            // White Internal Circle
-            graphics.color = bgColor
-            drawPositional(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
-            cx += it.bgColorBorderWidth
-            cy += it.bgColorBorderWidth
-            // Black Internal Circle
-            graphics.color = internalCircleColor
-            drawPositional(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
-        }
-        graphics.dispose()
-
-        return image
     }
 
-    private fun drawPositional(graphics: Graphics2D, x: Int, y: Int, width: Int, height: Int, circularPositionals: Boolean, relativePositionalsRound: Double) {
-        if (circularPositionals) {
+    private fun drawPositionalSquare(graphics: Graphics2D, x: Int, y: Int, width: Int, height: Int, circularPositionalSquares: Boolean, relativePositionalSquareRound: Double) {
+        if (circularPositionalSquares) {
             graphics.fillArc(x, y, width, height, 0, 360)
         } else {
-            graphics.fillRoundRect(x, y, width, height, (width * relativePositionalsRound).toInt(), (height * relativePositionalsRound).toInt())
+            graphics.fillRoundRect(x, y, width, height, (width * relativePositionalSquareRound).toInt(), (height * relativePositionalSquareRound).toInt())
         }
     }
 
