@@ -28,9 +28,10 @@ fun main() {
         circularPositionals = true,
         relativePositionalsRound = 0.2,
         fillColor = Color(0x0063, 0x000B, 0x00A5),
+        bgColor = Color(0f,0f,0f,0f),
         quiteZone = 1,
     ).let {
-        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-22.png"))
+        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-26.png"))
     }
 }
 
@@ -41,8 +42,8 @@ class QrCodeCreator {
         size: Int = 200,
         circularPositionals: Boolean = false,
         relativePositionalsRound: Double = 0.5,
-        fillColor: Color = Color.BLACK,
-        bgColor: Color = Color.WHITE,
+        fillColor: Color? = Color.BLACK,
+        bgColor: Color = Color(0f,0f,0f,0f),
         internalCircleColor: Color = Color.RED,
         quiteZone: Int = 1,
     ): BufferedImage {
@@ -61,7 +62,7 @@ class QrCodeCreator {
                 graphics.color = fillColor
                 graphics.fillRect(s.x, s.y, s.size, s.size)
             } else {
-                graphics.color = Color.WHITE
+                graphics.color = bgColor
                 graphics.fillRect(s.x, s.y, s.size, s.size)
             }
         }
