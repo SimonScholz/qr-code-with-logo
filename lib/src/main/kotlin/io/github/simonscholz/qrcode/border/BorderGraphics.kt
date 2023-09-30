@@ -5,7 +5,7 @@ import java.awt.Graphics2D
 import kotlin.math.floor
 
 internal object BorderGraphics {
-    fun drawBorder(graphics: Graphics2D, borderColor: Color, size: Int, relativeBorderRound: Double, relativeBorderSize: Double) {
+    fun drawBorder(graphics: Graphics2D, borderColor: Color, bgColor: Color, size: Int, relativeBorderRound: Double, relativeBorderSize: Double) {
         graphics.color = borderColor
         graphics.fillRoundRect(
             0,
@@ -15,7 +15,7 @@ internal object BorderGraphics {
             (size * relativeBorderRound).toInt(),
             (size * relativeBorderRound).toInt(),
         )
-        graphics.color = Color.ORANGE
+        graphics.color = bgColor
         val relativeSize = relativeSize(size, relativeBorderSize)
         graphics.fillRoundRect(
             relativeSize / 2,

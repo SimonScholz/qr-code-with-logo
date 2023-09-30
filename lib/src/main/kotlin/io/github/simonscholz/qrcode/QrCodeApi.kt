@@ -1,6 +1,7 @@
 package io.github.simonscholz.qrcode
 
 import java.awt.Color
+import java.awt.image.BufferedImage
 
 interface QrCodeApi {
 
@@ -13,5 +14,6 @@ interface QrCodeApi {
         bgColor: Color = Color(0f, 0f, 0f, 0f),
         internalCircleColor: Color = Color.BLACK,
         quiteZone: Int = 1,
-    )
+        logo: BufferedImage? = null,
+        ): BufferedImage
 }

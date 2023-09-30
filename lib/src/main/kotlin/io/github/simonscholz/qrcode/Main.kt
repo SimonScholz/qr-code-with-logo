@@ -7,7 +7,7 @@ import javax.imageio.ImageIO
 
 internal fun main() {
     val qrCodeCreator = QrCodeCreator()
-    qrCodeCreator.createQrImageWithPositionals(
+    val qrCode = qrCodeCreator.createQrImageWithPositionals(
         "https://github.com/lome/niceqr", // "https://simonscholz.github.io/",
         circularPositionals = true,
         relativePositionalsRound = 0.2,
@@ -15,7 +15,22 @@ internal fun main() {
         bgColor = Color(0f, 0f, 0f, 0f),
         internalCircleColor = Color.RED,
         quiteZone = 1,
+    )
+
+    // ImageIO.write(qrCode, "png", File("/home/simon/Pictures/qr-codes/qr-positional-30.png"))
+
+    val logo = ImageIO.read(File("/home/simon/Pictures/qr-codes/e&v.jpg"))
+
+    QrCodeFactory.createQrCodeApi().createQrImage(
+        "https://integ.doorbit.com/listings/?origin=qr-code",
+        circularPositionals = true,
+        relativePositionalsRound = 0.2,
+        fillColor = Color.BLACK,
+        bgColor = Color.WHITE, //Color(0f, 0f, 0f, 0f),
+        internalCircleColor = Color.RED,
+        quiteZone = 1,
+        logo = logo,
     ).let {
-        ImageIO.write(it, "png", File("/home/simon/Pictures/qr-codes/qr-positional-30.png"))
+        ImageIO.write(it, "png", File("/home/simon/Pictures/qr-codes/e&v-doorbit-qr.png"))
     }
 }
