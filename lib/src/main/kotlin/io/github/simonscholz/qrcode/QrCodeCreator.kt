@@ -25,11 +25,12 @@ fun main() {
     val qrCodeCreator = QrCodeCreator()
     qrCodeCreator.createQrImageWithPositionals(
         "https://github.com/lome/niceqr", // "https://simonscholz.github.io/",
-        circularPositionals = false,
+        circularPositionals = true,
+        relativePositionalsRound = 0.2,
         fillColor = Color(0x0063, 0x000B, 0x00A5),
-        quiteZone = 0,
+        quiteZone = 1,
     ).let {
-        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-14.png"))
+        ImageIO.write(it, FileTypes.PNG.value, File("/home/simon/Pictures/qr-codes/qr-positional-22.png"))
     }
 }
 

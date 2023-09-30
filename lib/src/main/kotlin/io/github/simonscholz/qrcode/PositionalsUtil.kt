@@ -94,6 +94,21 @@ internal object PositionalsUtil {
         val leftPadding = (outputWidth - inputWidth * multiple) / 2
         val topPadding = (outputHeight - inputHeight * multiple) / 2
 
+        val positionalSquares = positionalSquares(qrCode, multiple, topPadding, leftPadding)
+
+        val squares: List<DataSquare> = dataSquares(
+            topPadding,
+            inputHeight,
+            multiple,
+            leftPadding,
+            inputWidth,
+            qrCode,
+        ).filter { !positionalsContains(positionalSquares, it.x, it.y) }
+
+        return Pair(positionalSquares, squares)
+    }
+
+    private fun positionalSquares(qrCode: QRCode, multiple: Int, topPadding: Int, leftPadding: Int): List<PositionalSquare> {
         val positionals = positionalSquares(qrCode.version, qrCode.matrix.width, qrCode.matrix.height)
         val mappedPoistionals = positionals.map {
             PositionalSquare(
@@ -104,11 +119,7 @@ internal object PositionalsUtil {
                 it.bgColor * multiple,
             )
         }
-
-        val squares: List<DataSquare> = dataSquares(topPadding, inputHeight, multiple, leftPadding, inputWidth, qrCode)
-        val removedPositionalsFromSquares: List<DataSquare> = squares.filter { !positionalsContains(positionals, it.x, it.y) }
-
-        return Pair(mappedPoistionals, removedPositionalsFromSquares)
+        return mappedPoistionals
     }
 
     private fun positionalsContains(positionals: List<PositionalSquare>, x: Int, y: Int): Boolean =
