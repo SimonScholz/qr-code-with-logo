@@ -9,7 +9,6 @@ import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 
-
 internal class QrCodeApiImpl : QrCodeApi {
     override fun createQrImage(
         qrCodeText: String,
@@ -35,7 +34,7 @@ internal class QrCodeApiImpl : QrCodeApi {
                 bgColor = bgColor,
                 size = size,
                 relativeBorderRound = .2,
-                relativeBorderSize = .05
+                relativeBorderSize = .05,
             )
 
             val qrCodeCreator = QrCodeCreator()
@@ -47,14 +46,13 @@ internal class QrCodeApiImpl : QrCodeApi {
                 fillColor = fillColor,
                 bgColor = bgColor,
                 internalCircleColor = internalCircleColor,
-                quiteZone = quiteZone
+                quiteZone = quiteZone,
             )
 
             graphics.drawImage(qrCode, 2, 2, null)
 
             logo?.let {
                 LogoGraphics.drawLogo(graphics, it, size, .2)
-
             }
             image
         } finally {

@@ -15,5 +15,5 @@ interface QrCodeApi {
         internalCircleColor: Color = Color.BLACK,
         quiteZone: Int = 1,
         logo: BufferedImage? = null,
-        ): BufferedImage
+    ): BufferedImage
 }
