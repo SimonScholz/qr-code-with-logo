@@ -4,5 +4,5 @@ plugins {
 }
 
 rootProject.name = "qr-code-with-logo"
-include("lib")
+include("qr-code")
 include("java-sample")
