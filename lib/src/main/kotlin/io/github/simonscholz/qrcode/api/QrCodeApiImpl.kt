@@ -21,29 +21,29 @@ internal class QrCodeApiImpl : QrCodeApi {
 
             BorderGraphics.drawBorder(
                 graphics = graphics,
-                borderColor = qrCodeConfig.border.color,
-                bgColor = qrCodeConfig.qrCode.bgColor,
+                borderColor = qrCodeConfig.qrBorderConfig.color,
+                bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
                 size = qrCodeConfig.qrCodeSize,
                 relativeBorderRound = .2,
-                borderWidth = relativeSize(qrCodeConfig.qrCodeSize, qrCodeConfig.border.relativeSize),
+                borderWidth = relativeSize(qrCodeConfig.qrCodeSize, qrCodeConfig.qrBorderConfig.relativeSize),
             )
 
             val qrCodeCreator = QrCodeCreator()
             val qrCode = qrCodeCreator.createQrImageWithPositionals(
                 qrCodeText = qrCodeConfig.qrCodeText,
                 size = qrCodeConfig.qrCodeSize,
-                circularPositionals = qrCodeConfig.positionalSquares.isCircleShaped,
-                relativePositionalsRound = qrCodeConfig.positionalSquares.relativeSquareBorderRound,
-                fillColor = qrCodeConfig.qrCode.fillColor,
-                bgColor = qrCodeConfig.qrCode.bgColor,
-                internalCircleColor = qrCodeConfig.positionalSquares.centerColor,
+                circularPositionals = qrCodeConfig.qrPositionalSquaresConfig.isCircleShaped,
+                relativePositionalsRound = qrCodeConfig.qrPositionalSquaresConfig.relativeSquareBorderRound,
+                fillColor = qrCodeConfig.qrCodeColorConfig.fillColor,
+                bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
+                internalCircleColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
                 quiteZone = 1,
             )
 
             graphics.drawImage(qrCode, 2, 2, null)
 
-            qrCodeConfig.logo?.let {
-                LogoGraphics.drawLogo(graphics, it.logo, qrCodeConfig.qrCodeSize, qrCodeConfig.logo.relativeSize)
+            qrCodeConfig.qrLogoConfig?.let {
+                LogoGraphics.drawLogo(graphics, it.logo, qrCodeConfig.qrCodeSize, qrCodeConfig.qrLogoConfig.relativeSize)
             }
             image
         } finally {

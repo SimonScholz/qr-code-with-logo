@@ -3,7 +3,6 @@ package io.github.simonscholz;
 import io.github.simonscholz.qrcode.*;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,16 +19,12 @@ public class Main {
         if(resource != null) {
             BufferedImage logo = ImageIO.read(resource);
 
-            Logo logoConfig = new Logo(logo, .2);
+            QrLogoConfig qrLogoConfigConfig = new QrLogoConfig(logo, .2);
             QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.github.io/",
                 300,
-                new QrCode(),
-                new PositionalSquares(),
-                new Border(),
-                logoConfig);
+                qrLogoConfigConfig);
             BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
             ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-with-logo.png"));
         }
-
     }
 }
