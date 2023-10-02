@@ -51,7 +51,7 @@ fun isNonStable(version: String): Boolean {
 
 detekt {
     toolVersion = "1.23.1"
-    config.setFrom(file("config/detekt/detekt.yml"))
+    config.setFrom(file("${project.rootDir}/config/detekt/detekt.yml"))
     buildUponDefaultConfig = true
 }
 

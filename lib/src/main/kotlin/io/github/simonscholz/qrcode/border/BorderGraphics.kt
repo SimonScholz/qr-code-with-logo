@@ -2,10 +2,9 @@ package io.github.simonscholz.qrcode.border
 
 import java.awt.Color
 import java.awt.Graphics2D
-import kotlin.math.floor
 
 internal object BorderGraphics {
-    fun drawBorder(graphics: Graphics2D, borderColor: Color, bgColor: Color, size: Int, relativeBorderRound: Double, relativeBorderSize: Double) {
+    fun drawBorder(graphics: Graphics2D, borderColor: Color, bgColor: Color, size: Int, relativeBorderRound: Double, borderWidth: Int) {
         graphics.color = borderColor
         graphics.fillRoundRect(
             0,
@@ -16,19 +15,13 @@ internal object BorderGraphics {
             (size * relativeBorderRound).toInt(),
         )
         graphics.color = bgColor
-        val relativeSize = relativeSize(size, relativeBorderSize)
         graphics.fillRoundRect(
-            relativeSize / 2,
-            relativeSize / 2,
-            size - relativeSize,
-            size - relativeSize,
-            ((size - relativeSize) * relativeBorderRound).toInt(),
-            ((size - relativeSize) * relativeBorderRound).toInt(),
+            borderWidth / 2,
+            borderWidth / 2,
+            size - borderWidth,
+            size - borderWidth,
+            ((size - borderWidth) * relativeBorderRound).toInt(),
+            ((size - borderWidth) * relativeBorderRound).toInt(),
         )
-    }
-
-    private fun relativeSize(size: Int, percentage: Double): Int {
-        require(percentage in 0.0..1.0)
-        return floor(size * percentage).toInt()
     }
 }
