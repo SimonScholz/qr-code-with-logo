@@ -20,7 +20,26 @@ public class Main {
             createDefaultQrCodeWithLogo(resource, qrCodeApi, userHomeDir);
 
             createDefaultQrCodeWithLogoAndCustomColors(resource, qrCodeApi, userHomeDir);
+
+            createQrCodeWithRoundedPositionalSquares(resource, qrCodeApi, userHomeDir);
         }
+    }
+
+    private static void createQrCodeWithRoundedPositionalSquares(URL resource, QrCodeApi qrCodeApi, String userHomeDir) throws IOException {
+        BufferedImage logo = ImageIO.read(resource);
+
+        QrLogoConfig qrLogoConfigConfig = new QrLogoConfig(logo, .2);
+        QrPositionalSquaresConfig qrPositionalSquaresConfig = new QrPositionalSquaresConfig(Color.BLACK, Color.RED, Color.BLUE, true);
+        QrBorderConfig qrBorderConfig = new QrBorderConfig(Color.WHITE, .0);
+        QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.github.io/",
+            300,
+            qrLogoConfigConfig,
+            new QrCodeColorConfig(),
+            qrPositionalSquaresConfig,
+            qrBorderConfig
+        );
+        BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-rounded-positionals-java.png"));
     }
 
     private static void createDefaultQrCodeWithLogoAndCustomColors(URL resource, QrCodeApi qrCodeApi, String userHomeDir) throws IOException {

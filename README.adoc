@@ -13,4 +13,20 @@ This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` 
 
 Examples for Java or Kotlin can be found in the `java-sample` or `kotlin-sample` module.
 
+== Example QR codes
 
+Using the defaults only:
+
+image::./docs/qr-with-defaults.png[]
+
+Adding a center logo:
+
+image::./docs/qr-with-logo.png[]
+
+Having circles as positional "squares":
+
+image::./docs/qr-rounded-positionals.png[]
+
+Make it "colorful":
+
+image::./docs/qr-with-logo.colorful.png[]
