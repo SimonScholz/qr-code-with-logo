@@ -5,4 +5,5 @@ plugins {
 
 rootProject.name = "qr-code-with-logo"
 include("qr-code")
+include("kotlin-sample")
 include("java-sample")

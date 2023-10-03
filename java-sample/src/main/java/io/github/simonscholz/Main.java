@@ -13,7 +13,7 @@ public class Main {
         QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
         var userHomeDir = System.getProperty("user.home");
         var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", 200));
-        ImageIO.write(qrCode, "png", new File(userHomeDir, "/qr-with-defaults.png"));
+        ImageIO.write(qrCode, "png", new File(userHomeDir, "/qr-with-defaults-java.png"));
 
         URL resource = Main.class.getClassLoader().getResource("avatar.png");
         if(resource != null) {
@@ -24,7 +24,7 @@ public class Main {
                 300,
                 qrLogoConfigConfig);
             BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
-            ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-with-logo.png"));
+            ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-with-logo-java.png"));
         }
     }
 }
