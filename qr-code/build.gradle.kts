@@ -1,6 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import io.gitlab.arturbosch.detekt.Detekt
 import com.vanniktech.maven.publish.SonatypeHost
+import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     kotlin("jvm") version "1.9.10"
@@ -67,7 +67,7 @@ tasks.withType<Detekt>().configureEach {
 }
 
 mavenPublishing {
-  publishToMavenCentral(SonatypeHost.S01)
+    publishToMavenCentral(SonatypeHost.S01)
 
-  signAllPublications()
+    signAllPublications()
 }
