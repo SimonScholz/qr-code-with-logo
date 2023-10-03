@@ -1,5 +1,6 @@
 package io.github.simonscholz
 
+import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrCodeFactory.createQrCodeApi
 import io.github.simonscholz.qrcode.QrLogoConfig
@@ -17,14 +18,22 @@ fun main() {
 
     val resource: URL? =  Main::class.java.getClassLoader().getResource("avatar.png")
     resource?.let {
-        val logo = ImageIO.read(it)
-        val qrLogoConfigConfig = QrLogoConfig(logo, .2)
-        val qrCodeConfig = QrCodeConfig(
-            "https://simonscholz.github.io/",
-            300,
-            qrLogoConfigConfig,
-        )
-        val qrWithImage = qrCodeApi.createQrImage(qrCodeConfig)
-        ImageIO.write(qrWithImage, "png", File(userHomeDir, "/qr-with-logo-kotlin.png"))
+        createDefaultQrCodeWithLogo(it, qrCodeApi, userHomeDir)
     }
+}
+
+private fun createDefaultQrCodeWithLogo(
+    it: URL,
+    qrCodeApi: QrCodeApi,
+    userHomeDir: String?,
+): Boolean {
+    val logo = ImageIO.read(it)
+    val qrLogoConfigConfig = QrLogoConfig(logo, .2)
+    val qrCodeConfig = QrCodeConfig(
+        "https://simonscholz.github.io/",
+        300,
+        qrLogoConfigConfig,
+    )
+    val qrWithImage = qrCodeApi.createQrImage(qrCodeConfig)
+    return ImageIO.write(qrWithImage, "png", File(userHomeDir, "/qr-with-logo-kotlin.png"))
 }

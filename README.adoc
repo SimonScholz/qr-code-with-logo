@@ -7,5 +7,10 @@ I also added a few more options to the QR code generation... 👨‍💻️
 
 == Creating QR Codes with Kotlin or Java
 
-You can use the `QrCodeCreator` to create a QR code as `BufferedImage`, which you can configure and use for further image processing.
+The entry point is the `QrCodeFactory`,
+which will give you an instance of the `QrCodeApi` to create a QR code as `BufferedImage`.
+This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` and use for further image processing.
+
+Examples for Java or Kotlin can be found in the `java-sample` or `kotlin-sample` module.
+
 
