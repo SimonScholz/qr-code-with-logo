@@ -10,6 +10,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
     id("com.vanniktech.maven.publish") version "0.25.3"
+    id("org.jetbrains.dokka") version "1.9.0"
 }
 
 repositories {
