@@ -30,3 +30,6 @@ image::./docs/qr-rounded-positionals.png[]
 Make it "colorful":
 
 image::./docs/qr-with-logo.colorful.png[]
+
+Please be cautious when changing the colors!
+*Not* having enough contrast may cause that qr code scanners are not capable to read the qr code!
