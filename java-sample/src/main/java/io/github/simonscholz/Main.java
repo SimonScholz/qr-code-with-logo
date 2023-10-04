@@ -15,7 +15,7 @@ public class Main {
         var userHomeDir = System.getProperty("user.home");
         createDefaultQrCode(qrCodeApi, userHomeDir);
 
-        URL resource = Main.class.getClassLoader().getResource("avatar.png");
+        URL resource = Main.class.getClassLoader().getResource("avatar-60x.png");
         if(resource != null) {
             createDefaultQrCodeWithLogo(resource, qrCodeApi, userHomeDir);
 

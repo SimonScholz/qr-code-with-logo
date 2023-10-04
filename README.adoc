@@ -13,6 +13,31 @@ This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` 
 
 Examples for Java or Kotlin can be found in the `java-sample` or `kotlin-sample` module.
 
+== Logo scaling
+
+Scaling down the logo image in advance will improve the image quality of the logo.
+
+But compare yourself:
+
+Logo with 500x500px (Qr Code size=300px):
+
+image::./docs/qr-with-logo.png[]
+
+Logo with 60x60px (Qr Code size=300px):
+
+image::./docs/qr-with-logo-scaled.png[]
+
+NOTE: I chose 60x60px, because the default logo relative size is 0.2, which means 20% of the QR code size, which is 60x60px when having a 300x300px qr code (300*0.2=60).
+
+The reason for this is the fact that the scaling capabilities of awt are *not* that good.
+
+So you should either scale the logo manually or use the following beforehand:
+
+- java.awt.Image.getScaledInstance(int width, int height, int hints)
+- https://github.com/rkalla/imgscalr
+- https://github.com/downgoon/marvin
+- https://github.com/coobird/thumbnailator
+
 == Example QR codes
 
 Using the defaults only:
@@ -21,7 +46,7 @@ image::./docs/qr-with-defaults.png[]
 
 Adding a center logo:
 
-image::./docs/qr-with-logo.png[]
+image::./docs/qr-with-logo-scaled.png[]
 
 Having circles as positional "squares":
 
