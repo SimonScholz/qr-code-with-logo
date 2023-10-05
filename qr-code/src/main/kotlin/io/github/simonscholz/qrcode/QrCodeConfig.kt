@@ -20,7 +20,38 @@ data class QrCodeConfig @JvmOverloads constructor(
     val qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig(),
     val qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig(),
     val qrBorderConfig: QrBorderConfig = QrBorderConfig(),
-)
+) {
+    init {
+        require(qrCodeText.isNotBlank()) { "qrCodeText must not be blank." }
+        require(qrCodeSize > 0) { "qrCodeSize must be greater than 0." }
+    }
+
+    class Builder(private val qrCodeText: String) {
+        private var qrCodeSize: Int = 200
+        private var qrLogoConfig: QrLogoConfig? = null
+        private var qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig()
+        private var qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig()
+        private var qrBorderConfig: QrBorderConfig = QrBorderConfig()
+
+        fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
+        fun qrLogoConfig(logo: BufferedImage, relativeSize: Double = .2) = apply { this.qrLogoConfig = QrLogoConfig(logo, relativeSize) }
+        fun qrLogoConfig(logo: BufferedImage) = apply { this.qrLogoConfig = QrLogoConfig(logo, .2) }
+        fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply { this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor) }
+        fun qrPositionalSquaresConfig(qrPositionalSquaresConfig: QrPositionalSquaresConfig) = apply { this.qrPositionalSquaresConfig = qrPositionalSquaresConfig }
+        fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05) = apply { this.qrBorderConfig = QrBorderConfig(color, relativeSize) }
+        fun qrBorderConfig(relativeSize: Double = .05) = apply { this.qrBorderConfig = QrBorderConfig(Color.BLACK, relativeSize) }
+        fun qrBorderConfig(color: Color = Color.BLACK) = apply { this.qrBorderConfig = QrBorderConfig(color, .05) }
+
+        fun build() = QrCodeConfig(
+            qrCodeText = qrCodeText,
+            qrCodeSize = qrCodeSize,
+            qrLogoConfig = qrLogoConfig,
+            qrCodeColorConfig = qrCodeColorConfig,
+            qrPositionalSquaresConfig = qrPositionalSquaresConfig,
+            qrBorderConfig = qrBorderConfig,
+        )
+    }
+}
 
 /**
  * Pass a logo as BufferedImage and specify the relativeSize of the logo in the qr code.
