@@ -19,14 +19,15 @@ internal class QrCodeApiImpl : QrCodeApi {
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
 
-            BorderGraphics.drawBorder(
-                graphics = graphics,
-                borderColor = qrCodeConfig.qrBorderConfig.color,
-                bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
-                size = qrCodeConfig.qrCodeSize,
-                relativeBorderRound = .2,
-                borderWidth = relativeSize(qrCodeConfig.qrCodeSize, qrCodeConfig.qrBorderConfig.relativeSize),
-            )
+            qrCodeConfig.qrBorderConfig?.let {
+                BorderGraphics.drawBorder(
+                    graphics = graphics,
+                    borderColor = it.color,
+                    size = qrCodeConfig.qrCodeSize,
+                    relativeBorderRound = it.relativeBorderRound,
+                    borderWidth = relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize),
+                )
+            }
 
             val qrCodeCreator = QrCodeCreator()
             val qrCode = qrCodeCreator.createQrImageWithPositionals(
@@ -37,13 +38,15 @@ internal class QrCodeApiImpl : QrCodeApi {
                 fillColor = qrCodeConfig.qrCodeColorConfig.fillColor,
                 bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
                 internalCircleColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
-                quiteZone = 1,
+                quietZone = qrCodeConfig.qrBorderConfig?.let { 2 } ?: 0, // have a quietZone if we have a border
+                borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
+                relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
             )
 
-            graphics.drawImage(qrCode, 2, 2, null)
+            graphics.drawImage(qrCode, 0, 0, null)
 
             qrCodeConfig.qrLogoConfig?.let {
-                LogoGraphics.drawLogo(graphics, it.logo, qrCodeConfig.qrCodeSize, qrCodeConfig.qrLogoConfig.relativeSize)
+                LogoGraphics.drawLogo(graphics, it.logo, qrCodeConfig.qrCodeSize, it.relativeSize)
             }
             image
         } finally {

@@ -42,10 +42,12 @@ internal class QrCodeCreator {
         fillColor: Color? = Color.BLACK,
         bgColor: Color = Color(0f, 0f, 0f, 0f),
         internalCircleColor: Color = Color.BLACK,
-        quiteZone: Int = 1,
+        quietZone: Int,
+        borderWidth: Int,
+        relativeBorderRound: Double,
     ): BufferedImage {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
-        val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quiteZone)
+        val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone)
 
         val image = BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR_PRE)
         val graphics = image.graphics as Graphics2D
@@ -54,6 +56,16 @@ internal class QrCodeCreator {
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
             graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
             graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+
+            graphics.color = bgColor
+            graphics.fillRoundRect(
+                borderWidth / 2,
+                borderWidth / 2,
+                size - borderWidth,
+                size - borderWidth,
+                ((size - borderWidth) * relativeBorderRound).toInt(),
+                ((size - borderWidth) * relativeBorderRound).toInt(),
+            )
 
             // Data Squares
             dataSquares.forEach { s ->

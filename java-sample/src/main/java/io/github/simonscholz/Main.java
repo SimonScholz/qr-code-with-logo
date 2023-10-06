@@ -13,26 +13,32 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
-        var userHomeDir = System.getProperty("user.home");
-        createDefaultQrCode(qrCodeApi, userHomeDir);
+        var userHome = System.getProperty("user.home");
+        final Path path = Paths.get(userHome, "qr-code-samples");
+        path.toFile().mkdir();
+        var qrCodeDir = path.toAbsolutePath().toString();
+
+        createDefaultQrCode(qrCodeApi, qrCodeDir);
 
         URL resource = Main.class.getClassLoader().getResource("avatar-60x.png");
         if(resource != null) {
-            createDefaultQrCodeWithLogo(resource, qrCodeApi, userHomeDir);
+            createDefaultQrCodeWithLogo(resource, qrCodeApi, qrCodeDir);
 
-            createDefaultQrCodeWithLogoAndCustomColors(resource, qrCodeApi, userHomeDir);
+            createDefaultQrCodeWithLogoAndCustomColors(resource, qrCodeApi, qrCodeDir);
 
-            createQrCodeWithRoundedPositionalSquares(resource, qrCodeApi, userHomeDir);
+            createQrCodeWithRoundedPositionalSquares(resource, qrCodeApi, qrCodeDir);
 
-            reallyColorfulQrCode(resource, qrCodeApi, userHomeDir);
+            reallyColorfulQrCode(resource, qrCodeApi, qrCodeDir);
         }
     }
 
-    private static void reallyColorfulQrCode(final URL resource, final QrCodeApi qrCodeApi, final String userHomeDir) throws IOException {
+    private static void reallyColorfulQrCode(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         BufferedImage logo = ImageIO.read(resource);
 
         final Color transparent = new Color(0, 0, 0, 0);
@@ -43,17 +49,17 @@ public class Main {
             .qrCodeSize(500)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
-            //.qrBorderConfig(Color.ORANGE.darker(), .05)
-            .qrBorderConfig(transparent, .05)
-            //.qrCodeColorConfig(Color.RED, Color.BLUE)
-            .qrCodeColorConfig(transparent, Color.BLUE)
+            .qrBorderConfig(Color.ORANGE.darker(), .05)
+            //.qrBorderConfig(transparent, .05)
+            //.qrCodeColorConfig(transparent, Color.BLUE)
+            .qrCodeColorConfig(Color.WHITE, Color.BLUE)
             .build();
 
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
-        ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-colorful-java.png"));
+        ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-colorful-java.png"));
     }
 
-    private static void createQrCodeWithRoundedPositionalSquares(URL resource, QrCodeApi qrCodeApi, String userHomeDir) throws IOException {
+    private static void createQrCodeWithRoundedPositionalSquares(URL resource, QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         BufferedImage logo = ImageIO.read(resource);
 
         QrPositionalSquaresConfig qrPositionalSquaresConfig =
@@ -61,14 +67,14 @@ public class Main {
         QrCodeConfig qrCodeConfig =new Builder("https://simonscholz.github.io/")
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
-            .qrBorderConfig(Color.WHITE, .0)
+            .qrBorderConfig(Color.WHITE, .04)
             .build();
 
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
-        ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-rounded-positionals-java.png"));
+        ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-rounded-positionals-java.png"));
     }
 
-    private static void createDefaultQrCodeWithLogoAndCustomColors(URL resource, QrCodeApi qrCodeApi, String userHomeDir) throws IOException {
+    private static void createDefaultQrCodeWithLogoAndCustomColors(URL resource, QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         BufferedImage logo = ImageIO.read(resource);
 
         Color darkGreen = Color.GREEN.darker().darker().darker();
@@ -82,21 +88,21 @@ public class Main {
             .build();
 
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
-        ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-with-logo-green-color-java.png"));
+        ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-green-color-java.png"));
     }
 
-    private static void createDefaultQrCodeWithLogo(URL resource, QrCodeApi qrCodeApi, String userHomeDir) throws IOException {
+    private static void createDefaultQrCodeWithLogo(URL resource, QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         BufferedImage logo = ImageIO.read(resource);
 
         QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.github.io/",
                                                      300,
                                                      new QrLogoConfig(logo));
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
-        ImageIO.write(qrWithImage, "png", new File(userHomeDir, "/qr-with-logo-java.png"));
+        ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-java.png"));
     }
 
-    private static void createDefaultQrCode(QrCodeApi qrCodeApi, String userHomeDir) throws IOException {
+    private static void createDefaultQrCode(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", 200));
-        ImageIO.write(qrCode, "png", new File(userHomeDir, "/qr-with-defaults-java.png"));
+        ImageIO.write(qrCode, "png", new File(qrCodeDir, "/qr-with-defaults-java.png"));
     }
 }
