@@ -27,7 +27,7 @@ data class QrCodeConfig @JvmOverloads constructor(
     }
 
     class Builder(private val qrCodeText: String) {
-        private var qrCodeSize: Int = 200
+        private var qrCodeSize: Int = 300
         private var qrLogoConfig: QrLogoConfig? = null
         private var qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig()
         private var qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig()
@@ -38,8 +38,8 @@ data class QrCodeConfig @JvmOverloads constructor(
         fun qrLogoConfig(logo: BufferedImage) = apply { this.qrLogoConfig = QrLogoConfig(logo, .2) }
         fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply { this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor) }
         fun qrPositionalSquaresConfig(qrPositionalSquaresConfig: QrPositionalSquaresConfig) = apply { this.qrPositionalSquaresConfig = qrPositionalSquaresConfig }
-        fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05) = apply { this.qrBorderConfig = QrBorderConfig(color, relativeSize) }
-        fun qrBorderConfig(relativeSize: Double = .05) = apply { this.qrBorderConfig = QrBorderConfig(Color.BLACK, relativeSize) }
+        fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05, relativeBorderRound: Double = 0.2) = apply { this.qrBorderConfig = QrBorderConfig(color, relativeSize, relativeBorderRound) }
+        fun qrBorderConfig(relativeSize: Double = .05, relativeBorderRound: Double = 0.2) = apply { this.qrBorderConfig = QrBorderConfig(Color.BLACK, relativeSize, relativeBorderRound) }
         fun qrBorderConfig(color: Color = Color.BLACK) = apply { this.qrBorderConfig = QrBorderConfig(color, .05) }
 
         fun build() = QrCodeConfig(
@@ -86,12 +86,12 @@ data class QrCodeColorConfig @JvmOverloads constructor(val bgColor: Color = Colo
  * @param relativeSquareBorderRound - in case isCircleShaped==false the borders of the square may be round at the edges, defaults to 0.05
  */
 data class QrPositionalSquaresConfig @JvmOverloads constructor(
-    val outerBorderColor: Color = Color.WHITE,
-    val outerSquareColor: Color = Color.BLACK,
-    val innerSquareColor: Color = Color.WHITE,
-    val centerColor: Color = Color.BLACK,
     val isCircleShaped: Boolean = false,
     val relativeSquareBorderRound: Double = .0,
+    val centerColor: Color = Color.BLACK,
+    val innerSquareColor: Color = Color.WHITE,
+    val outerSquareColor: Color = Color.BLACK,
+    val outerBorderColor: Color = Color.WHITE,
 ) {
     init {
         require(relativeSquareBorderRound in 0.0..1.0) { "relativeSquareBorderRound must be in between 0 and 1." }

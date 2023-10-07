@@ -41,7 +41,7 @@ internal class QrCodeApiImpl : QrCodeApi {
                 outerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.outerSquareColor,
                 innerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.innerSquareColor,
                 centerColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
-                quietZone = qrCodeConfig.qrBorderConfig?.let { 2 } ?: 0, // have a quietZone if we have a border
+                quietZone = qrCodeConfig.qrBorderConfig?.let { 1 } ?: 0, // have a quietZone if we have a border
                 borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
                 relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
             )
