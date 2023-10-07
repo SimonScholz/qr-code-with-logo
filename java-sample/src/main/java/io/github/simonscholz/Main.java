@@ -13,15 +13,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
-        var userHome = System.getProperty("user.home");
-        final Path path = Paths.get(userHome, "qr-code-samples");
-        path.toFile().mkdir();
+        final Path path = Paths.get(System.getProperty("user.home"), "qr-code-samples");
+        Files.createDirectories(path);
         var qrCodeDir = path.toAbsolutePath().toString();
 
         createDefaultQrCode(qrCodeApi, qrCodeDir);
@@ -30,12 +30,15 @@ public class Main {
         if(resource != null) {
             createDefaultQrCodeWithLogo(resource, qrCodeApi, qrCodeDir);
 
+            /*
             createDefaultQrCodeWithLogoAndCustomColors(resource, qrCodeApi, qrCodeDir);
 
             createQrCodeWithRoundedPositionalSquares(resource, qrCodeApi, qrCodeDir);
 
             reallyColorfulQrCode(resource, qrCodeApi, qrCodeDir);
+ */
         }
+
     }
 
     private static void reallyColorfulQrCode(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
@@ -44,7 +47,7 @@ public class Main {
         final Color transparent = new Color(0, 0, 0, 0);
 
         QrPositionalSquaresConfig qrPositionalSquaresConfig =
-            new QrPositionalSquaresConfig(Color.CYAN, new Color(0x0063,0x000B,0x00A5), Color.PINK, true);
+            new QrPositionalSquaresConfig(Color.CYAN, new Color(0x0063,0x000B,0x00A5), Color.PINK, Color.BLUE, true);
         QrCodeConfig qrCodeConfig =new Builder("https://simonscholz.github.io/")
             .qrCodeSize(500)
             .qrLogoConfig(logo)
@@ -63,7 +66,7 @@ public class Main {
         BufferedImage logo = ImageIO.read(resource);
 
         QrPositionalSquaresConfig qrPositionalSquaresConfig =
-            new QrPositionalSquaresConfig(Color.BLACK, Color.RED, Color.BLUE, true);
+            new QrPositionalSquaresConfig(Color.BLACK, Color.RED, Color.BLUE, Color.WHITE, true);
         QrCodeConfig qrCodeConfig =new Builder("https://simonscholz.github.io/")
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(qrPositionalSquaresConfig)

@@ -36,12 +36,15 @@ internal class QrCodeCreator {
 
     fun createQrImageWithPositionals(
         qrCodeText: String,
-        size: Int = 200,
-        circularPositionals: Boolean = false,
-        relativePositionalsRound: Double = 0.5,
-        fillColor: Color? = Color.BLACK,
-        bgColor: Color = Color(0f, 0f, 0f, 0f),
-        internalCircleColor: Color = Color.BLACK,
+        size: Int,
+        circularPositionals: Boolean,
+        relativePositionalsRound: Double,
+        fillColor: Color,
+        bgColor: Color,
+        outerBorderColor: Color,
+        outerSquareColor: Color,
+        innerSquareColor: Color,
+        centerColor: Color,
         quietZone: Int,
         borderWidth: Int,
         relativeBorderRound: Double,
@@ -86,21 +89,21 @@ internal class QrCodeCreator {
                 val ir: Int = r - 2 * it.fillColorBorderWidth - 2 * it.bgColorBorderWidth
 
                 // White External Circle
-                graphics.color = bgColor
+                graphics.color = outerBorderColor
                 drawPositionalSquare(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
 
                 // Black External Circle
-                graphics.color = fillColor
+                graphics.color = outerSquareColor
                 drawPositionalSquare(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
                 cx += it.fillColorBorderWidth
                 cy += it.fillColorBorderWidth
                 // White Internal Circle
-                graphics.color = bgColor
+                graphics.color = innerSquareColor
                 drawPositionalSquare(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
                 cx += it.bgColorBorderWidth
                 cy += it.bgColorBorderWidth
                 // Black Internal Circle
-                graphics.color = internalCircleColor
+                graphics.color = centerColor
                 drawPositionalSquare(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
             }
             image

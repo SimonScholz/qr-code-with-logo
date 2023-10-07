@@ -37,7 +37,10 @@ internal class QrCodeApiImpl : QrCodeApi {
                 relativePositionalsRound = qrCodeConfig.qrPositionalSquaresConfig.relativeSquareBorderRound,
                 fillColor = qrCodeConfig.qrCodeColorConfig.fillColor,
                 bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
-                internalCircleColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
+                outerBorderColor = qrCodeConfig.qrPositionalSquaresConfig.outerBorderColor,
+                outerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.outerSquareColor,
+                innerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.innerSquareColor,
+                centerColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
                 quietZone = qrCodeConfig.qrBorderConfig?.let { 2 } ?: 0, // have a quietZone if we have a border
                 borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
                 relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,

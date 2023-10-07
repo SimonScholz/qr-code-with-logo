@@ -78,18 +78,20 @@ data class QrCodeColorConfig @JvmOverloads constructor(val bgColor: Color = Colo
 /**
  * Specify the colors and shapes of the positional squares of the qr code.
  *
- * @param rindColor - specify the color of the ring, defaults to Color.BLACK
+ * @param outerBorderColor - specify the outer border color, defaults to Color.WHITE
+ * @param outerSquareColor - specify the outer square color, defaults to Color.BLACK
+ * @param innerSquareColor - specify the inner square color, defaults to Color.WHITE
  * @param centerColor - specify the color of the center of the positional squares, defaults to Color.BLACK
- * @param outerColor - specify the outer color of the positional squares, defaults to Color.WHITE
  * @param isCircleShaped - specify whether the shape shall be a circle or a square, defaults to false
  * @param relativeSquareBorderRound - in case isCircleShaped==false the borders of the square may be round at the edges, defaults to 0.05
  */
 data class QrPositionalSquaresConfig @JvmOverloads constructor(
-    val rindColor: Color = Color.BLACK,
+    val outerBorderColor: Color = Color.WHITE,
+    val outerSquareColor: Color = Color.BLACK,
+    val innerSquareColor: Color = Color.WHITE,
     val centerColor: Color = Color.BLACK,
-    val outerColor: Color = Color.WHITE,
     val isCircleShaped: Boolean = false,
-    val relativeSquareBorderRound: Double = .5,
+    val relativeSquareBorderRound: Double = .0,
 ) {
     init {
         require(relativeSquareBorderRound in 0.0..1.0) { "relativeSquareBorderRound must be in between 0 and 1." }
