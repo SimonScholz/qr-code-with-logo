@@ -1,7 +1,6 @@
 package io.github.simonscholz.qrcode.logo
 
 import java.awt.Color
-import java.awt.Color.white
 import java.awt.Graphics2D
 import java.awt.geom.Area
 import java.awt.geom.Ellipse2D

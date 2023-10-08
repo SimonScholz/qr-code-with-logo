@@ -34,9 +34,11 @@ data class QrCodeConfig @JvmOverloads constructor(
         private var qrBorderConfig: QrBorderConfig? = null
 
         fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
+
         @JvmOverloads fun qrLogoConfig(logo: BufferedImage, relativeSize: Double = .2, bgColor: Color? = null) = apply { this.qrLogoConfig = QrLogoConfig(logo, relativeSize, bgColor) }
         fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply { this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor) }
         fun qrPositionalSquaresConfig(qrPositionalSquaresConfig: QrPositionalSquaresConfig) = apply { this.qrPositionalSquaresConfig = qrPositionalSquaresConfig }
+
         @JvmOverloads fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05, relativeBorderRound: Double = 0.2) = apply { this.qrBorderConfig = QrBorderConfig(color, relativeSize, relativeBorderRound) }
 
         fun build() = QrCodeConfig(
