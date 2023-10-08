@@ -94,6 +94,31 @@ data class QrPositionalSquaresConfig @JvmOverloads constructor(
     init {
         require(relativeSquareBorderRound in 0.0..1.0) { "relativeSquareBorderRound must be in between 0 and 1." }
     }
+
+    class Builder() {
+        private var isCircleShaped: Boolean = false
+        private var relativeSquareBorderRound: Double = .0
+        private var centerColor: Color = Color.BLACK
+        private var innerSquareColor: Color = Color.WHITE
+        private var outerSquareColor: Color = Color.BLACK
+        private var outerBorderColor: Color = Color.WHITE
+
+        fun circleShaped(isCircleShaped: Boolean) = apply { this.isCircleShaped = isCircleShaped }
+        fun relativeSquareBorderRound(relativeSquareBorderRound: Double) = apply { this.relativeSquareBorderRound = relativeSquareBorderRound }
+        fun centerColor(centerColor: Color) = apply { this.centerColor = centerColor }
+        fun innerSquareColor(innerSquareColor: Color) = apply { this.innerSquareColor = innerSquareColor }
+        fun outerSquareColor(outerSquareColor: Color) = apply { this.outerSquareColor = outerSquareColor }
+        fun outerBorderColor(outerBorderColor: Color) = apply { this.outerBorderColor = outerBorderColor }
+
+        fun build() = QrPositionalSquaresConfig(
+            isCircleShaped = isCircleShaped,
+            relativeSquareBorderRound = relativeSquareBorderRound,
+            centerColor = centerColor,
+            innerSquareColor = innerSquareColor,
+            outerSquareColor = outerSquareColor,
+            outerBorderColor = outerBorderColor,
+        )
+    }
 }
 
 /**

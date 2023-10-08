@@ -78,7 +78,7 @@ public class Main {
             .Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
-            .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(false, 0.5))
+            .qrPositionalSquaresConfig(new QrPositionalSquaresConfig.Builder().relativeSquareBorderRound(0.5).build())
             .build();
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-and-border-and-p-border-round-java.png"));
@@ -116,12 +116,20 @@ public class Main {
         var brighterGreen = Color.GREEN.brighter();
         var darkerGreen = Color.GREEN.darker().darker().darker();
 
+        final QrPositionalSquaresConfig positionalSquaresConfig = new QrPositionalSquaresConfig.Builder()
+                                     .relativeSquareBorderRound(0.5)
+                                     .centerColor(brighterGreen)
+                                     .innerSquareColor(darkerGreen)
+                                     .outerSquareColor(brighterGreen)
+                                     .outerBorderColor(darkerGreen)
+                                     .build();
+
         QrCodeConfig qrCodeConfig = new QrCodeConfig
             .Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.WHITE)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(darkerGreen, brighterGreen)
-            .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(false, .5, brighterGreen, darkerGreen, brighterGreen, darkerGreen))
+            .qrPositionalSquaresConfig(positionalSquaresConfig)
             .build();
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/minecraft-creeper-color-java.png"));
