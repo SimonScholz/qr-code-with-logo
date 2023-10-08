@@ -72,6 +72,8 @@ Make it look like a Minecraft Creeper QR code:
 
 image::./docs/minecraft-creeper-color.png[]
 
+To see what's possible with colors, have a look at the rainbow example in the bad examples below.
+
 == Bad examples
 
 Not having enough contrast:
