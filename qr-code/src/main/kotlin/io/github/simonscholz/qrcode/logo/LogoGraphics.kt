@@ -1,5 +1,6 @@
 package io.github.simonscholz.qrcode.logo
 
+import java.awt.Color
 import java.awt.Color.white
 import java.awt.Graphics2D
 import java.awt.geom.Area
@@ -9,16 +10,15 @@ import kotlin.math.floor
 
 internal object LogoGraphics {
 
-    fun drawLogo(graphics: Graphics2D, logoImage: BufferedImage, size: Int, relativeLogoSize: Double) {
+    fun drawLogo(graphics: Graphics2D, size: Int, logoImage: BufferedImage, relativeLogoSize: Double, logoBackgroundColor: Color?) {
         val logoSize: Int = floor(size * relativeLogoSize).toInt()
         val cx = size / 2 - logoSize / 2
         val cy = size / 2 - logoSize / 2
 
-        // White center
-
-        // White center
-        graphics.color = white
-        graphics.fillArc(cx, cy, logoSize, logoSize, 0, 360)
+        logoBackgroundColor?.let {
+            graphics.color = it
+            graphics.fillArc(cx, cy, logoSize, logoSize, 0, 360)
+        }
 
         val circle = Ellipse2D.Double(
             0.0,

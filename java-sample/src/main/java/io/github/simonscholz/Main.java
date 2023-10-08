@@ -39,10 +39,9 @@ public class Main {
             decentRedColor(resource, qrCodeApi, qrCodeDir);
 
             mineCraftCreeperColor(resource, qrCodeApi, qrCodeDir);
-
-            rainbowColor(qrCodeApi, qrCodeDir);
         }
 
+        rainbowColor(qrCodeApi, qrCodeDir);
     }
 
     private static void createDefaultQrCode(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {

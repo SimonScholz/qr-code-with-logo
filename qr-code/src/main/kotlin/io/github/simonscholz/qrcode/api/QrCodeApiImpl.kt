@@ -49,7 +49,7 @@ internal class QrCodeApiImpl : QrCodeApi {
             graphics.drawImage(qrCode, 0, 0, null)
 
             qrCodeConfig.qrLogoConfig?.let {
-                LogoGraphics.drawLogo(graphics, it.logo, qrCodeConfig.qrCodeSize, it.relativeSize)
+                LogoGraphics.drawLogo(graphics, qrCodeConfig.qrCodeSize, it.logo, it.relativeSize, it.bgColor)
             }
             image
         } finally {
