@@ -3,7 +3,7 @@
 Thank you so much @lome for providing this awesome library: https://github.com/lome/niceqr
 
 I adopted the code, but ported it to Kotlin and tried to condense the code to what's really necessary.
-I also added a few more options to the QR code generation... 👨‍💻️
+I also added a couple of more options to the QR code generation... 👨‍💻️
 
 == Creating QR Codes with Kotlin or Java
 
@@ -39,6 +39,8 @@ So you should either scale the logo manually or use the following beforehand:
 - https://github.com/coobird/thumbnailator
 
 == Example QR codes
+
+All the examples you can see here are implemented in the `java-sample` and `kotlin-sample` modules.
 
 === Shapes
 
