@@ -5,6 +5,7 @@ import io.github.simonscholz.qrcode.QrCodeConfig;
 import io.github.simonscholz.qrcode.QrCodeFactory;
 import io.github.simonscholz.qrcode.QrLogoConfig;
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig;
+import io.github.simonscholz.qrcode.QrPositionalSquaresConfig.Builder;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
@@ -42,10 +43,12 @@ public class Main {
         }
 
         rainbowColor(qrCodeApi, qrCodeDir);
+
+        notEnoughContrast(qrCodeApi, qrCodeDir);
     }
 
     private static void createDefaultQrCode(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
-        var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", 200));
+        var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", 300));
         ImageIO.write(qrCode, "png", new File(qrCodeDir, "/qr-with-defaults-java.png"));
     }
 
@@ -148,5 +151,21 @@ public class Main {
             .build();
         BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/rainbow-color-java.png"));
+    }
+
+    private static void notEnoughContrast(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
+        final Color violett = new Color(0x0063, 0x000B, 0x00A5);
+        final QrPositionalSquaresConfig positionalSquaresConfig = new Builder().centerColor(Color.BLUE)
+                                                                    .innerSquareColor(violett)
+                                                                    .outerSquareColor(Color.BLUE)
+                                                                    .outerBorderColor(violett)
+                                                                    .build();
+        QrCodeConfig qrCodeConfig = new QrCodeConfig
+            .Builder("https://simonscholz.github.io/")
+            .qrCodeColorConfig(Color.BLUE, violett)
+            .qrPositionalSquaresConfig(positionalSquaresConfig)
+            .build();
+        BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/not-enough-contrast-java.png"));
     }
 }

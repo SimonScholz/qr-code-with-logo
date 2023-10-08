@@ -21,7 +21,7 @@ But compare yourself:
 
 Logo with 500x500px (Qr Code size=300px):
 
-image::./docs/qr-with-logo.png[]
+image::./docs/qr-with-logo-unscaled.png[]
 
 Logo with 60x60px (Qr Code size=300px):
 
@@ -40,21 +40,50 @@ So you should either scale the logo manually or use the following beforehand:
 
 == Example QR codes
 
+=== Shapes
+
 Using the defaults only:
 
 image::./docs/qr-with-defaults.png[]
 
 Adding a center logo:
 
-image::./docs/qr-with-logo-scaled.png[]
+image::./docs/qr-with-logo.png[]
+
+Adding a border:
+
+image::./docs/qr-with-logo-and-border.png[]
+
+Adding radius to positional squares:
+
+image::./docs/qr-with-logo-and-border-and-p-border-round.png[]
 
 Having circles as positional "squares":
 
-image::./docs/qr-rounded-positionals.png[]
+image::./docs/qr-with-logo-and-border-and-p-border-circle.png[]
 
-Make it "colorful":
+=== Colors
 
-image::./docs/qr-with-logo.colorful.png[]
+Add some decent red color:
 
-Please be cautious when changing the colors!
+image::./docs/decent-red-color.png[]
+
+Make it look like a Minecraft Creeper QR code:
+
+image::./docs/minecraft-creeper-color.png[]
+
+== Bad examples
+
+Not having enough contrast:
+
+image::./docs/not-enough-contrast.png[]
+
+The rainbow QR code to depict what's possible:
+
+image::./docs/rainbow-color.png[]
+
+These are bad examples, because the colors are not contrasting enough.
+
+So please be cautious when changing the colors!
 *Not* having enough contrast may cause that qr code scanners are not capable to read the qr code!
+If you try to scan the bad exmaple qr codes from above, you will see that it's not working.
