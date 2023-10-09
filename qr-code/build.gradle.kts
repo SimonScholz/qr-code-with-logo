@@ -6,7 +6,7 @@ plugins {
     kotlin("jvm") version "1.9.10"
     `java-library`
 
-    id("com.github.ben-manes.versions") version "0.48.0"
+    id("com.github.ben-manes.versions") version "0.49.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
     id("com.vanniktech.maven.publish") version "0.25.3"
