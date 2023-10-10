@@ -41,6 +41,7 @@ fun main() {
         createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(it, qrCodeApi, qrCodeDir)
         decentRedColor(it, qrCodeApi, qrCodeDir)
         mineCraftCreeperColor(it, qrCodeApi, qrCodeDir)
+        createTransparentQrCode(it, qrCodeApi, qrCodeDir)
     }
 
     rainbowColor(qrCodeApi, qrCodeDir)
@@ -148,6 +149,38 @@ private fun mineCraftCreeperColor(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir
         .qrPositionalSquaresConfig(positionalSquaresConfig)
         .build()
     qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/minecraft-creeper-color-kotlin.png"))
+}
+
+private fun createTransparentQrCode(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir: String) {
+    val logo = ImageIO.read(resource)
+    val transparent = Color(0, 0, 0, 0)
+    val positionalSquaresConfig = QrPositionalSquaresConfig(
+        isCircleShaped = true,
+        centerColor = Color.BLUE,
+         innerSquareColor = Color.WHITE,
+        outerSquareColor = Color.BLUE,
+        outerBorderColor = transparent,
+    )
+    val qrCodeConfig = QrCodeConfig(
+        qrCodeText = "https://simonscholz.github.io/",
+        qrCodeSize = 150,
+        qrPositionalSquaresConfig = positionalSquaresConfig,
+        qrLogoConfig = QrLogoConfig(logo),
+        qrCodeColorConfig = QrCodeColorConfig(transparent, Color.BLUE))
+    val qrWithImage = qrCodeApi.createQrImage(qrCodeConfig)
+    drawQrCodeOnImage(qrWithImage, qrCodeDir)
+}
+
+private fun drawQrCodeOnImage(qrCode: BufferedImage, qrCodeDir: String) {
+    val url = Objects.requireNonNull(
+        Main::class.java.getClassLoader()
+            .getResource("cup.jpg"),
+    )
+    val mainImg = ImageIO.read(url)
+    val graphics = mainImg.graphics
+    graphics.drawImage(qrCode, 330, 600, null)
+    graphics.dispose()
+    ImageIO.write(mainImg, "png", File(qrCodeDir, "/transparent-color-kotlin.png"))
 }
 
 private fun rainbowColor(qrCodeApi: QrCodeApi, qrCodeDir: String) {

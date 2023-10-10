@@ -46,6 +46,8 @@ public class Main {
             decentRedColor(resource, qrCodeApi, qrCodeDir);
 
             mineCraftCreeperColor(resource, qrCodeApi, qrCodeDir);
+
+            createTransparentQrCode(resource, qrCodeApi, qrCodeDir);
         }
 
         rainbowColor(qrCodeApi, qrCodeDir);
@@ -159,5 +161,38 @@ public class Main {
                                                                                                     .build();
         final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/rainbow-color-java.png"));
+    }
+
+    private static void createTransparentQrCode(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
+        final BufferedImage logo = ImageIO.read(resource);
+        final Color transparent = new Color(0, 0, 0, 0);
+
+        final QrPositionalSquaresConfig positionalSquaresConfig =
+            new QrPositionalSquaresConfig.Builder()
+                 .circleShaped(true)
+                 .centerColor(Color.BLUE)
+                 .innerSquareColor(Color.WHITE)
+                 .outerSquareColor(Color.BLUE)
+                 .outerBorderColor(transparent)
+                 .build();
+
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/")
+            .qrCodeSize(150)
+            .qrPositionalSquaresConfig(positionalSquaresConfig)
+            .qrLogoConfig(logo)
+            .qrCodeColorConfig(transparent, Color.BLUE)
+            .build();
+        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        drawQrCodeOnImage(qrWithImage, qrCodeDir);
+    }
+
+    private static void drawQrCodeOnImage(final BufferedImage qrCode, final String qrCodeDir) throws IOException {
+        final URL url = Objects.requireNonNull(Main.class.getClassLoader()
+                                                         .getResource("cup.jpg"));
+        final BufferedImage mainImg = ImageIO.read(url);
+        final var graphics = mainImg.getGraphics();
+        graphics.drawImage(qrCode, 330, 600, null);
+        graphics.dispose();
+        ImageIO.write(mainImg, "png", new File(qrCodeDir, "/transparent-color-java.png"));
     }
 }
