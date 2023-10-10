@@ -8,7 +8,7 @@ The entry point for this library is the `QrCodeFactory`,
 which will give you an instance of the `QrCodeApi` to create a QR code as `BufferedImage`.
 This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` and use for further image processing.
 
-Examples for Java or Kotlin can be found in the `java-sample` or `kotlin-sample` module.
+Examples for Java or Kotlin can be found in the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample`] or https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/Main.kt[`kotlin-sample`] module.
 
 == Quickstart
 
@@ -49,7 +49,7 @@ qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_I
     .toFile(File("qr-with-defaults-kotlin.png"))
 ```
 
-For more advanced examples, please have a look at the `kotlin-sample` module.
+For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/Main.kt[`kotlin-sample` module].
 
 == java
 
@@ -65,7 +65,7 @@ final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz
 ImageIO.write(qrCode, "png", new File("qr-with-defaults-java.png"));
 ```
 
-For more advanced examples, please have a look at the `java-sample` module.
+For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample` module].
 
 == Logo scaling
 
