@@ -14,10 +14,28 @@ Examples for Java or Kotlin can be found in the https://github.com/SimonScholz/q
 
 === Gradle
 
+Getting a released version:
+
 [source, kotlin]
 ----
 dependencies {
     implementation("io.github.simonscholz:qr-code-with-logo:0.1.0")
+}
+----
+
+Using the snapshot version:
+
+[source, kotlin]
+----
+repositories {
+    mavenCentral()
+    maven(
+        url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    )
+}
+
+dependencies {
+    implementation("io.github.simonscholz:qr-code-with-logo:0.1.0-SNAPSHOT")
 }
 ----
 
