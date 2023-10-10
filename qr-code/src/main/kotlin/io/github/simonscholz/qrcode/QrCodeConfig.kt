@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage
  */
 data class QrCodeConfig @JvmOverloads constructor(
     val qrCodeText: String,
-    val qrCodeSize: Int,
+    val qrCodeSize: Int = 300,
     val qrLogoConfig: QrLogoConfig? = null,
     val qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig(),
     val qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig(),
