@@ -1,5 +1,6 @@
 package io.github.simonscholz
 
+import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeColorConfig
 import io.github.simonscholz.qrcode.QrCodeConfig
@@ -19,7 +20,6 @@ fun BufferedImage.toFile(file: File) {
     ImageIO.write(this, "png", file)
 }
 
-private const val IMG_SIZE = 300
 private const val RELATIVE_SQUARE_BORDER_ROUND = .5
 private val VIOLETT = Color(0x0063, 0x000B, 0x00A5)
 
@@ -49,7 +49,7 @@ fun main() {
 }
 
 private fun createDefaultQrCode(qrCodeApi: QrCodeApi, qrCodeDir: String) {
-    qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.github.io/", IMG_SIZE))
+    qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE))
         .toFile(File(qrCodeDir, "/qr-with-defaults-kotlin.png"))
 }
 
@@ -57,7 +57,7 @@ private fun createDefaultQrCodeWithLogo(resource: URL, qrCodeApi: QrCodeApi, qrC
     val logo = ImageIO.read(resource)
     val qrCodeConfig = QrCodeConfig(
         "https://simonscholz.github.io/",
-        IMG_SIZE,
+        DEFAULT_IMG_SIZE,
         QrLogoConfig(logo),
     )
     qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/qr-with-logo-kotlin.png"))

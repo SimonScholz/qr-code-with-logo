@@ -3,6 +3,8 @@ package io.github.simonscholz.qrcode
 import java.awt.Color
 import java.awt.image.BufferedImage
 
+const val DEFAULT_IMG_SIZE = 300
+
 /**
  * Object to be passed to QrCodeApi.
  *
@@ -15,7 +17,7 @@ import java.awt.image.BufferedImage
  */
 data class QrCodeConfig @JvmOverloads constructor(
     val qrCodeText: String,
-    val qrCodeSize: Int = 300,
+    val qrCodeSize: Int = DEFAULT_IMG_SIZE,
     val qrLogoConfig: QrLogoConfig? = null,
     val qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig(),
     val qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig(),
@@ -27,7 +29,7 @@ data class QrCodeConfig @JvmOverloads constructor(
     }
 
     class Builder(private val qrCodeText: String) {
-        private var qrCodeSize: Int = 300
+        private var qrCodeSize: Int = DEFAULT_IMG_SIZE
         private var qrLogoConfig: QrLogoConfig? = null
         private var qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig()
         private var qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig()
@@ -36,7 +38,9 @@ data class QrCodeConfig @JvmOverloads constructor(
         fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
 
         @JvmOverloads fun qrLogoConfig(logo: BufferedImage, relativeSize: Double = .2, bgColor: Color? = null) = apply { this.qrLogoConfig = QrLogoConfig(logo, relativeSize, bgColor) }
-        fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply { this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor) }
+
+        @JvmOverloads fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply { this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor) }
+
         fun qrPositionalSquaresConfig(qrPositionalSquaresConfig: QrPositionalSquaresConfig) = apply { this.qrPositionalSquaresConfig = qrPositionalSquaresConfig }
 
         @JvmOverloads fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05, relativeBorderRound: Double = 0.2) = apply { this.qrBorderConfig = QrBorderConfig(color, relativeSize, relativeBorderRound) }
@@ -59,7 +63,11 @@ data class QrCodeConfig @JvmOverloads constructor(
  * @param relativeSize - relative size of the logo, defaults to 0.2
  * @param bgColor - specify the background color of the logo, defaults to null
  */
-data class QrLogoConfig @JvmOverloads constructor(val logo: BufferedImage, val relativeSize: Double = .2, val bgColor: Color? = null) {
+data class QrLogoConfig @JvmOverloads constructor(
+    val logo: BufferedImage,
+    val relativeSize: Double = .2,
+    val bgColor: Color? = null,
+) {
     init {
         require(relativeSize in .1..1.0) { "relativeSize must be in between 0.1 and 1." }
     }
@@ -73,7 +81,10 @@ data class QrLogoConfig @JvmOverloads constructor(val logo: BufferedImage, val r
  * @param bgColor - specify the background color of the qr code - may also be transparent, defaults to Color.WHITE
  * @param fillColor - specify the fill or foreground color of the qr code - should not be transparent, defaults to Color.BLACK
  */
-data class QrCodeColorConfig @JvmOverloads constructor(val bgColor: Color = Color.WHITE, val fillColor: Color = Color.BLACK)
+data class QrCodeColorConfig @JvmOverloads constructor(
+    val bgColor: Color = Color.WHITE,
+    val fillColor: Color = Color.BLACK,
+)
 
 /**
  * Specify the colors and shapes of the positional squares of the qr code.
@@ -97,7 +108,7 @@ data class QrPositionalSquaresConfig @JvmOverloads constructor(
         require(relativeSquareBorderRound in 0.0..1.0) { "relativeSquareBorderRound must be in between 0 and 1." }
     }
 
-    class Builder() {
+    class Builder {
         private var isCircleShaped: Boolean = false
         private var relativeSquareBorderRound: Double = .0
         private var centerColor: Color = Color.BLACK
@@ -130,7 +141,11 @@ data class QrPositionalSquaresConfig @JvmOverloads constructor(
  * @param relativeSize - relative size of the border, defaults to 0.05
  * @param relativeBorderRound - relative border round, defaults to 0.2
  */
-data class QrBorderConfig @JvmOverloads constructor(val color: Color = Color.BLACK, val relativeSize: Double = .05, val relativeBorderRound: Double = 0.2) {
+data class QrBorderConfig @JvmOverloads constructor(
+    val color: Color = Color.BLACK,
+    val relativeSize: Double = .05,
+    val relativeBorderRound: Double = 0.2,
+) {
     init {
         require(relativeSize in 0.01..1.0) { "relativeSize must be in between 0.01 and 1." }
         require(relativeBorderRound in 0.01..1.0) { "relativeSize must be in between 0.01 and 1." }
