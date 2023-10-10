@@ -41,6 +41,7 @@ import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
 import io.github.simonscholz.qrcode.QrCodeConfig
 import java.awt.image.BufferedImage
 import java.io.File
+import javax.imageio.ImageIO
 
 // extension function to write a BufferedImage to a file
 fun BufferedImage.toFile(file: File) {
@@ -61,6 +62,8 @@ For more advanced examples, please have a look at the https://github.com/SimonSc
 import io.github.simonscholz.qrcode.QrCodeApi;
 import io.github.simonscholz.qrcode.QrCodeConfig;
 import io.github.simonscholz.qrcode.QrCodeFactory;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
 
