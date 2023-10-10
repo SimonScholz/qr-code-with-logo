@@ -1,17 +1,71 @@
 :toc:
 
-Thank you so much @lome for providing this awesome library: https://github.com/lome/niceqr
-
-I adopted the code, but ported it to Kotlin and tried to condense the code to what's really necessary.
-I also added a couple of more options to the QR code generation... 👨‍💻️
+This library uses the zxing library, which provides a simple API to create QR codes.
 
 == Creating QR Codes with Kotlin or Java
 
-The entry point is the `QrCodeFactory`,
+The entry point for this library is the `QrCodeFactory`,
 which will give you an instance of the `QrCodeApi` to create a QR code as `BufferedImage`.
 This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` and use for further image processing.
 
 Examples for Java or Kotlin can be found in the `java-sample` or `kotlin-sample` module.
+
+== Quickstart
+
+=== Gradle
+
+```kotlin [build.gradle.kts]
+dependencies {
+    implementation("io.github.simonscholz:qr-code-with-logo:1.0.0")
+}
+```
+
+=== Maven
+
+```xml [pom.xml]
+<dependency>
+    <groupId>io.github.simonscholz</groupId>
+    <artifactId>qr-code-with-logo</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+== kotlin
+
+```kotlin
+import io.github.simonscholz.qrcode.QrCodeFactory.createQrCodeApi
+import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
+import io.github.simonscholz.qrcode.QrCodeConfig
+import java.awt.image.BufferedImage
+import java.io.File
+
+// extension function to write a BufferedImage to a file
+fun BufferedImage.toFile(file: File) {
+    ImageIO.write(this, "png", file)
+}
+
+val qrCodeApi = createQrCodeApi()
+qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE))
+    .toFile(File("qr-with-defaults-kotlin.png"))
+```
+
+For more advanced examples, please have a look at the `kotlin-sample` module.
+
+== java
+
+```java
+import io.github.simonscholz.qrcode.QrCodeApi;
+import io.github.simonscholz.qrcode.QrCodeConfig;
+import io.github.simonscholz.qrcode.QrCodeFactory;
+
+import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
+
+final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
+final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
+ImageIO.write(qrCode, "png", new File("qr-with-defaults-java.png"));
+```
+
+For more advanced examples, please have a look at the `java-sample` module.
 
 == Logo scaling
 
@@ -91,3 +145,8 @@ These are bad examples, because the colors are not contrasting enough.
 So please be cautious when changing the colors!
 *Not* having enough contrast may cause that qr code scanners are not capable to read the qr code!
 If you try to scan the bad exmaple qr codes from above, you will see that it's not working.
+
+== Kudos ❤️
+
+Thank you so much @lome for providing this awesome code at https://github.com/lome/niceqr,
+where I gained a lot of ideas and adopted some parts of the code.

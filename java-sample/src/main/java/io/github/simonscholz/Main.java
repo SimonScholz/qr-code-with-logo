@@ -17,8 +17,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
+
 public class Main {
-    private static final int IMG_SIZE = 300;
     private static final double RELATIVE_SQUARE_BORDER_ROUND = .5;
     private static final Color VIOLETT = new Color(0x0063, 0x000B, 0x00A5);
 
@@ -53,14 +54,14 @@ public class Main {
     }
 
     private static void createDefaultQrCode(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", IMG_SIZE));
+        final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
         ImageIO.write(qrCode, "png", new File(qrCodeDir, "/qr-with-defaults-java.png"));
     }
 
     private static void createDefaultQrCodeWithLogo(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.github.io/", IMG_SIZE, new QrLogoConfig(logo));
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE, new QrLogoConfig(logo));
         final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-java.png"));
     }
