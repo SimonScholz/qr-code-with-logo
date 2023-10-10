@@ -17,7 +17,7 @@ Examples for Java or Kotlin can be found in the https://github.com/SimonScholz/q
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:1.0.0")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.1.0")
 }
 ----
 
@@ -28,7 +28,7 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo</artifactId>
-    <version>1.0.0</version>
+    <version>0.1.0</version>
 </dependency>
 ----
 

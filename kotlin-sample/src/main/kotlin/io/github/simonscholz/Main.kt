@@ -157,7 +157,7 @@ private fun createTransparentQrCode(resource: URL, qrCodeApi: QrCodeApi, qrCodeD
     val positionalSquaresConfig = QrPositionalSquaresConfig(
         isCircleShaped = true,
         centerColor = Color.BLUE,
-         innerSquareColor = Color.WHITE,
+        innerSquareColor = Color.WHITE,
         outerSquareColor = Color.BLUE,
         outerBorderColor = transparent,
     )
@@ -166,7 +166,8 @@ private fun createTransparentQrCode(resource: URL, qrCodeApi: QrCodeApi, qrCodeD
         qrCodeSize = 150,
         qrPositionalSquaresConfig = positionalSquaresConfig,
         qrLogoConfig = QrLogoConfig(logo),
-        qrCodeColorConfig = QrCodeColorConfig(transparent, Color.BLUE))
+        qrCodeColorConfig = QrCodeColorConfig(transparent, Color.BLUE),
+    )
     val qrWithImage = qrCodeApi.createQrImage(qrCodeConfig)
     drawQrCodeOnImage(qrWithImage, qrCodeDir)
 }
