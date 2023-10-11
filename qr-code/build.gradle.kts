@@ -3,12 +3,12 @@ import com.vanniktech.maven.publish.SonatypeHost
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm")
     `java-library`
 
+    id("io.gitlab.arturbosch.detekt")
+    id("org.jlleitschuh.gradle.ktlint")
     id("com.github.ben-manes.versions") version "0.49.0"
-    id("io.gitlab.arturbosch.detekt") version "1.23.1"
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
     id("com.vanniktech.maven.publish") version "0.25.3"
     id("org.jetbrains.dokka") version "1.9.0"
 }
