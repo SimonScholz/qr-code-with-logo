@@ -1,5 +1,9 @@
 package io.github.simonscholz.qrcode.types
 
+/**
+ * This class is a utility to create simple Qr Code types with proper syntax,
+ * such as geolocation, email, phone number, sms, url.
+ */
 object SimpleTypes {
 
     /**
