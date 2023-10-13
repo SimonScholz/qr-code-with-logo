@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package io.github.simonscholz.qrcode.qr
+package io.github.simonscholz.qrcode.internal.qr
 
 import com.google.zxing.qrcode.decoder.Version
 import com.google.zxing.qrcode.encoder.ByteMatrix
 import com.google.zxing.qrcode.encoder.QRCode
-import io.github.simonscholz.qrcode.qr.MatrixUtil.embedDarkDotAtLeftBottomCorner
-import io.github.simonscholz.qrcode.qr.MatrixUtil.embedPositionDetectionPatternsAndSeparators
+import io.github.simonscholz.qrcode.internal.qr.MatrixUtil.embedDarkDotAtLeftBottomCorner
+import io.github.simonscholz.qrcode.internal.qr.MatrixUtil.embedPositionDetectionPatternsAndSeparators
 import kotlin.math.max
 import kotlin.math.min
 

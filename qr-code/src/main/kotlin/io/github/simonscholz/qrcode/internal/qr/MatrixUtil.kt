@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.simonscholz.qrcode.qr
+package io.github.simonscholz.qrcode.internal.qr
 
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.encoder.ByteMatrix

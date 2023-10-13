@@ -1,10 +1,10 @@
-package io.github.simonscholz.qrcode.api
+package io.github.simonscholz.qrcode.internal.api
 
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeConfig
-import io.github.simonscholz.qrcode.border.BorderGraphics
-import io.github.simonscholz.qrcode.logo.LogoGraphics
-import io.github.simonscholz.qrcode.qr.QrCodeCreator
+import io.github.simonscholz.qrcode.internal.border.BorderGraphics
+import io.github.simonscholz.qrcode.internal.logo.LogoGraphics
+import io.github.simonscholz.qrcode.internal.qr.QrCodeCreator
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage

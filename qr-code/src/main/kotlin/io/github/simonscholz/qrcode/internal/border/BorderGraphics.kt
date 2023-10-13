@@ -1,4 +1,4 @@
-package io.github.simonscholz.qrcode.border
+package io.github.simonscholz.qrcode.internal.border
 
 import java.awt.BasicStroke
 import java.awt.Color

@@ -1,6 +1,6 @@
 package io.github.simonscholz.qrcode
 
-import io.github.simonscholz.qrcode.api.QrCodeApiImpl
+import io.github.simonscholz.qrcode.internal.api.QrCodeApiImpl
 
 /**
  * Entry point for this library to create qr codes.

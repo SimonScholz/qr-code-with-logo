@@ -1,4 +1,4 @@
-package io.github.simonscholz.qrcode.logo
+package io.github.simonscholz.qrcode.internal.logo
 
 import java.awt.Color
 import java.awt.Graphics2D
