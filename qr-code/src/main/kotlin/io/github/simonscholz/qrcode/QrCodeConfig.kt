@@ -15,7 +15,7 @@ const val DEFAULT_IMG_SIZE = 300
  * @param qrPositionalSquaresConfig - configure the positional squares on the qr code
  * @param qrBorderConfig - configure the border of the qr code
  */
-data class QrCodeConfig @JvmOverloads constructor(
+class QrCodeConfig @JvmOverloads constructor(
     val qrCodeText: String,
     val qrCodeSize: Int = DEFAULT_IMG_SIZE,
     val qrLogoConfig: QrLogoConfig? = null,
@@ -63,7 +63,7 @@ data class QrCodeConfig @JvmOverloads constructor(
  * @param relativeSize - relative size of the logo, defaults to 0.2
  * @param bgColor - specify the background color of the logo, defaults to null
  */
-data class QrLogoConfig @JvmOverloads constructor(
+class QrLogoConfig @JvmOverloads constructor(
     val logo: BufferedImage,
     val relativeSize: Double = .2,
     val bgColor: Color? = null,
@@ -81,7 +81,7 @@ data class QrLogoConfig @JvmOverloads constructor(
  * @param bgColor - specify the background color of the qr code - may also be transparent, defaults to Color.WHITE
  * @param fillColor - specify the fill or foreground color of the qr code - should not be transparent, defaults to Color.BLACK
  */
-data class QrCodeColorConfig @JvmOverloads constructor(
+class QrCodeColorConfig @JvmOverloads constructor(
     val bgColor: Color = Color.WHITE,
     val fillColor: Color = Color.BLACK,
 )
@@ -96,7 +96,7 @@ data class QrCodeColorConfig @JvmOverloads constructor(
  * @param isCircleShaped - specify whether the shape shall be a circle or a square, defaults to false
  * @param relativeSquareBorderRound - in case isCircleShaped==false the borders of the square may be round at the edges, defaults to 0.05
  */
-data class QrPositionalSquaresConfig @JvmOverloads constructor(
+class QrPositionalSquaresConfig @JvmOverloads constructor(
     val isCircleShaped: Boolean = false,
     val relativeSquareBorderRound: Double = .0,
     val centerColor: Color = Color.BLACK,
@@ -141,7 +141,7 @@ data class QrPositionalSquaresConfig @JvmOverloads constructor(
  * @param relativeSize - relative size of the border, defaults to 0.05
  * @param relativeBorderRound - relative border round, defaults to 0.2
  */
-data class QrBorderConfig @JvmOverloads constructor(
+class QrBorderConfig @JvmOverloads constructor(
     val color: Color = Color.BLACK,
     val relativeSize: Double = .05,
     val relativeBorderRound: Double = 0.2,
