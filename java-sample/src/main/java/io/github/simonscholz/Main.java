@@ -19,6 +19,10 @@ import java.util.Objects;
 
 import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
 
+/**
+ * This class shows how to create QR Codes with different designs.
+ * For the types of a QR Code, please have a look at {@link QrCodeTypesMain}.
+ */
 public class Main {
     private static final double RELATIVE_SQUARE_BORDER_ROUND = .5;
     private static final Color VIOLETT = new Color(0x0063, 0x000B, 0x00A5);

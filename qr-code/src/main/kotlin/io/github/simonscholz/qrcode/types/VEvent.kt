@@ -1,5 +1,11 @@
 package io.github.simonscholz.qrcode.types
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+
 /**
  * This class is a utility to create VEvents with proper syntax
  * in order to pass the outcome of the VEvent.toVEventQrCodeText() function as qrCodeText to the QrCodeApi.
@@ -34,12 +40,22 @@ class VEvent private constructor(
         /**
          * The start date and time
          */
-        fun start(start: String) = apply { this.start = start }
+        fun startDate(start: String) = apply { this.start = start }
+
+        /**
+         * The start date and time
+         */
+        fun startDate(start: LocalDateTime) = apply { this.start = start.format(dateFormatter) }
 
         /**
          * The end date and time
          */
-        fun end(end: String) = apply { this.end = end }
+        fun endDate(end: String) = apply { this.end = end }
+
+        /**
+         * The end date and time
+         */
+        fun endDate(end: LocalDateTime) = apply { this.end = end.format(dateFormatter) }
 
         /**
          * New properties, which might be missing here or also custom properties can be defined using the X- prefix, followed by a unique name
@@ -81,9 +97,13 @@ class VEvent private constructor(
             }
         }
 
-        val vCardData = properties.joinToString("\n")
-        return "BEGIN:VEVENT\nVERSION:4.0\n$vCardData\nEND:VEVENT"
+        val vEventData = properties.joinToString("\n")
+        return "BEGIN:VEVENT\n$vEventData\nEND:VEVENT"
     }
 
     override fun toString(): String = toVEventQrCodeText()
+
+    companion object {
+        private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss")
+    }
 }

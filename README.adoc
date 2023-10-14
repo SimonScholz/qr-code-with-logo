@@ -159,6 +159,54 @@ image::./docs/transparent-color.png[]
 
 To see what's possible with colors, have a look at the rainbow example in the bad examples below.
 
+== Types
+
+In order to create certain types of QR codes, you can may want to use the following utils.
+
+Please see https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/QrCodeTypesMain.kt[`kotlin-sample` module] or https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/QrCodeTypesMain.java[`java-sample` module] to use these types and run the samples.
+
+=== Simple types
+
+VEVENT type:
+
+```java
+String url = SimpleTypes.url("https://simonscholz.github.io/");
+
+String geolocation = SimpleTypes.geolocation(52.520008, 13.404954);
+
+String email = SimpleTypes.email("simon@example.com", "Hello World", "This is a test email");
+
+String phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678");
+
+String sms = SimpleTypes.sms("+49 176 12345678", "Hello, this is a test SMS");
+```
+
+== More complex types
+
+```java
+LocalDateTime startDateTime = LocalDateTime.now().plusWeeks(2);
+VEvent vevent = new VEvent.Builder("QR Codes with Kotlin & Java")
+                .location("Java User Group Hamburg")
+                .startDate(startDateTime)
+                .endDate(startDateTime.plusHours(2))
+                .description("Let's create QR Codes with Kotlin & Java")
+                .build();
+String vEventQrCodeText = vevent.toVEventQrCodeText();
+```
+
+VCARD type:
+
+```java
+VCard vCard = new VCard.Builder("Simon Scholz")
+                .email("simon@example.com")
+                .address("Main Street 1", "Hamburg", "22855")
+                .organization("Self Employed")
+                .phoneNumber("+49 176 12345678")
+                .website("https://simonscholz.github.io/")
+                .build();
+String vCardQrCodeText = vCard.toVCardQrCodeText();
+```
+
 == Bad examples
 
 Not having enough contrast:
@@ -174,6 +222,13 @@ These are bad examples, because the colors are not contrasting enough.
 So please be cautious when changing the colors!
 *Not* having enough contrast may cause that qr code scanners are not capable to read the qr code!
 If you try to scan the bad exmaple qr codes from above, you will see that it's not working.
+
+== Useful sources
+
+- https://zxing.org/w/decode.jspx[Decoding qr codes using zxing]
+- https://www.qrcode.com/en/about/version.html[QR Code Versions]
+- https://android.googlesource.com/platform/frameworks/opt/vcard/+/ics-mr1/java/com/android/vcard/VCardConstants.java[Android VCardConstants]
+- https://simonscholz.github.io/tutorials/publish-maven-central-gradle[How I published this library to Maven Central]
 
 == Kudos ❤️
 
