@@ -41,7 +41,7 @@ private fun createWithUrl(qrCodeApi: QrCodeApi, qrCodeDir: String) {
 }
 
 private fun createWithGeolocation(qrCodeApi: QrCodeApi, qrCodeDir: String) {
-    val geolocation = geolocation(52.520008, 13.404954)
+    val geolocation = geolocation(53.59659752940634, 10.006589989354053)
     createDefaultQrCode(qrCodeApi, geolocation, File(qrCodeDir, "simple-geolocation.png"))
 }
 

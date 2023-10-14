@@ -170,7 +170,7 @@ Please see https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sam
 ```java
 String url = SimpleTypes.url("https://simonscholz.github.io/");
 
-String geolocation = SimpleTypes.geolocation(52.520008, 13.404954);
+String geolocation = SimpleTypes.geolocation(53.59659752940634, 10.006589989354053);
 
 String email = SimpleTypes.email("simon@example.com", "Hello World", "This is a test email");
 

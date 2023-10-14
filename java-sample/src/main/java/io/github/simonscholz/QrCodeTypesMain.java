@@ -43,7 +43,7 @@ public class QrCodeTypesMain {
     }
 
     private static void createWithGeolocation(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final String geolocation = SimpleTypes.geolocation(52.520008, 13.404954);
+        final String geolocation = SimpleTypes.geolocation(53.59659752940634, 10.006589989354053);
         createDefaultQrCode(qrCodeApi, geolocation, new File(qrCodeDir, "simple-geolocation.png"));
     }
 
