@@ -167,8 +167,6 @@ Please see https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sam
 
 === Simple types
 
-VEVENT type:
-
 ```java
 String url = SimpleTypes.url("https://simonscholz.github.io/");
 
@@ -181,7 +179,11 @@ String phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678");
 String sms = SimpleTypes.sms("+49 176 12345678", "Hello, this is a test SMS");
 ```
 
+These String values can be used to create a QR code.
+
 == More complex types
+
+VEVENT type:
 
 ```java
 LocalDateTime startDateTime = LocalDateTime.now().plusWeeks(2);
@@ -193,6 +195,8 @@ VEvent vevent = new VEvent.Builder("QR Codes with Kotlin & Java")
                 .build();
 String vEventQrCodeText = vevent.toVEventQrCodeText();
 ```
+
+The `vEventQrCodeText` can then be used to create a QR code.
 
 VCARD type:
 
@@ -206,6 +210,8 @@ VCard vCard = new VCard.Builder("Simon Scholz")
                 .build();
 String vCardQrCodeText = vCard.toVCardQrCodeText();
 ```
+
+The `vCardQrCodeText` can then be used to create a QR code.
 
 == Bad examples
 
