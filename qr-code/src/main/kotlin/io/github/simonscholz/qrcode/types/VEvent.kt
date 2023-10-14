@@ -1,10 +1,7 @@
 package io.github.simonscholz.qrcode.types
 
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-
 
 /**
  * This class is a utility to create VEvents with proper syntax
