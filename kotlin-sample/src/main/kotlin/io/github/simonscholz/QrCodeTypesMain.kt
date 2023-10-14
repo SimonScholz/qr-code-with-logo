@@ -86,6 +86,6 @@ private fun createWithVCard(qrCodeApi: QrCodeApi, qrCodeDir: String) {
 }
 
 private fun createDefaultQrCode(qrCodeApi: QrCodeApi, qrCodeText: String, qrCodeFile: File) {
-    val qrCode = qrCodeApi.createQrImage(QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE))
+    val qrCode = qrCodeApi.createQrCodeImage(QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE))
     ImageIO.write(qrCode, "png", qrCodeFile)
 }

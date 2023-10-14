@@ -50,7 +50,7 @@ fun main() {
 }
 
 private fun createDefaultQrCode(qrCodeApi: QrCodeApi, qrCodeDir: String) {
-    qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE))
+    qrCodeApi.createQrCodeImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE))
         .toFile(File(qrCodeDir, "/qr-with-defaults-kotlin.png"))
 }
 
@@ -61,7 +61,7 @@ private fun createDefaultQrCodeWithLogo(resource: URL, qrCodeApi: QrCodeApi, qrC
         DEFAULT_IMG_SIZE,
         QrLogoConfig(logo),
     )
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/qr-with-logo-kotlin.png"))
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/qr-with-logo-kotlin.png"))
 }
 
 private fun createDefaultQrCodeWithLogoAndBorder(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir: String) {
@@ -70,7 +70,7 @@ private fun createDefaultQrCodeWithLogoAndBorder(resource: URL, qrCodeApi: QrCod
         .qrBorderConfig(Color.BLACK)
         .qrLogoConfig(logo)
         .build()
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/qr-with-logo-and-border-kotlin.png"))
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/qr-with-logo-and-border-kotlin.png"))
 }
 
 private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
@@ -88,7 +88,7 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
                 .build(),
         )
         .build()
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(
         File(
             qrCodeDir,
             "/qr-with-logo-and-border-and-p-border-round-kotlin.png",
@@ -107,7 +107,7 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(
         .qrLogoConfig(logo)
         .qrPositionalSquaresConfig(QrPositionalSquaresConfig(true))
         .build()
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(
         File(
             qrCodeDir,
             "/qr-with-logo-and-border-and-p-border-circle-kotlin.png",
@@ -128,7 +128,7 @@ private fun decentRedColor(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir: Strin
             ),
         )
         .build()
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/decent-red-color-kotlin.png"))
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/decent-red-color-kotlin.png"))
 }
 
 private fun mineCraftCreeperColor(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir: String) {
@@ -148,7 +148,7 @@ private fun mineCraftCreeperColor(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir
         .qrCodeColorConfig(darkerGreen, brighterGreen)
         .qrPositionalSquaresConfig(positionalSquaresConfig)
         .build()
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/minecraft-creeper-color-kotlin.png"))
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/minecraft-creeper-color-kotlin.png"))
 }
 
 private fun createTransparentQrCode(resource: URL, qrCodeApi: QrCodeApi, qrCodeDir: String) {
@@ -168,7 +168,7 @@ private fun createTransparentQrCode(resource: URL, qrCodeApi: QrCodeApi, qrCodeD
         qrLogoConfig = QrLogoConfig(logo),
         qrCodeColorConfig = QrCodeColorConfig(transparent, Color.BLUE),
     )
-    val qrWithImage = qrCodeApi.createQrImage(qrCodeConfig)
+    val qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig)
     drawQrCodeOnImage(qrWithImage, qrCodeDir)
 }
 
@@ -202,7 +202,7 @@ private fun rainbowColor(qrCodeApi: QrCodeApi, qrCodeDir: String) {
             ),
         )
         .build()
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/rainbow-color-kotlin.png"))
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/rainbow-color-kotlin.png"))
 }
 
 private fun notEnoughContrast(qrCodeApi: QrCodeApi, qrCodeDir: String) {
@@ -217,5 +217,5 @@ private fun notEnoughContrast(qrCodeApi: QrCodeApi, qrCodeDir: String) {
         qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLETT),
         qrPositionalSquaresConfig = positionalSquaresConfig,
     )
-    qrCodeApi.createQrImage(qrCodeConfig).toFile(File(qrCodeDir, "/not-enough-contrast-kotlin.png"))
+    qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/not-enough-contrast-kotlin.png"))
 }

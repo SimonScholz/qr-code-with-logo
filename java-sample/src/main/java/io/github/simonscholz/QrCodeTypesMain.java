@@ -88,7 +88,7 @@ public class QrCodeTypesMain {
     }
 
     private static void createDefaultQrCode(final QrCodeApi qrCodeApi, final String qrCodeText, final File qrCodeFile) throws IOException {
-        final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE));
+        final var qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE));
         ImageIO.write(qrCode, "png", qrCodeFile);
     }
 }

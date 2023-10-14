@@ -10,7 +10,7 @@ interface QrCodeApi {
      * @param qrCodeConfig configuration about the qr code to be generated
      * @return BufferedImage
      */
-    fun createQrImage(
+    fun createQrCodeImage(
         qrCodeConfig: QrCodeConfig,
     ): BufferedImage
 }

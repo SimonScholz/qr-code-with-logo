@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage
 import kotlin.math.floor
 
 internal class QrCodeApiImpl : QrCodeApi {
-    override fun createQrImage(qrCodeConfig: QrCodeConfig): BufferedImage {
+    override fun createQrCodeImage(qrCodeConfig: QrCodeConfig): BufferedImage {
         val image = BufferedImage(qrCodeConfig.qrCodeSize, qrCodeConfig.qrCodeSize, BufferedImage.TYPE_4BYTE_ABGR)
         val graphics = image.graphics as Graphics2D
         return try {

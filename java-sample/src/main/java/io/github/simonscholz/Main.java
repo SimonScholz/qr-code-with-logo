@@ -60,7 +60,7 @@ public class Main {
     }
 
     private static void createDefaultQrCode(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
+        final var qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
         ImageIO.write(qrCode, "png", new File(qrCodeDir, "/qr-with-defaults-java.png"));
     }
 
@@ -68,7 +68,7 @@ public class Main {
         final BufferedImage logo = ImageIO.read(resource);
 
         final QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE, new QrLogoConfig(logo));
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-java.png"));
     }
 
@@ -78,7 +78,7 @@ public class Main {
         final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/").qrBorderConfig(Color.BLACK)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-and-border-java.png"));
     }
 
@@ -90,7 +90,7 @@ public class Main {
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig.Builder().relativeSquareBorderRound(RELATIVE_SQUARE_BORDER_ROUND)
                                                                                                                                                                 .build())
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-and-border-and-p-border-round-java.png"));
     }
 
@@ -101,7 +101,7 @@ public class Main {
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true))
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-and-border-and-p-border-circle-java.png"));
     }
 
@@ -112,7 +112,7 @@ public class Main {
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true, 0.2, Color.RED))
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/decent-red-color-java.png"));
     }
 
@@ -136,7 +136,7 @@ public class Main {
                                                                                                     .qrCodeColorConfig(darkerGreen, brighterGreen)
                                                                                                     .qrPositionalSquaresConfig(positionalSquaresConfig)
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/minecraft-creeper-color-java.png"));
     }
 
@@ -149,7 +149,7 @@ public class Main {
         final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/").qrCodeColorConfig(Color.BLUE, VIOLETT)
                                                                                                     .qrPositionalSquaresConfig(positionalSquaresConfig)
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/not-enough-contrast-java.png"));
     }
 
@@ -163,7 +163,7 @@ public class Main {
                                                                                                     .qrCodeColorConfig(Color.BLUE, VIOLETT)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true, RELATIVE_SQUARE_BORDER_ROUND, Color.PINK, Color.GREEN, Color.RED, Color.CYAN))
                                                                                                     .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/rainbow-color-java.png"));
     }
 
@@ -186,7 +186,7 @@ public class Main {
             .qrLogoConfig(logo)
             .qrCodeColorConfig(transparent, Color.BLUE)
             .build();
-        final BufferedImage qrWithImage = qrCodeApi.createQrImage(qrCodeConfig);
+        final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         drawQrCodeOnImage(qrWithImage, qrCodeDir);
     }
 
