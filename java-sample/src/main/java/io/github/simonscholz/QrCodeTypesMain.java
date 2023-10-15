@@ -8,6 +8,7 @@ import io.github.simonscholz.qrcode.types.VCard;
 import io.github.simonscholz.qrcode.types.VEvent;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +27,7 @@ public class QrCodeTypesMain {
         final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
         final Path path = Paths.get(System.getProperty("user.home"), "qr-code-samples");
         Files.createDirectories(path);
-        final var qrCodeDir = path.toAbsolutePath().toString();
+        final String qrCodeDir = path.toAbsolutePath().toString();
 
         generateSamples(qrCodeApi, qrCodeDir);
     }
@@ -92,7 +93,7 @@ public class QrCodeTypesMain {
     }
 
     private static void createDefaultQrCode(final QrCodeApi qrCodeApi, final String qrCodeText, final File qrCodeFile) throws IOException {
-        final var qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE));
+        final BufferedImage qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE));
         ImageIO.write(qrCode, "png", qrCodeFile);
     }
 }
