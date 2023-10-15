@@ -5,6 +5,11 @@ on: [push, pull_request]
 jobs:
   jvm:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: [ 8, 21 ]
+
     steps:
       - uses: actions/checkout@v4
 
@@ -13,7 +18,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 20
+          java-version: ${{ matrix.java-version }}
 
       - uses: gradle/gradle-build-action@v2.9.0
 
@@ -31,7 +36,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 20
+          java-version: 21
 
       - uses: gradle/gradle-build-action@v2.9.0
 

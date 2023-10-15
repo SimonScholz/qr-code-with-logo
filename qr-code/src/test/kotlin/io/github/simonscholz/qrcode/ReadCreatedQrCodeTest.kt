@@ -11,14 +11,14 @@ import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.net.URL
 import java.util.Objects
 import javax.imageio.ImageIO
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 
 class ReadCreatedQrCodeTest {
 
@@ -27,7 +27,7 @@ class ReadCreatedQrCodeTest {
     @ParameterizedTest
     @MethodSource("provideDifferentQrCodeTypeTexts")
     fun `Writing different QrCode type texts to BufferedImage and reading it should produce the same outcome`(
-        qrCodeInputText : String
+        qrCodeInputText: String,
     ) {
         val qrCodeImage = qrCodeApi.createQrCodeImage(QrCodeConfig(qrCodeInputText, DEFAULT_IMG_SIZE))
 
