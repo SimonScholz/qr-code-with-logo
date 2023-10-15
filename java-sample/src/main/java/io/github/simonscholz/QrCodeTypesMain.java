@@ -28,6 +28,10 @@ public class QrCodeTypesMain {
         Files.createDirectories(path);
         final var qrCodeDir = path.toAbsolutePath().toString();
 
+        generateSamples(qrCodeApi, qrCodeDir);
+    }
+
+    static void generateSamples(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         createWithUrl(qrCodeApi, qrCodeDir);
         createWithGeolocation(qrCodeApi, qrCodeDir);
         createWithEmail(qrCodeApi, qrCodeDir);

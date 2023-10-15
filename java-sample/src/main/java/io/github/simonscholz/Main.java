@@ -7,7 +7,7 @@ import io.github.simonscholz.qrcode.QrLogoConfig;
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,9 +31,12 @@ public class Main {
         final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
         final Path path = Paths.get(System.getProperty("user.home"), "qr-code-samples");
         Files.createDirectories(path);
-        final var qrCodeDir = path.toAbsolutePath()
-                                  .toString();
+        final String qrCodeDir = path.toAbsolutePath().toString();
 
+        generateSamples(qrCodeApi, qrCodeDir);
+    }
+
+    static void generateSamples(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         createDefaultQrCode(qrCodeApi, qrCodeDir);
 
         final URL resource = Main.class.getClassLoader()
@@ -60,7 +63,7 @@ public class Main {
     }
 
     private static void createDefaultQrCode(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final var qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
+        final BufferedImage qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
         ImageIO.write(qrCode, "png", new File(qrCodeDir, "/qr-with-defaults-java.png"));
     }
 
@@ -119,8 +122,8 @@ public class Main {
     private static void mineCraftCreeperColor(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final var brighterGreen = Color.GREEN.brighter();
-        final var darkerGreen = Color.GREEN.darker()
+        final Color brighterGreen = Color.GREEN.brighter();
+        final Color darkerGreen = Color.GREEN.darker()
                                            .darker()
                                            .darker();
 
@@ -194,7 +197,7 @@ public class Main {
         final URL url = Objects.requireNonNull(Main.class.getClassLoader()
                                                          .getResource("cup.jpg"));
         final BufferedImage mainImg = ImageIO.read(url);
-        final var graphics = mainImg.getGraphics();
+        final Graphics graphics = mainImg.getGraphics();
         graphics.drawImage(qrCode, 330, 600, null);
         graphics.dispose();
         ImageIO.write(mainImg, "png", new File(qrCodeDir, "/transparent-color-java.png"));

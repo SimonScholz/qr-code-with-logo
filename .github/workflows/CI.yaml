@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  jvm:
+  kotlin-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'SimonScholz/qr-code-with-logo' && github.ref == 'refs/heads/main'
     needs:
-      - jvm
+      - kotlin-build
       - java-sample-different-jdks
     steps:
       - uses: actions/checkout@v4
