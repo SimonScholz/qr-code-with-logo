@@ -181,6 +181,30 @@ String sms = SimpleTypes.sms("+49 176 12345678", "Hello, this is a test SMS");
 
 These String values can be used to create a QR code.
 
+.See simple QR Code type images
+[%collapsible]
+====
+Simple url:
+
+image::./docs/types/simple-url.png[]
+
+Simple geolocation:
+
+image::./docs/types/simple-geolocation.png[]
+
+Simple email:
+
+image::./docs/types/simple-email.png[]
+
+Simple phoneNumber:
+
+image::./docs/types/simple-phoneNumber.png[]
+
+Simple sms:
+
+image::./docs/types/simple-sms.png[]
+====
+
 ==== More complex types
 
 VEVENT type:
@@ -198,6 +222,12 @@ String vEventQrCodeText = vevent.toVEventQrCodeText();
 
 The `vEventQrCodeText` can then be used to create a QR code.
 
+.See QR Code image
+[%collapsible]
+====
+image::./docs/types/vevent.png[]
+====
+
 VCARD type:
 
 ```java
@@ -212,6 +242,12 @@ String vCardQrCodeText = vCard.toVCardQrCodeText();
 ```
 
 The `vCardQrCodeText` can then be used to create a QR code.
+
+.See QR Code image
+[%collapsible]
+====
+image::./docs/types/vCard.png[]
+====
 
 == Bad examples
 
