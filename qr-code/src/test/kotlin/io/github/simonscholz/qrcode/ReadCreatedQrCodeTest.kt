@@ -9,6 +9,7 @@ import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.multi.qrcode.QRCodeMultiReader
 import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
+import io.github.simonscholz.qrcode.types.VEvent
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -17,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.net.URL
+import java.time.LocalDateTime
 import java.util.Objects
 import javax.imageio.ImageIO
 
@@ -113,13 +115,34 @@ class ReadCreatedQrCodeTest {
     companion object {
         @JvmStatic
         fun provideDifferentQrCodeTypeTexts(): List<Arguments> {
+            val url = SimpleTypes.url("https://simonscholz.github.io/")
+            val geolocation = SimpleTypes.geolocation(53.59659752940634, 10.006589989354053)
+            val email = SimpleTypes.email("simon@example.com")
+            val phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678")
+            val sms = SimpleTypes.sms("+49 176 12345678", "Hello World")
+            val startDateTime = LocalDateTime.now()
+                .plusWeeks(2)
+            val vevent = VEvent.Builder("QR Codes with Kotlin & Java")
+                .location("Java User Group Hamburg")
+                .startDate(startDateTime)
+                .endDate(startDateTime.plusHours(2))
+                .description("Let's create QR Codes with Kotlin & Java")
+                .build()
             val vCard = VCard.Builder("Simon Scholz")
                 .email("simon@example.com")
                 .organization("Self Employed")
                 .phoneNumber("+49 176 12345678")
                 .website("https://simonscholz.github.io/")
                 .build()
-            return listOf(Arguments.of(vCard.toVCardQrCodeText()))
+            return listOf(
+                Arguments.of(url),
+                Arguments.of(geolocation),
+                Arguments.of(email),
+                Arguments.of(phoneNumber),
+                Arguments.of(sms),
+                Arguments.of(vevent.toVEventQrCodeText()),
+                Arguments.of(vCard.toVCardQrCodeText()),
+            )
         }
     }
 }
