@@ -6,6 +6,24 @@ jobs:
   jvm:
     runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: gradle/wrapper-validation-action@v1
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - uses: gradle/gradle-build-action@v2.9.0
+
+      - name: Build
+        run: ./gradlew build
+
+  samples:
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
         java-version: [ 8, 21 ]
@@ -23,13 +41,14 @@ jobs:
       - uses: gradle/gradle-build-action@v2.9.0
 
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew :java-sample:build
 
   publish:
     runs-on: ubuntu-latest
     if: github.repository == 'SimonScholz/qr-code-with-logo' && github.ref == 'refs/heads/main'
     needs:
       - jvm
+      - samples
     steps:
       - uses: actions/checkout@v4
 
