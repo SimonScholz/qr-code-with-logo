@@ -49,7 +49,7 @@ jobs:
     if: github.repository == 'SimonScholz/qr-code-with-logo' && github.ref == 'refs/heads/main'
     needs:
       - jvm
-      - samples
+      - java-sample-different-jdks
     steps:
       - uses: actions/checkout@v4
 
