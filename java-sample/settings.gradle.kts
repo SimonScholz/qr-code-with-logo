@@ -3,6 +3,4 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }
 
-rootProject.name = "qr-code-with-logo"
-include("qr-code")
-include("kotlin-sample")
+rootProject.name = "java-sample"
