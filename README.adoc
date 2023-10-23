@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.1.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.2.0-SNAPSHOT")
 }
 ----
 
@@ -276,3 +276,7 @@ If you try to scan the bad exmaple qr codes from above, you will see that it's n
 
 Thank you so much @lome for providing this awesome code at https://github.com/lome/niceqr,
 where I gained a lot of ideas and adopted some parts of the code.
+
+== License
+
+This library is licensed under the Apache License, Version 2.0.
