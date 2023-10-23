@@ -122,26 +122,28 @@ class ReadCreatedQrCodeTest {
             val sms = SimpleTypes.sms("+49 176 12345678", "Hello World")
             val startDateTime = LocalDateTime.now()
                 .plusWeeks(2)
-            val vevent = VEvent.Builder("QR Codes with Kotlin & Java")
+            val vEvent = VEvent()
+                .summary("QR Codes with Kotlin & Java")
                 .location("Java User Group Hamburg")
                 .startDate(startDateTime)
                 .endDate(startDateTime.plusHours(2))
                 .description("Let's create QR Codes with Kotlin & Java")
-                .build()
-            val vCard = VCard.Builder("Simon Scholz")
+                .toVEventQrCodeText()
+            val vCard = VCard()
+                .formattedName("Simon Scholz")
                 .email("simon@example.com")
                 .organization("Self Employed")
                 .phoneNumber("+49 176 12345678")
                 .website("https://simonscholz.github.io/")
-                .build()
+                .toVCardQrCodeText()
             return listOf(
                 Arguments.of(url),
                 Arguments.of(geolocation),
                 Arguments.of(email),
                 Arguments.of(phoneNumber),
                 Arguments.of(sms),
-                Arguments.of(vevent.toVEventQrCodeText()),
-                Arguments.of(vCard.toVCardQrCodeText()),
+                Arguments.of(vEvent),
+                Arguments.of(vCard),
             )
         }
     }
