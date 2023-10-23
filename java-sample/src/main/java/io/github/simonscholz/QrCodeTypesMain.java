@@ -70,25 +70,24 @@ public class QrCodeTypesMain {
     private static void createWithVEvent(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final LocalDateTime startDateTime = LocalDateTime.now()
                                                          .plusWeeks(2);
-        final VEvent vevent = new VEvent.Builder("QR Codes with Kotlin & Java")
-                .location("Java User Group Hamburg")
-                .startDate(startDateTime)
-                .endDate(startDateTime.plusHours(2))
-                .description("Let's create QR Codes with Kotlin & Java")
-                .build();
-        final String vEventQrCodeText = vevent.toVEventQrCodeText();
+        final String vEventQrCodeText = new VEvent()
+            .summary("QR Codes with Kotlin & Java")
+            .location("Java User Group Hamburg")
+            .startDate(startDateTime)
+            .endDate(startDateTime.plusHours(2))
+            .description("Let's create QR Codes with Kotlin & Java")
+            .toVEventQrCodeText();
         createDefaultQrCode(qrCodeApi, vEventQrCodeText, new File(qrCodeDir, "vevent.png"));
     }
 
     private static void createWithVCard(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final VCard vCard = new VCard.Builder("Simon Scholz")
-                .email("simon@example.com")
-                .address("Main Street 1", "Hamburg", "22855")
-                .organization("Self Employed")
-                .phoneNumber("+49 176 12345678")
-                .website("https://simonscholz.github.io/")
-                .build();
-        final String vCardQrCodeText = vCard.toVCardQrCodeText();
+        final String vCardQrCodeText =  new VCard()
+            .formattedName("Simon Scholz")
+            .email("simon@example.com")
+            .address("Main Street 1", "Hamburg", "22855")
+            .organization("Self Employed")
+            .phoneNumber("+49 176 12345678")
+            .website("https://simonscholz.github.io/").toVCardQrCodeText();
         createDefaultQrCode(qrCodeApi, vCardQrCodeText, new File(qrCodeDir, "vCard.png"));
     }
 

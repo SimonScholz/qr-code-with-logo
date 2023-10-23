@@ -25,7 +25,7 @@ import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
  */
 public class Main {
     private static final double RELATIVE_SQUARE_BORDER_ROUND = .5;
-    private static final Color VIOLETT = new Color(0x0063, 0x000B, 0x00A5);
+    private static final Color VIOLET = new Color(0x0063, 0x000B, 0x00A5);
 
     public static void main(final String[] args) throws IOException {
         final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
@@ -145,11 +145,11 @@ public class Main {
 
     private static void notEnoughContrast(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final QrPositionalSquaresConfig positionalSquaresConfig = new QrPositionalSquaresConfig.Builder().centerColor(Color.BLUE)
-                                                                               .innerSquareColor(VIOLETT)
+                                                                               .innerSquareColor(VIOLET)
                                                                                .outerSquareColor(Color.BLUE)
-                                                                               .outerBorderColor(VIOLETT)
+                                                                               .outerBorderColor(VIOLET)
                                                                                .build();
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/").qrCodeColorConfig(Color.BLUE, VIOLETT)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/").qrCodeColorConfig(Color.BLUE, VIOLET)
                                                                                                     .qrPositionalSquaresConfig(positionalSquaresConfig)
                                                                                                     .build();
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
@@ -163,7 +163,7 @@ public class Main {
 
         final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/").qrBorderConfig(Color.YELLOW)
                                                                                                     .qrLogoConfig(logo)
-                                                                                                    .qrCodeColorConfig(Color.BLUE, VIOLETT)
+                                                                                                    .qrCodeColorConfig(Color.BLUE, VIOLET)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true, RELATIVE_SQUARE_BORDER_ROUND, Color.PINK, Color.GREEN, Color.RED, Color.CYAN))
                                                                                                     .build();
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);

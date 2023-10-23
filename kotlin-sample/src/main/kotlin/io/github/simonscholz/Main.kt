@@ -21,7 +21,7 @@ fun BufferedImage.toFile(file: File) {
 }
 
 private const val RELATIVE_SQUARE_BORDER_ROUND = .5
-private val VIOLETT = Color(0x0063, 0x000B, 0x00A5)
+private val VIOLET = Color(0x0063, 0x000B, 0x00A5)
 
 class Main
 
@@ -190,7 +190,7 @@ private fun rainbowColor(qrCodeApi: QrCodeApi, qrCodeDir: String) {
     val qrCodeConfig = QrCodeConfig.Builder("https://simonscholz.github.io/")
         .qrBorderConfig(Color.YELLOW)
         .qrLogoConfig(logo)
-        .qrCodeColorConfig(Color.BLUE, VIOLETT)
+        .qrCodeColorConfig(Color.BLUE, VIOLET)
         .qrPositionalSquaresConfig(
             QrPositionalSquaresConfig(
                 isCircleShaped = true,
@@ -208,13 +208,13 @@ private fun rainbowColor(qrCodeApi: QrCodeApi, qrCodeDir: String) {
 private fun notEnoughContrast(qrCodeApi: QrCodeApi, qrCodeDir: String) {
     val positionalSquaresConfig = QrPositionalSquaresConfig(
         centerColor = Color.BLUE,
-        innerSquareColor = VIOLETT,
+        innerSquareColor = VIOLET,
         outerSquareColor = Color.BLUE,
-        outerBorderColor = VIOLETT,
+        outerBorderColor = VIOLET,
     )
     val qrCodeConfig = QrCodeConfig(
         qrCodeText = "https://simonscholz.github.io/",
-        qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLETT),
+        qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLET),
         qrPositionalSquaresConfig = positionalSquaresConfig,
     )
     qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/not-enough-contrast-kotlin.png"))
