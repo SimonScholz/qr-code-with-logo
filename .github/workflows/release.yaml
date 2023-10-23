@@ -1,20 +1,20 @@
 name: Release
 
 on:
+  workflow_dispatch:
   release:
     types: [ published ]
 
 jobs:
   publish-release:
     runs-on: ubuntu-latest
-    if: github.repository == 'SimonScholz/qr-code-with-logo' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 20
 
       - uses: gradle/gradle-build-action@v2.9.0
 
