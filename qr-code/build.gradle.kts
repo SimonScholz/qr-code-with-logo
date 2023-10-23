@@ -10,7 +10,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("com.github.ben-manes.versions") version "0.49.0"
     id("com.vanniktech.maven.publish") version "0.25.3"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 
 repositories {
