@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.1.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.1.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
