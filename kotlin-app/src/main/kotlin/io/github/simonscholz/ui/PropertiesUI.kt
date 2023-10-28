@@ -1,6 +1,7 @@
 package io.github.simonscholz.ui
 
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
+import net.miginfocom.swing.MigLayout
 import java.awt.Color
 import javax.swing.JButton
 import javax.swing.JCheckBox
@@ -9,7 +10,6 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTextArea
 import javax.swing.JTextField
-import net.miginfocom.swing.MigLayout
 
 object PropertiesUI {
 

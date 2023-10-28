@@ -1,8 +1,7 @@
 package io.github.simonscholz.ui
 
-import java.awt.BorderLayout
-import javax.swing.JPanel
 import net.miginfocom.swing.MigLayout
+import javax.swing.JPanel
 
 object MainUI {
 

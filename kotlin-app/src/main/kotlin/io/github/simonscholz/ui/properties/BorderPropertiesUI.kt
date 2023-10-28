@@ -1,6 +1,6 @@
 package io.github.simonscholz.ui.properties
 
-import io.github.simonscholz.ui.PropertiesUI
+import net.miginfocom.swing.MigLayout
 import java.awt.Color
 import javax.swing.BorderFactory
 import javax.swing.JButton
@@ -9,7 +9,6 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTextField
 import javax.swing.border.TitledBorder
-import net.miginfocom.swing.MigLayout
 
 object BorderPropertiesUI {
     fun createBorderPropertiesUI(): JPanel {
@@ -17,7 +16,12 @@ object BorderPropertiesUI {
 
         borderPropertiesPanel.setBorder(
             BorderFactory.createTitledBorder(
-            BorderFactory.createEtchedBorder(), "Qr Code Border", TitledBorder.LEFT, TitledBorder.TOP))
+                BorderFactory.createEtchedBorder(),
+                "Qr Code Border",
+                TitledBorder.LEFT,
+                TitledBorder.TOP,
+            ),
+        )
 
         borderPropertiesPanel.add(JLabel("Relative Border Size:"))
         val borderSizeTextField = JTextField()

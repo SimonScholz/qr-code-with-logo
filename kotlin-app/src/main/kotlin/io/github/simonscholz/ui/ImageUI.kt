@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import javax.swing.JPanel
 
-
 object ImageUI {
     fun createImagePanel(): JPanel {
         val imageContainer = JPanel()
@@ -25,7 +24,6 @@ object ImageUI {
 
         return imageContainer
     }
-
 
     internal class ImagePanel : JPanel(true) {
         private var image: BufferedImage? = null
@@ -42,7 +40,6 @@ object ImageUI {
             }
         }
     }
-
 
     private fun decentRedColor(): BufferedImage {
         val resource = ImageUI::class.java.getClassLoader().getResource("avatar-60x.png")

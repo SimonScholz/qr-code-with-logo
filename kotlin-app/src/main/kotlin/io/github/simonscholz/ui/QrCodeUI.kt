@@ -40,11 +40,13 @@ class QrCodeUI : Frame() {
 
         mainPanel.add(propertiesPanel)
 
-        addWindowListener(object : WindowAdapter() {
-            override fun windowClosing(e: WindowEvent?) {
-                dispose()
-            }
-        },)
+        addWindowListener(
+            object : WindowAdapter() {
+                override fun windowClosing(e: WindowEvent?) {
+                    dispose()
+                }
+            },
+        )
     }
 
     inner class ApplyButtonListener : ActionListener {
