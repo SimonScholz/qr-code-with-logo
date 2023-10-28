@@ -147,7 +147,7 @@ class QrBorderConfig @JvmOverloads constructor(
     val relativeBorderRound: Double = 0.2,
 ) {
     init {
-        require(relativeSize in 0.01..1.0) { "relativeSize must be in between 0.01 and 1." }
-        require(relativeBorderRound in 0.01..1.0) { "relativeSize must be in between 0.01 and 1." }
+        require(relativeSize in .0..1.0) { "relativeSize must be in between 0.01 and 1." }
+        require(relativeBorderRound in .0..1.0) { "relativeSize must be in between 0.01 and 1." }
     }
 }
