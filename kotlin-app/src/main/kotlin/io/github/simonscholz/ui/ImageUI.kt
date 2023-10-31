@@ -11,7 +11,7 @@ import javax.imageio.ImageIO
 import javax.swing.JPanel
 
 object ImageUI {
-    fun createImagePanel(): JPanel {
+    fun createImagePanel(): Pair<JPanel, (BufferedImage) -> Unit> {
         val imageContainer = JPanel()
         imageContainer.background = Color.WHITE
 
@@ -22,7 +22,9 @@ object ImageUI {
         }
         imageContainer.add(imageDrawPanel)
 
-        return imageContainer
+        val setImage = (imageDrawPanel::setImage as (BufferedImage) -> Unit)
+
+        return Pair(imageContainer, setImage)
     }
 
     internal class ImagePanel : JPanel(true) {

@@ -1,24 +1,29 @@
 package io.github.simonscholz.ui
 
+import io.github.simonscholz.extension.toIntObservable
 import io.github.simonscholz.extension.toObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
 import net.miginfocom.swing.MigLayout
 import org.eclipse.core.databinding.DataBindingContext
 import java.awt.Color
+import java.awt.event.ActionListener
+import java.util.function.Supplier
 import javax.swing.JButton
 import javax.swing.JCheckBox
 import javax.swing.JColorChooser
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.JSpinner
 import javax.swing.JTextArea
 import javax.swing.JTextField
+import javax.swing.SpinnerNumberModel
 
 object PropertiesUI {
 
     private const val WIDTH = "width 200:220:300"
 
-    fun createPropertiesUI(qrCodeConfigViewModel: QrCodeConfigViewModel, dataBindingContext: DataBindingContext): JPanel {
+    fun createPropertiesUI(qrCodeConfigViewModel: QrCodeConfigViewModel, dataBindingContext: DataBindingContext, clickedApply: () -> Unit): Pair<JPanel, () -> Boolean> {
         val propertiesPanel = JPanel(MigLayout())
 
         propertiesPanel.add(JLabel("QR Code Content:"))
@@ -28,10 +33,10 @@ object PropertiesUI {
         dataBindingContext.bindValue(contentTextArea.toObservable(), qrCodeConfigViewModel.qrCodeContent)
 
         propertiesPanel.add(JLabel("Size (px):"))
-        val textField = JTextField()
-        textField.text = "200"
-        propertiesPanel.add(textField, "wrap, growx, span 3, $WIDTH")
-        dataBindingContext.bindValue(textField.toObservable(), qrCodeConfigViewModel.size)
+        val sizeSpinnerModel = SpinnerNumberModel(200, 0, 20000, 1)
+        val sizeSpinner = JSpinner(sizeSpinnerModel)
+        propertiesPanel.add(sizeSpinner, "wrap, growx, span 3, $WIDTH")
+        dataBindingContext.bindValue(sizeSpinner.toIntObservable(), qrCodeConfigViewModel.size)
 
         createColorPickerFormItem(propertiesPanel, "Background Color:")
         createColorPickerFormItem(propertiesPanel, "Foreground Color:")
@@ -50,14 +55,18 @@ object PropertiesUI {
         propertiesPanel.add(borderPropertiesUI, "wrap, growx, span 3")
 
         val applyOnChange = JCheckBox("Apply on change")
-        // TODO data binding
         propertiesPanel.add(applyOnChange, "wrap, growx, span 3, gaptop 25")
 
-        propertiesPanel.add(JButton("Apply"), "wrap, growx, span 3")
+        val applyButton = JButton("Apply")
+        propertiesPanel.add(applyButton, "wrap, growx, span 3")
+        applyButton.addActionListener {
+            clickedApply()
+        }
 
-        propertiesPanel.add(JButton("Save Config"), "wrap, growx, span 3, gaptop 25")
+        // TODO allow to save config
+        // propertiesPanel.add(JButton("Save Config"), "wrap, growx, span 3, gaptop 25")
 
-        return propertiesPanel
+        return Pair(propertiesPanel, applyOnChange::isSelected)
     }
 
     private fun createColorPickerFormItem(propertiesPanel: JPanel, labelText: String) {
