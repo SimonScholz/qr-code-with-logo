@@ -1,23 +1,27 @@
 package io.github.simonscholz.ui
 
+import io.github.simonscholz.extension.toBackgroundColorObservable
 import io.github.simonscholz.extension.toIntObservable
 import io.github.simonscholz.extension.toObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
-import net.miginfocom.swing.MigLayout
-import org.eclipse.core.databinding.DataBindingContext
 import java.awt.Color
-import java.awt.event.ActionListener
-import java.util.function.Supplier
+import java.io.File
 import javax.swing.JButton
 import javax.swing.JCheckBox
 import javax.swing.JColorChooser
+import javax.swing.JFileChooser
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JSpinner
 import javax.swing.JTextArea
 import javax.swing.JTextField
 import javax.swing.SpinnerNumberModel
+import javax.swing.filechooser.FileNameExtensionFilter
+import net.miginfocom.swing.MigLayout
+import org.eclipse.core.databinding.DataBindingContext
+import org.eclipse.core.databinding.observable.value.IObservableValue
+
 
 object PropertiesUI {
 
@@ -38,20 +42,27 @@ object PropertiesUI {
         propertiesPanel.add(sizeSpinner, "wrap, growx, span 3, $WIDTH")
         dataBindingContext.bindValue(sizeSpinner.toIntObservable(), qrCodeConfigViewModel.size)
 
-        createColorPickerFormItem(propertiesPanel, "Background Color:")
-        createColorPickerFormItem(propertiesPanel, "Foreground Color:")
+        createColorPickerFormItem(propertiesPanel, "Background Color:", qrCodeConfigViewModel.backgroundColor, dataBindingContext)
+        createColorPickerFormItem(propertiesPanel, "Foreground Color:", qrCodeConfigViewModel.foregroundColor, dataBindingContext)
 
         propertiesPanel.add(JLabel("Logo:"))
         val logoTextField = JTextField()
-        // TODO data binding
+        dataBindingContext.bindValue(logoTextField.toObservable(), qrCodeConfigViewModel.logo)
         propertiesPanel.add(logoTextField, "growx, $WIDTH")
         val chooseFile = JButton("...")
         chooseFile.addActionListener {
-            // TODO open file chooser
+            val fileChooser = JFileChooser()
+            fileChooser.fileFilter = FileNameExtensionFilter("Image files", "png", "jpg", "jpeg")
+            fileChooser.showOpenDialog(propertiesPanel.parent).let {
+                if (it == JFileChooser.APPROVE_OPTION) {
+                    val file: File = fileChooser.selectedFile
+                    logoTextField.text = file.absolutePath
+                }
+            }
         }
         propertiesPanel.add(chooseFile, "wrap, growx, width 30:30:30")
 
-        val borderPropertiesUI = BorderPropertiesUI.createBorderPropertiesUI()
+        val borderPropertiesUI = BorderPropertiesUI.createBorderPropertiesUI(dataBindingContext, qrCodeConfigViewModel)
         propertiesPanel.add(borderPropertiesUI, "wrap, growx, span 3")
 
         val applyOnChange = JCheckBox("Apply on change")
@@ -69,15 +80,15 @@ object PropertiesUI {
         return Pair(propertiesPanel, applyOnChange::isSelected)
     }
 
-    private fun createColorPickerFormItem(propertiesPanel: JPanel, labelText: String) {
+    private fun createColorPickerFormItem(propertiesPanel: JPanel, labelText: String, model : IObservableValue<Color>, dataBindingContext: DataBindingContext) {
         propertiesPanel.add(JLabel(labelText))
         val colorPicker = JButton("Choose Color").apply {
             isFocusPainted = false
         }
         colorPicker.addActionListener {
-            val color = JColorChooser.showDialog(propertiesPanel.parent, "Choose a color", Color.WHITE)
-            colorPicker.background = color
+            model.value = JColorChooser.showDialog(propertiesPanel.parent, "Choose a color", Color.WHITE)
         }
+        dataBindingContext.bindValue(colorPicker.toBackgroundColorObservable(), model)
         propertiesPanel.add(colorPicker, "wrap, growx, span 3, $WIDTH")
     }
 }

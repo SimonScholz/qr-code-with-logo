@@ -38,6 +38,8 @@ object ImageUI {
 
         override fun paintComponent(g: Graphics) {
             image?.let {
+                g.color = this.parent.background
+                g.fillRect(0, 0, width, height)
                 g.drawImage(it, 0, 0, width, height, null)
             }
         }
