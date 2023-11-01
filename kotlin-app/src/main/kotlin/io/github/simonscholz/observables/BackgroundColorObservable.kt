@@ -1,9 +1,9 @@
 package io.github.simonscholz.observables
 
-import java.awt.Color
-import java.awt.Component
 import org.eclipse.core.databinding.observable.Diffs
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue
+import java.awt.Color
+import java.awt.Component
 
 class BackgroundColorObservable(
     private val component: Component,

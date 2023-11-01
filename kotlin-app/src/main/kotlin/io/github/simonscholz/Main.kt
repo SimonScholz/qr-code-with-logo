@@ -7,13 +7,13 @@ import io.github.simonscholz.qrcode.QrCodeFactory
 import io.github.simonscholz.ui.ImageUI
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
+import org.eclipse.core.databinding.DataBindingContext
 import java.awt.Component
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import org.eclipse.core.databinding.DataBindingContext
 import javax.swing.JFrame
 import javax.swing.JOptionPane
 import javax.swing.SwingUtilities
@@ -35,7 +35,7 @@ fun main() {
 
         val (imagePanel, setImage) = ImageUI.createImagePanel()
         val (propertiesPanel, applyOnChange) = PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {
-            if(qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
+            if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
                 val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
                 setImage(qrCodeImage)
             }
@@ -49,8 +49,8 @@ fun main() {
 
         dataBindingContext.bindings.forEach {
             it.model.addChangeListener {
-                if(applyOnChange()) {
-                    if(qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
+                if (applyOnChange()) {
+                    if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
                         val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
                         setImage(qrCodeImage)
                     }
@@ -72,7 +72,7 @@ private fun renderImage(qrCodeConfigViewModel: QrCodeConfigViewModel, component:
             relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
             relativeBorderRound = qrCodeConfigViewModel.borderRadius.value,
         )
-    if(qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
+    if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
         runCatching {
             ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
                 builder.qrLogoConfig(it)

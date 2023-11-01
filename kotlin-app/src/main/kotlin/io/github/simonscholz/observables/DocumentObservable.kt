@@ -1,11 +1,11 @@
 package io.github.simonscholz.observables
 
+import org.eclipse.core.databinding.observable.Diffs
+import org.eclipse.core.databinding.observable.value.AbstractObservableValue
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.text.Document
 import javax.swing.text.JTextComponent
-import org.eclipse.core.databinding.observable.Diffs
-import org.eclipse.core.databinding.observable.value.AbstractObservableValue
 
 class DocumentObservable(private val document: Document) : AbstractObservableValue<String>() {
     private var documentValue = document.getText(0, document.length)

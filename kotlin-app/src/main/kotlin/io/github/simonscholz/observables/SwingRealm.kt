@@ -1,9 +1,9 @@
 package io.github.simonscholz.observables
 
-import javax.swing.SwingUtilities
 import org.eclipse.core.databinding.observable.Realm
+import javax.swing.SwingUtilities
 
-class SwingRealm: Realm() {
+class SwingRealm : Realm() {
 
     init {
         setDefault(this)

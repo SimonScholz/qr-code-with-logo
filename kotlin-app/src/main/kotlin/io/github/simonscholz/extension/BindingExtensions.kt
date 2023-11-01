@@ -3,9 +3,9 @@ package io.github.simonscholz.extension
 import io.github.simonscholz.observables.BackgroundColorObservable
 import io.github.simonscholz.observables.DocumentObservable
 import io.github.simonscholz.observables.JSpinnerIntObservable
+import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.Color
 import java.awt.Component
-import org.eclipse.core.databinding.observable.value.IObservableValue
 import javax.swing.JSpinner
 import javax.swing.text.JTextComponent
 

@@ -5,6 +5,9 @@ import io.github.simonscholz.extension.toIntObservable
 import io.github.simonscholz.extension.toObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
+import net.miginfocom.swing.MigLayout
+import org.eclipse.core.databinding.DataBindingContext
+import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.Color
 import java.io.File
 import javax.swing.JButton
@@ -18,10 +21,6 @@ import javax.swing.JTextArea
 import javax.swing.JTextField
 import javax.swing.SpinnerNumberModel
 import javax.swing.filechooser.FileNameExtensionFilter
-import net.miginfocom.swing.MigLayout
-import org.eclipse.core.databinding.DataBindingContext
-import org.eclipse.core.databinding.observable.value.IObservableValue
-
 
 object PropertiesUI {
 
@@ -80,7 +79,7 @@ object PropertiesUI {
         return Pair(propertiesPanel, applyOnChange::isSelected)
     }
 
-    private fun createColorPickerFormItem(propertiesPanel: JPanel, labelText: String, model : IObservableValue<Color>, dataBindingContext: DataBindingContext) {
+    private fun createColorPickerFormItem(propertiesPanel: JPanel, labelText: String, model: IObservableValue<Color>, dataBindingContext: DataBindingContext) {
         propertiesPanel.add(JLabel(labelText))
         val colorPicker = JButton("Choose Color").apply {
             isFocusPainted = false
