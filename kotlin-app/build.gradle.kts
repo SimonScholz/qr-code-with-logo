@@ -27,6 +27,26 @@ application {
     mainClass = "io.github.simonscholz.MainKt"
 }
 
+graalvmNative {
+    binaries {
+        named("main") {
+            imageName.set("qr-code-app")
+            mainClass.set("io.github.simonscholz.MainKt")
+            fallback.set(false)
+        }
+    }
+    binaries.all {
+        buildArgs.add("-Djava.awt.headless=false")
+        buildArgs.add("--verbose")
+        buildArgs.add("--no-fallback")
+        buildArgs.add("-H:ConfigurationFileDirectories=src/main/resources/META-INF/native-image")
+        buildArgs.add("-H:EnableURLProtocols=http,https")
+        buildArgs.add("-H:+AddAllCharsets")
+        resources.autodetect()
+    }
+    toolchainDetection = false
+}
+
 detekt {
     toolVersion = "1.23.1"
     config.setFrom(file("${project.rootDir}/config/detekt/detekt.yml"))
