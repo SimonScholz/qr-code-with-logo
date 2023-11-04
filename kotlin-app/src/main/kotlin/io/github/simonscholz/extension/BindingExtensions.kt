@@ -1,11 +1,14 @@
 package io.github.simonscholz.extension
 
 import io.github.simonscholz.observables.BackgroundColorObservable
+import io.github.simonscholz.observables.CheckboxObservable
 import io.github.simonscholz.observables.DocumentObservable
+import io.github.simonscholz.observables.JSpinnerDoubleObservable
 import io.github.simonscholz.observables.JSpinnerIntObservable
 import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.Color
 import java.awt.Component
+import javax.swing.AbstractButton
 import javax.swing.JSpinner
 import javax.swing.text.JTextComponent
 
@@ -13,6 +16,8 @@ fun JTextComponent.toObservable(): IObservableValue<String> =
     DocumentObservable(this)
 
 fun JSpinner.toIntObservable(): IObservableValue<Int> = JSpinnerIntObservable(this)
-
+fun JSpinner.toDoubleObservable(): IObservableValue<Double> = JSpinnerDoubleObservable(this)
 fun Component.toBackgroundColorObservable(): IObservableValue<Color> =
     BackgroundColorObservable(this)
+
+fun AbstractButton.toCheckboxObservable(): IObservableValue<Boolean> = CheckboxObservable(this)

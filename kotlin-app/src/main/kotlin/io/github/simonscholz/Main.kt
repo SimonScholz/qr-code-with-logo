@@ -4,6 +4,7 @@ import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.observables.SwingRealm
 import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrCodeFactory
+import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import io.github.simonscholz.ui.ImageUI
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
@@ -72,10 +73,24 @@ private fun renderImage(qrCodeConfigViewModel: QrCodeConfigViewModel, component:
             relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
             relativeBorderRound = qrCodeConfigViewModel.borderRadius.value,
         )
+        .qrPositionalSquaresConfig(
+            qrPositionalSquaresConfig = QrPositionalSquaresConfig(
+                isCircleShaped = qrCodeConfigViewModel.positionalSquareIsCircleShaped.value,
+                relativeSquareBorderRound = qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value,
+                centerColor = qrCodeConfigViewModel.positionalSquareCenterColor.value,
+                innerSquareColor = qrCodeConfigViewModel.positionalSquareInnerSquareColor.value,
+                outerSquareColor = qrCodeConfigViewModel.positionalSquareOuterSquareColor.value,
+                outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
+            ),
+        )
     if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
         runCatching {
             ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
-                builder.qrLogoConfig(it)
+                builder.qrLogoConfig(
+                    logo = it,
+                    relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
+                    bgColor = qrCodeConfigViewModel.logoBackgroundColor.value,
+                )
             }
         }.onFailure { _ ->
             JOptionPane.showMessageDialog(component, "You did not select a proper image", "Image Loading Error", JOptionPane.ERROR_MESSAGE)
