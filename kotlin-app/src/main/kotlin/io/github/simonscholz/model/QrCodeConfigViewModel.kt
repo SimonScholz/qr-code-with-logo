@@ -1,11 +1,12 @@
 package io.github.simonscholz.model
 
+import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
 import org.eclipse.core.databinding.observable.value.WritableValue
 import java.awt.Color
 
 class QrCodeConfigViewModel {
     val qrCodeContent: WritableValue<String> = WritableValue("https://simonscholz.github.io/", String::class.java)
-    val size: WritableValue<Int> = WritableValue(200, Int::class.java)
+    val size: WritableValue<Int> = WritableValue(DEFAULT_IMG_SIZE, Int::class.java)
     val backgroundColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
     val foregroundColor: WritableValue<Color> = WritableValue(Color.BLACK, Color::class.java)
 
@@ -25,5 +26,5 @@ class QrCodeConfigViewModel {
     val positionalSquareOuterBorderColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
 
     override fun toString(): String =
-        "QrCodeConfigViewModel(qrCodeContent=${qrCodeContent.value}, size=${size.value}, backgroundColor=${backgroundColor.value}, foregroundColor=${foregroundColor.value}, logo=${logo.value}, borderColor=${borderColor.value}, relativeBorderSize=${relativeBorderSize.value}, borderRadius=${borderRadius.value})"
+        "QrCodeConfigViewModel(qrCodeContent=$qrCodeContent, size=$size, backgroundColor=$backgroundColor, foregroundColor=$foregroundColor, logo=$logo, logoRelativeSize=$logoRelativeSize, logoBackgroundColor=$logoBackgroundColor, borderColor=$borderColor, relativeBorderSize=$relativeBorderSize, borderRadius=$borderRadius, positionalSquareIsCircleShaped=$positionalSquareIsCircleShaped, positionalSquareRelativeBorderRound=$positionalSquareRelativeBorderRound, positionalSquareCenterColor=$positionalSquareCenterColor, positionalSquareInnerSquareColor=$positionalSquareInnerSquareColor, positionalSquareOuterSquareColor=$positionalSquareOuterSquareColor, positionalSquareOuterBorderColor=$positionalSquareOuterBorderColor)"
 }

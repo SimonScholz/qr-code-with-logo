@@ -3,13 +3,16 @@ package io.github.simonscholz
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.observables.SwingRealm
 import io.github.simonscholz.service.RenderImageService.renderImage
+import io.github.simonscholz.ui.FrameMenu
 import io.github.simonscholz.ui.ImageUI
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
 import org.eclipse.core.databinding.DataBindingContext
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
+import java.awt.image.BufferedImage
 import javax.swing.JFrame
+import javax.swing.JPanel
 import javax.swing.SwingUtilities
 
 fun main() {
@@ -25,15 +28,15 @@ fun main() {
             },
         )
 
+        var alreadyAppliedOnce = false
+        val alreadyAppliedOnceDelegate = { alreadyAppliedOnce }
         val qrCodeConfigViewModel = QrCodeConfigViewModel()
+        FrameMenu.createFrameMenu(frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
 
         val (imagePanel, setImage) = ImageUI.createImagePanel()
         val (propertiesPanel, applyOnChange) = PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {
-            if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
-                val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
-                setImage(qrCodeImage)
-                imagePanel.revalidate()
-            }
+            onPropertyApply(qrCodeConfigViewModel, frame, setImage, imagePanel)
+            alreadyAppliedOnce = true
         }
 
         val mainPanel = MainUI.createMainPanel(imagePanel, propertiesPanel)
@@ -45,13 +48,18 @@ fun main() {
         dataBindingContext.bindings.forEach {
             it.model.addChangeListener {
                 if (applyOnChange()) {
-                    if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
-                        val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
-                        setImage(qrCodeImage)
-                        imagePanel.revalidate()
-                    }
+                    onPropertyApply(qrCodeConfigViewModel, frame, setImage, imagePanel)
+                    alreadyAppliedOnce = true
                 }
             }
         }
+    }
+}
+
+private fun onPropertyApply(qrCodeConfigViewModel: QrCodeConfigViewModel, frame: JFrame, setImage: (BufferedImage) -> Unit, imagePanel: JPanel) {
+    if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
+        val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
+        setImage(qrCodeImage)
+        imagePanel.revalidate()
     }
 }
