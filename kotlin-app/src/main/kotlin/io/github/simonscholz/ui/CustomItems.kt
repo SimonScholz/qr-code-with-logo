@@ -15,7 +15,7 @@ object CustomItems {
         val colorPicker = JButton("Choose Color").apply {
             isFocusPainted = false
         }
-        colorPicker.addActionListener {_ ->
+        colorPicker.addActionListener { _ ->
             JColorChooser.showDialog(propertiesPanel.parent, "Choose a color", Color.WHITE)?.let {
                 model.value = it
             }

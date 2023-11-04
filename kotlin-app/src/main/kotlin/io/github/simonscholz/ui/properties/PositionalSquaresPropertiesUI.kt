@@ -3,7 +3,6 @@ package io.github.simonscholz.ui.properties
 import io.github.simonscholz.extension.toCheckboxObservable
 import io.github.simonscholz.extension.toDoubleObservable
 import io.github.simonscholz.extension.toEnabledInvertedObservable
-import io.github.simonscholz.extension.toEnabledObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.CustomItems
 import net.miginfocom.swing.MigLayout

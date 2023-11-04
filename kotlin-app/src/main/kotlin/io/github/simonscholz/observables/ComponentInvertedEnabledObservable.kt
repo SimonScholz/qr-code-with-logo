@@ -1,7 +1,7 @@
 package io.github.simonscholz.observables
 
-import java.awt.Component
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue
+import java.awt.Component
 
 class ComponentInvertedEnabledObservable(
     private val component: Component,
