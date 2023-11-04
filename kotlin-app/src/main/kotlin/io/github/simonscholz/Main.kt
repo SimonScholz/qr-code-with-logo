@@ -2,21 +2,14 @@ package io.github.simonscholz
 
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.observables.SwingRealm
-import io.github.simonscholz.qrcode.QrCodeConfig
-import io.github.simonscholz.qrcode.QrCodeFactory
-import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
+import io.github.simonscholz.service.RenderImageService.renderImage
 import io.github.simonscholz.ui.ImageUI
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
 import org.eclipse.core.databinding.DataBindingContext
-import java.awt.Component
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 import javax.swing.JFrame
-import javax.swing.JOptionPane
 import javax.swing.SwingUtilities
 
 fun main() {
@@ -39,6 +32,7 @@ fun main() {
             if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
                 val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
                 setImage(qrCodeImage)
+                imagePanel.revalidate()
             }
         }
 
@@ -54,48 +48,10 @@ fun main() {
                     if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
                         val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
                         setImage(qrCodeImage)
+                        imagePanel.revalidate()
                     }
                 }
             }
         }
     }
-}
-
-private fun renderImage(qrCodeConfigViewModel: QrCodeConfigViewModel, component: Component): BufferedImage {
-    val builder = QrCodeConfig.Builder(qrCodeConfigViewModel.qrCodeContent.value)
-        .qrCodeSize(qrCodeConfigViewModel.size.value)
-        .qrCodeColorConfig(
-            bgColor = qrCodeConfigViewModel.backgroundColor.value,
-            fillColor = qrCodeConfigViewModel.foregroundColor.value,
-        )
-        .qrBorderConfig(
-            color = qrCodeConfigViewModel.borderColor.value,
-            relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
-            relativeBorderRound = qrCodeConfigViewModel.borderRadius.value,
-        )
-        .qrPositionalSquaresConfig(
-            qrPositionalSquaresConfig = QrPositionalSquaresConfig(
-                isCircleShaped = qrCodeConfigViewModel.positionalSquareIsCircleShaped.value,
-                relativeSquareBorderRound = qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value,
-                centerColor = qrCodeConfigViewModel.positionalSquareCenterColor.value,
-                innerSquareColor = qrCodeConfigViewModel.positionalSquareInnerSquareColor.value,
-                outerSquareColor = qrCodeConfigViewModel.positionalSquareOuterSquareColor.value,
-                outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
-            ),
-        )
-    if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
-        runCatching {
-            ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
-                builder.qrLogoConfig(
-                    logo = it,
-                    relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
-                    bgColor = qrCodeConfigViewModel.logoBackgroundColor.value,
-                )
-            }
-        }.onFailure { _ ->
-            JOptionPane.showMessageDialog(component, "You did not select a proper image", "Image Loading Error", JOptionPane.ERROR_MESSAGE)
-        }
-    }
-    val qrCodeConfig = builder.build()
-    return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
 }

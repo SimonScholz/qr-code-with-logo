@@ -10,7 +10,7 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 
 object CustomItems {
-    fun createColorPickerItem(propertiesPanel: JPanel, labelText: String, model: IObservableValue<Color>, dataBindingContext: DataBindingContext) {
+    fun createColorPickerItem(propertiesPanel: JPanel, labelText: String, model: IObservableValue<Color>, dataBindingContext: DataBindingContext, buttonLayoutConstraints: String = "wrap, growx") {
         propertiesPanel.add(JLabel(labelText))
         val colorPicker = JButton("Choose Color").apply {
             isFocusPainted = false
@@ -19,6 +19,6 @@ object CustomItems {
             model.value = JColorChooser.showDialog(propertiesPanel.parent, "Choose a color", Color.WHITE)
         }
         dataBindingContext.bindValue(colorPicker.toBackgroundColorObservable(), model)
-        propertiesPanel.add(colorPicker, "wrap, growx")
+        propertiesPanel.add(colorPicker, buttonLayoutConstraints)
     }
 }

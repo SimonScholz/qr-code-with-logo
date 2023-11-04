@@ -55,7 +55,7 @@ object LogoPropertiesUI {
         logoPropertiesPanel.add(sizeSpinner, "wrap, growx, span 3, width 200:220:300")
         dataBindingContext.bindValue(sizeSpinner.toDoubleObservable(), qrCodeConfigViewModel.logoRelativeSize)
 
-        CustomItems.createColorPickerItem(logoPropertiesPanel, "Logo Background Color:", qrCodeConfigViewModel.logoBackgroundColor, dataBindingContext)
+        CustomItems.createColorPickerItem(logoPropertiesPanel, "Logo Background Color:", qrCodeConfigViewModel.logoBackgroundColor, dataBindingContext, "wrap, growx, span 2")
 
         return logoPropertiesPanel
     }

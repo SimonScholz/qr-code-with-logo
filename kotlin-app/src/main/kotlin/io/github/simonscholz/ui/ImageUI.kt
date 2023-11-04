@@ -1,28 +1,29 @@
 package io.github.simonscholz.ui
 
-import io.github.simonscholz.qrcode.QrCodeConfig
-import io.github.simonscholz.qrcode.QrCodeFactory
-import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
+import io.github.simonscholz.service.RenderImageService.renderInitialImage
+import net.miginfocom.swing.MigLayout
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
+import javax.swing.JLabel
 import javax.swing.JPanel
 
 object ImageUI {
     fun createImagePanel(): Pair<JPanel, (BufferedImage) -> Unit> {
-        val imageContainer = JPanel()
+        val imageContainer = JPanel(MigLayout("", "[center]"))
         imageContainer.background = Color.WHITE
 
-        val image = decentRedColor()
+        val image = renderInitialImage()
 
         val imageDrawPanel = ImagePanel().apply {
             setImage(image)
         }
-        imageContainer.add(imageDrawPanel)
+        imageContainer.add(imageDrawPanel, "wrap")
 
         val setImage = (imageDrawPanel::setImage as (BufferedImage) -> Unit)
+
+        imageContainer.add(JLabel("This image is just a preview of the actual qr code."), "wrap")
 
         return Pair(imageContainer, setImage)
     }
@@ -43,22 +44,5 @@ object ImageUI {
                 g.drawImage(it, 0, 0, width, height, null)
             }
         }
-    }
-
-    private fun decentRedColor(): BufferedImage {
-        val resource = ImageUI::class.java.getClassLoader().getResource("avatar-60x.png")
-        val logo = ImageIO.read(resource)
-        val qrCodeConfig = QrCodeConfig.Builder("https://simonscholz.github.io/")
-            .qrBorderConfig(Color.BLACK)
-            .qrLogoConfig(logo)
-            .qrPositionalSquaresConfig(
-                QrPositionalSquaresConfig(
-                    isCircleShaped = true,
-                    relativeSquareBorderRound = .2,
-                    centerColor = Color.RED,
-                ),
-            )
-            .build()
-        return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
     }
 }
