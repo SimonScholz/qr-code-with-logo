@@ -2,6 +2,7 @@ package io.github.simonscholz.qrcode.internal.logo
 
 import java.awt.Color
 import java.awt.Graphics2D
+import java.awt.Image
 import java.awt.geom.Area
 import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
@@ -9,7 +10,7 @@ import kotlin.math.floor
 
 internal object LogoGraphics {
 
-    fun drawLogo(graphics: Graphics2D, size: Int, logoImage: BufferedImage, relativeLogoSize: Double, logoBackgroundColor: Color?) {
+    fun drawLogo(graphics: Graphics2D, size: Int, logoImage: Image, relativeLogoSize: Double, logoBackgroundColor: Color?) {
         val logoSize: Int = floor(size * relativeLogoSize).toInt()
         val cx = size / 2 - logoSize / 2
         val cy = size / 2 - logoSize / 2

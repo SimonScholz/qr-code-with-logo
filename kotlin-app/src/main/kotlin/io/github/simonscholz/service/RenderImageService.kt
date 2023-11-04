@@ -7,6 +7,7 @@ import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import io.github.simonscholz.ui.ImageUI
 import java.awt.Color
 import java.awt.Component
+import java.awt.Image
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -38,8 +39,13 @@ object RenderImageService {
         if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
             runCatching {
                 ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
+
+                    val logoSize = (qrCodeConfigViewModel.size.value * qrCodeConfigViewModel.logoRelativeSize.value).toInt()
+
+                    val scaledLogo = it.getScaledInstance(logoSize, logoSize, Image.SCALE_SMOOTH)
+
                     builder.qrLogoConfig(
-                        logo = it,
+                        logo = scaledLogo,
                         relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
                         bgColor = qrCodeConfigViewModel.logoBackgroundColor.value,
                     )
