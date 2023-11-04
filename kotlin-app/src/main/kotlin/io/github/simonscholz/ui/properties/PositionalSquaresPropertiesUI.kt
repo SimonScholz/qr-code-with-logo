@@ -2,6 +2,8 @@ package io.github.simonscholz.ui.properties
 
 import io.github.simonscholz.extension.toCheckboxObservable
 import io.github.simonscholz.extension.toDoubleObservable
+import io.github.simonscholz.extension.toEnabledInvertedObservable
+import io.github.simonscholz.extension.toEnabledObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.CustomItems
 import net.miginfocom.swing.MigLayout
@@ -28,7 +30,7 @@ object PositionalSquaresPropertiesUI {
         )
 
         positionalSquaresPropertiesPanel.add(JLabel("Is Circle Shape:"))
-        val isCircleShaped = JCheckBox()
+        val isCircleShaped = JCheckBox("(Disables Border Radius)")
         positionalSquaresPropertiesPanel.add(isCircleShaped, "wrap, growx, width 200:220:300")
         dataBindingContext.bindValue(isCircleShaped.toCheckboxObservable(), qrCodeConfigViewModel.positionalSquareIsCircleShaped)
 
@@ -37,6 +39,8 @@ object PositionalSquaresPropertiesUI {
         val relativePositionalSquareBorderRoundSpinner = JSpinner(relativeSquareBorderRoundSpinnerModel)
         dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toDoubleObservable(), qrCodeConfigViewModel.positionalSquareRelativeBorderRound)
         positionalSquaresPropertiesPanel.add(relativePositionalSquareBorderRoundSpinner, "wrap, growx, width 200:220:300")
+
+        dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toEnabledInvertedObservable(), isCircleShaped.toCheckboxObservable())
 
         CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Center Color:", qrCodeConfigViewModel.positionalSquareCenterColor, dataBindingContext)
         CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Inner Square Color:", qrCodeConfigViewModel.positionalSquareInnerSquareColor, dataBindingContext)

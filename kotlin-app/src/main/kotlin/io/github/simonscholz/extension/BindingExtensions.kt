@@ -2,6 +2,8 @@ package io.github.simonscholz.extension
 
 import io.github.simonscholz.observables.BackgroundColorObservable
 import io.github.simonscholz.observables.CheckboxObservable
+import io.github.simonscholz.observables.ComponentEnabledObservable
+import io.github.simonscholz.observables.ComponentInvertedEnabledObservable
 import io.github.simonscholz.observables.DocumentObservable
 import io.github.simonscholz.observables.JSpinnerDoubleObservable
 import io.github.simonscholz.observables.JSpinnerIntObservable
@@ -16,8 +18,13 @@ fun JTextComponent.toObservable(): IObservableValue<String> =
     DocumentObservable(this)
 
 fun JSpinner.toIntObservable(): IObservableValue<Int> = JSpinnerIntObservable(this)
+
 fun JSpinner.toDoubleObservable(): IObservableValue<Double> = JSpinnerDoubleObservable(this)
+
 fun Component.toBackgroundColorObservable(): IObservableValue<Color> =
     BackgroundColorObservable(this)
+
+fun Component.toEnabledObservable(): IObservableValue<Boolean> = ComponentEnabledObservable(this)
+fun Component.toEnabledInvertedObservable(): IObservableValue<Boolean> = ComponentInvertedEnabledObservable(this)
 
 fun AbstractButton.toCheckboxObservable(): IObservableValue<Boolean> = CheckboxObservable(this)
