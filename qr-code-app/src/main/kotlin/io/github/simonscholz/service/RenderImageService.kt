@@ -39,7 +39,6 @@ object RenderImageService {
         if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
             runCatching {
                 ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
-
                     val logoSize = (qrCodeConfigViewModel.size.value * qrCodeConfigViewModel.logoRelativeSize.value).toInt()
 
                     val scaledLogo = it.getScaledInstance(logoSize, logoSize, Image.SCALE_SMOOTH)

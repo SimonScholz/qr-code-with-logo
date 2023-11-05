@@ -10,6 +10,12 @@ plugins {
     id("org.graalvm.buildtools.native") version "0.9.28"
 }
 
+distributions {
+    main {
+        distributionBaseName = "qr-code-with-logo-app"
+    }
+}
+
 repositories {
     mavenCentral()
 }
