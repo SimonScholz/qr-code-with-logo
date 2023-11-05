@@ -11,11 +11,18 @@ import org.eclipse.core.databinding.DataBindingContext
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.BufferedImage
+import java.io.File
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.SwingUtilities
 
 fun main() {
+    //GraalVM Fix
+    if (System.getProperty("java.home") == null) {
+        println("No Java Home set, assuming that we are running from GraalVM. Fixing...");
+        System.setProperty("java.home", File(".").absolutePath);
+    }
+
     SwingUtilities.invokeLater {
         val frame = JFrame("QR Code AWT/Swing UI")
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE

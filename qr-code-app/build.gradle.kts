@@ -24,8 +24,12 @@ dependencies {
     implementation(project(":qr-code"))
 
     implementation("com.miglayout:miglayout-swing:11.2")
-    implementation("org.eclipse.platform:org.eclipse.core.databinding:1.13.100")
+    implementation("org.eclipse.platform:org.eclipse.core.databinding:1.13.100") {
+        exclude(group = "org.eclipse.platform", module = "org.eclipse.osgi")
+    }
     implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
+
+    //implementation("io.quarkus:quarkus-awt-deployment:3.5.0")
 
     // Just for comparison with JFace implementation
     // implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.15.100")
@@ -53,6 +57,30 @@ graalvmNative {
         resources.autodetect()
     }
     toolchainDetection = false
+}
+
+tasks.register("nativeDist") {
+    dependsOn("nativeCompile")
+
+    doLast {
+        copy {
+            into(layout.buildDirectory.dir("dist"))
+            from(layout.buildDirectory.dir("native/nativeCompile"))
+//            include("*.exe")
+//            include("*.dll")
+        }
+
+        println(System.getProperty("java.home"))
+
+        copy {
+            into(layout.buildDirectory.dir("dist/lib"))
+            from(System.getProperty("java.home") + "/lib")
+            include("fontconfig.bfc")
+            include("fontconfig.properties.src")
+            include("psfont.properties.ja")
+            include("psfontj2d.properties")
+        }
+    }
 }
 
 detekt {
