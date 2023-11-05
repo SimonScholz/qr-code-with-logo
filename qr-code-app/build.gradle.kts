@@ -29,7 +29,7 @@ dependencies {
     }
     implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
 
-    //implementation("io.quarkus:quarkus-awt-deployment:3.5.0")
+    // implementation("io.quarkus:quarkus-awt-deployment:3.5.0")
 
     // Just for comparison with JFace implementation
     // implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.15.100")

@@ -17,10 +17,10 @@ import javax.swing.JPanel
 import javax.swing.SwingUtilities
 
 fun main() {
-    //GraalVM Fix
+    // GraalVM Fix
     if (System.getProperty("java.home") == null) {
-        println("No Java Home set, assuming that we are running from GraalVM. Fixing...");
-        System.setProperty("java.home", File(".").absolutePath);
+        println("No Java Home set, assuming that we are running from GraalVM. Fixing...")
+        System.setProperty("java.home", File(".").absolutePath)
     }
 
     SwingUtilities.invokeLater {

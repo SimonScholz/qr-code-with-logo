@@ -7,6 +7,7 @@ import java.awt.GridLayout
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import javax.swing.BorderFactory
 import javax.swing.JLabel
 import javax.swing.JOptionPane
 import javax.swing.JPanel
@@ -14,6 +15,7 @@ import javax.swing.JSpinner
 import javax.swing.JTextArea
 import javax.swing.JTextField
 import javax.swing.SpinnerNumberModel
+import javax.swing.border.TitledBorder
 
 object InputDialogs {
     fun showTwoValueInputDialog(title: String, firstLabel: String, secondLabel: String): Pair<String, String>? {
@@ -79,6 +81,17 @@ object InputDialogs {
         val formattedNameLabel = JLabel("Formatted Name")
         val formattedNameTextField = JTextField()
 
+        val borderPropertiesPanel = JPanel(MigLayout())
+
+        borderPropertiesPanel.setBorder(
+            BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(),
+                "Name Details (optional)",
+                TitledBorder.LEFT,
+                TitledBorder.TOP,
+            ),
+        )
+
         val familyNameLabel = JLabel("Family Name")
         val familyNameTextField = JTextField()
 
@@ -140,16 +153,17 @@ object InputDialogs {
 
         panel.add(formattedNameLabel)
         panel.add(formattedNameTextField, "wrap, grow, width 300:300:300")
-        panel.add(familyNameLabel)
-        panel.add(familyNameTextField, "wrap, grow, width 300:300:300")
-        panel.add(givenNameLabel)
-        panel.add(givenNameTextField, "wrap, grow, width 300:300:300")
-        panel.add(additionalNameLabel)
-        panel.add(additionalNameTextField, "wrap, grow, width 300:300:300")
-        panel.add(namePrefixLabel)
-        panel.add(namePrefixTextField, "wrap, grow, width 300:300:300")
-        panel.add(nameSuffixLabel)
-        panel.add(nameSuffixTextField, "wrap, grow, width 300:300:300")
+        borderPropertiesPanel.add(familyNameLabel)
+        borderPropertiesPanel.add(familyNameTextField, "wrap, grow, width 300:300:300")
+        borderPropertiesPanel.add(givenNameLabel)
+        borderPropertiesPanel.add(givenNameTextField, "wrap, grow, width 300:300:300")
+        borderPropertiesPanel.add(additionalNameLabel)
+        borderPropertiesPanel.add(additionalNameTextField, "wrap, grow, width 300:300:300")
+        borderPropertiesPanel.add(namePrefixLabel)
+        borderPropertiesPanel.add(namePrefixTextField, "wrap, grow, width 300:300:300")
+        borderPropertiesPanel.add(nameSuffixLabel)
+        borderPropertiesPanel.add(nameSuffixTextField, "wrap, grow, width 300:300:300")
+        panel.add(borderPropertiesPanel, "wrap, grow, span 2")
         panel.add(organizationLabel)
         panel.add(organizationTextField, "wrap, grow, width 300:300:300")
         panel.add(phoneNumberLabel)
