@@ -3,8 +3,8 @@ package io.github.simonscholz
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.observables.SwingRealm
 import io.github.simonscholz.service.RenderImageService.renderImage
-import io.github.simonscholz.ui.FrameMenu
 import io.github.simonscholz.ui.ImageUI
+import io.github.simonscholz.ui.MainMenu
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
 import org.eclipse.core.databinding.DataBindingContext
@@ -31,7 +31,7 @@ fun main() {
         var alreadyAppliedOnce = false
         val alreadyAppliedOnceDelegate = { alreadyAppliedOnce }
         val qrCodeConfigViewModel = QrCodeConfigViewModel()
-        FrameMenu.createFrameMenu(frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
+        MainMenu.createFrameMenu(frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
 
         val (imagePanel, setImage) = ImageUI.createImagePanel()
         val (propertiesPanel, applyOnChange) = PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {

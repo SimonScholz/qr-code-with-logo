@@ -25,6 +25,8 @@ dependencies {
 
     implementation("com.miglayout:miglayout-swing:11.2")
     implementation("org.eclipse.platform:org.eclipse.core.databinding:1.13.100")
+    implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
+
     // Just for comparison with JFace implementation
     // implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.15.100")
 }

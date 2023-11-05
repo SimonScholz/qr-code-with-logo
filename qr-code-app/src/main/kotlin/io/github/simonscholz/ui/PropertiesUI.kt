@@ -12,6 +12,7 @@ import javax.swing.JButton
 import javax.swing.JCheckBox
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.JScrollPane
 import javax.swing.JSpinner
 import javax.swing.JTextArea
 import javax.swing.SpinnerNumberModel
@@ -25,8 +26,9 @@ object PropertiesUI {
 
         propertiesPanel.add(JLabel("QR Code Content:"))
         val contentTextArea = JTextArea()
+        contentTextArea.autoscrolls = true
         contentTextArea.text = "https://simonscholz.github.io/"
-        propertiesPanel.add(contentTextArea, "wrap, growx, $WIDTH, height 100:120:300")
+        propertiesPanel.add(JScrollPane(contentTextArea), "wrap, grow, width 300:300:300, height 200:200:300")
         dataBindingContext.bindValue(contentTextArea.toObservable(), qrCodeConfigViewModel.qrCodeContent)
 
         propertiesPanel.add(JLabel("Size (px):"))
