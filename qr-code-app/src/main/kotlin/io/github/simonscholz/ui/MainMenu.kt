@@ -4,7 +4,7 @@ import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
-import io.github.simonscholz.service.RenderImageService
+import io.github.simonscholz.service.ImageService
 import io.github.simonscholz.ui.dialogs.InputDialogs
 import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.Desktop
@@ -12,32 +12,29 @@ import java.awt.event.ActionEvent
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.net.URI
-import javax.imageio.ImageIO
 import javax.swing.AbstractAction
-import javax.swing.JFileChooser
 import javax.swing.JFrame
 import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.JOptionPane
 import javax.swing.KeyStroke
-import javax.swing.filechooser.FileNameExtensionFilter
 import kotlin.system.exitProcess
 
 object MainMenu {
-    fun createFrameMenu(frame: JFrame, qrCodeConfigViewModel: QrCodeConfigViewModel, alreadyAppliedOnceDelegate: () -> Boolean) {
+    fun createFrameMenu(frame: JFrame, qrCodeContentObservable: IObservableValue<String>, imageService: ImageService) {
         // Create and set the menu bar
         val menuBar = JMenuBar()
         frame.jMenuBar = menuBar
 
-        createFileMenu(menuBar, frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
+        createFileMenu(menuBar, frame, imageService)
 
-        createSpecialContentMenu(menuBar, frame, qrCodeConfigViewModel.qrCodeContent)
+        createSpecialContentMenu(menuBar, frame, qrCodeContentObservable)
 
         createHelpMenu(menuBar, frame)
     }
 
-    private fun createFileMenu(menuBar: JMenuBar, frame: JFrame, qrCodeConfigViewModel: QrCodeConfigViewModel, alreadyAppliedOnceDelegate: () -> Boolean) {
+    private fun createFileMenu(menuBar: JMenuBar, frame: JFrame, imageService: ImageService) {
         val fileMenu = JMenu("File")
         menuBar.add(fileMenu)
 
@@ -49,7 +46,7 @@ object MainMenu {
             "SaveAction",
             object : AbstractAction() {
                 override fun actionPerformed(e: ActionEvent) {
-                    saveFile(frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
+                    imageService.saveFile()
                 }
             },
         )
@@ -65,7 +62,7 @@ object MainMenu {
         )
 
         // Add ActionListeners to the menu items
-        saveMenuItem.addActionListener { saveFile(frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate) }
+        saveMenuItem.addActionListener { imageService.saveFile() }
         exitMenuItem.addActionListener { exitApplication() }
 
         // Add menu items to the File menu
@@ -223,26 +220,6 @@ object MainMenu {
             e.printStackTrace()
             // Handle any exceptions that may occur when opening the URL
             JOptionPane.showMessageDialog(frame, "Error opening URL: ${e.message}", "Error", JOptionPane.ERROR_MESSAGE)
-        }
-    }
-
-    private fun saveFile(frame: JFrame, qrCodeConfigViewModel: QrCodeConfigViewModel, alreadyAppliedOnceDelegate: () -> Boolean) {
-        val fileChooser = JFileChooser()
-        fileChooser.fileFilter = FileNameExtensionFilter("Png Image Files (*.png)", "png")
-        val result = fileChooser.showSaveDialog(null)
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            if (fileChooser.selectedFile.extension.endsWith("png")) {
-                val selectedFile = fileChooser.selectedFile
-                val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
-                    RenderImageService.renderImage(qrCodeConfigViewModel = qrCodeConfigViewModel, component = frame)
-                } else {
-                    RenderImageService.renderInitialImage()
-                }
-                ImageIO.write(qrCodeImage, "png", selectedFile)
-            } else {
-                JOptionPane.showMessageDialog(frame, "The file to be saved must have the png extension", "Image Saving Error", JOptionPane.ERROR_MESSAGE)
-            }
         }
     }
 

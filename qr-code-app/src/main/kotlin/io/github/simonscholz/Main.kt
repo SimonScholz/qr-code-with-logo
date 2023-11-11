@@ -2,7 +2,7 @@ package io.github.simonscholz
 
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.observables.SwingRealm
-import io.github.simonscholz.service.RenderImageService.renderImage
+import io.github.simonscholz.service.ImageService
 import io.github.simonscholz.ui.ImageUI
 import io.github.simonscholz.ui.MainMenu
 import io.github.simonscholz.ui.MainUI
@@ -15,6 +15,7 @@ import java.io.File
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.SwingUtilities
+import org.eclipse.core.databinding.observable.value.IObservableValue
 
 fun main() {
     // GraalVM Fix
@@ -38,11 +39,12 @@ fun main() {
         var alreadyAppliedOnce = false
         val alreadyAppliedOnceDelegate = { alreadyAppliedOnce }
         val qrCodeConfigViewModel = QrCodeConfigViewModel()
-        MainMenu.createFrameMenu(frame, qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
+        val imageService = ImageService(qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
+        MainMenu.createFrameMenu(frame, qrCodeConfigViewModel.qrCodeContent, imageService)
 
-        val (imagePanel, setImage) = ImageUI.createImagePanel()
+        val (imagePanel, setImage) = ImageUI.createImagePanel(imageService)
         val (propertiesPanel, applyOnChange) = PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {
-            onPropertyApply(qrCodeConfigViewModel, frame, setImage, imagePanel)
+            onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
             alreadyAppliedOnce = true
         }
 
@@ -55,7 +57,7 @@ fun main() {
         dataBindingContext.bindings.forEach {
             it.model.addChangeListener {
                 if (applyOnChange()) {
-                    onPropertyApply(qrCodeConfigViewModel, frame, setImage, imagePanel)
+                    onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
                     alreadyAppliedOnce = true
                 }
             }
@@ -63,9 +65,9 @@ fun main() {
     }
 }
 
-private fun onPropertyApply(qrCodeConfigViewModel: QrCodeConfigViewModel, frame: JFrame, setImage: (BufferedImage) -> Unit, imagePanel: JPanel) {
-    if (qrCodeConfigViewModel.qrCodeContent.value.isNotBlank()) {
-        val qrCodeImage = renderImage(qrCodeConfigViewModel, frame)
+private fun onPropertyApply(qrCodeContentObservable: IObservableValue<String>, imageService: ImageService, setImage: (BufferedImage) -> Unit, imagePanel: JPanel) {
+    if (qrCodeContentObservable.value.isNotBlank()) {
+        val qrCodeImage = imageService.renderImage()
         setImage(qrCodeImage)
         imagePanel.revalidate()
     }
