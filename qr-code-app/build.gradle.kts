@@ -8,6 +8,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 
     id("org.graalvm.buildtools.native") version "0.9.28"
+    id("edu.sc.seis.launch4j") version "3.0.5"
 }
 
 distributions {
@@ -37,6 +38,13 @@ dependencies {
 
 application {
     mainClass = "io.github.simonscholz.MainKt"
+}
+
+tasks.withType<edu.sc.seis.launch4j.tasks.DefaultLaunch4jTask> {
+    outfile.set("Qr-Code-App.exe")
+    mainClassName.set("io.github.simonscholz.MainKt")
+    icon.set("$projectDir/app_icon.ico")
+    productName.set("Qr Code App")
 }
 
 graalvmNative {
