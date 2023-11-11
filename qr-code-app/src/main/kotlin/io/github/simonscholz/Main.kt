@@ -8,6 +8,7 @@ import io.github.simonscholz.ui.MainMenu
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
 import org.eclipse.core.databinding.DataBindingContext
+import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.BufferedImage
@@ -15,7 +16,6 @@ import java.io.File
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.SwingUtilities
-import org.eclipse.core.databinding.observable.value.IObservableValue
 
 fun main() {
     // GraalVM Fix

@@ -8,10 +8,11 @@ import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import java.awt.image.BufferedImage
 import javax.swing.JLabel
 import javax.swing.JMenuItem
-import javax.swing.JOptionPane
 import javax.swing.JPanel
 import javax.swing.JPopupMenu
 import javax.swing.KeyStroke
@@ -47,21 +48,23 @@ object ImageUI {
         val contextMenu = JPopupMenu()
         contextMenu.add(saveImageMenuItem)
 
-        imagePanel.addMouseListener(object : java.awt.event.MouseAdapter() {
-            override fun mousePressed(e: java.awt.event.MouseEvent) {
-                maybeShowPopup(e)
-            }
-
-            override fun mouseReleased(e: java.awt.event.MouseEvent) {
-                maybeShowPopup(e)
-            }
-
-            private fun maybeShowPopup(e: java.awt.event.MouseEvent) {
-                if (e.isPopupTrigger) {
-                    contextMenu.show(e.component, e.x, e.y)
+        imagePanel.addMouseListener(
+            object : MouseAdapter() {
+                override fun mousePressed(e: MouseEvent) {
+                    maybeShowPopup(e)
                 }
-            }
-        })
+
+                override fun mouseReleased(e: MouseEvent) {
+                    maybeShowPopup(e)
+                }
+
+                private fun maybeShowPopup(e: MouseEvent) {
+                    if (e.isPopupTrigger) {
+                        contextMenu.show(e.component, e.x, e.y)
+                    }
+                }
+            },
+        )
     }
 
     internal class ImagePanel : JPanel(true) {

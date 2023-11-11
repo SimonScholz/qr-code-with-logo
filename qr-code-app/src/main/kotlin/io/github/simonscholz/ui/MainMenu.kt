@@ -1,6 +1,5 @@
 package io.github.simonscholz.ui
 
-import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
