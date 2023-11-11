@@ -8,7 +8,7 @@ plugins {
 
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
-    id("com.github.ben-manes.versions") version "0.49.0"
+
     id("com.vanniktech.maven.publish") version "0.25.3"
     id("org.jetbrains.dokka") version "1.9.10"
 }
@@ -20,14 +20,14 @@ repositories {
 dependencies {
     implementation("com.google.zxing:core:3.5.2")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.3")
 
     testImplementation("com.google.zxing:javase:3.5.2")
     testImplementation("com.willowtreeapps.assertk:assertk:0.27.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.10")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
