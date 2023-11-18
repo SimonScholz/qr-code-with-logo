@@ -40,14 +40,13 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel, pri
         if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
             runCatching {
                 ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
-                    val logoSize = (qrCodeConfigViewModel.size.value * qrCodeConfigViewModel.logoRelativeSize.value).toInt()
-
-                    val scaledLogo = it.getScaledInstance(logoSize, logoSize, Image.SCALE_SMOOTH)
+                    val scaledLogo = getScaledLogo(it, qrCodeConfigViewModel)
 
                     builder.qrLogoConfig(
                         logo = scaledLogo,
                         relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
                         bgColor = qrCodeConfigViewModel.logoBackgroundColor.value,
+                        shape = qrCodeConfigViewModel.logoShape.value,
                     )
                 }
             }.onFailure { _ ->
@@ -56,6 +55,21 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel, pri
         }
         val qrCodeConfig = builder.build()
         return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
+    }
+
+    private fun getScaledLogo(logo: Image, qrCodeConfigViewModel: QrCodeConfigViewModel): Image {
+        val maxLogoSize = (qrCodeConfigViewModel.size.value * qrCodeConfigViewModel.logoRelativeSize.value).toInt()
+        if(logo.getWidth(null) <= maxLogoSize && logo.getHeight(null) <= maxLogoSize) {
+            return logo
+        }
+
+        if(logo.getWidth(null) > logo.getHeight(null)) {
+            val ratio = logo.getHeight(null).toDouble() / logo.getWidth(null).toDouble()
+            return logo.getScaledInstance(maxLogoSize, (maxLogoSize*ratio).toInt(), Image.SCALE_SMOOTH)
+        }
+
+        val ratio = logo.getWidth(null).toDouble() / logo.getHeight(null).toDouble()
+        return logo.getScaledInstance((maxLogoSize*ratio).toInt(), maxLogoSize, Image.SCALE_SMOOTH)
     }
 
     fun saveFile() {

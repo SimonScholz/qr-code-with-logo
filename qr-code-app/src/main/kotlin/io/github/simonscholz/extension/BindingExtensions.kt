@@ -5,12 +5,14 @@ import io.github.simonscholz.observables.CheckboxObservable
 import io.github.simonscholz.observables.ComponentEnabledObservable
 import io.github.simonscholz.observables.ComponentInvertedEnabledObservable
 import io.github.simonscholz.observables.DocumentObservable
+import io.github.simonscholz.observables.JComboBoxSelectedItemObservable
 import io.github.simonscholz.observables.JSpinnerDoubleObservable
 import io.github.simonscholz.observables.JSpinnerIntObservable
 import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.Color
 import java.awt.Component
 import javax.swing.AbstractButton
+import javax.swing.JComboBox
 import javax.swing.JSpinner
 import javax.swing.text.JTextComponent
 
@@ -28,3 +30,5 @@ fun Component.toEnabledObservable(): IObservableValue<Boolean> = ComponentEnable
 fun Component.toEnabledInvertedObservable(): IObservableValue<Boolean> = ComponentInvertedEnabledObservable(this)
 
 fun AbstractButton.toCheckboxObservable(): IObservableValue<Boolean> = CheckboxObservable(this)
+
+fun <E> JComboBox<E>.toSelectedItemObservable(): IObservableValue<E> = JComboBoxSelectedItemObservable(this)

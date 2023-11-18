@@ -37,13 +37,21 @@ class QrCodeConfig @JvmOverloads constructor(
 
         fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
 
-        @JvmOverloads fun qrLogoConfig(logo: Image, relativeSize: Double = .2, bgColor: Color? = null) = apply { this.qrLogoConfig = QrLogoConfig(logo, relativeSize, bgColor) }
+        @JvmOverloads fun qrLogoConfig(logo: Image, relativeSize: Double = .2, bgColor: Color? = null, shape: LogoShape = LogoShape.CIRCLE) = apply {
+            this.qrLogoConfig = QrLogoConfig(logo, relativeSize, bgColor, shape)
+        }
 
-        @JvmOverloads fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply { this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor) }
+        @JvmOverloads fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply {
+            this.qrCodeColorConfig = QrCodeColorConfig(bgColor, fillColor)
+        }
 
-        fun qrPositionalSquaresConfig(qrPositionalSquaresConfig: QrPositionalSquaresConfig) = apply { this.qrPositionalSquaresConfig = qrPositionalSquaresConfig }
+        fun qrPositionalSquaresConfig(qrPositionalSquaresConfig: QrPositionalSquaresConfig) = apply {
+            this.qrPositionalSquaresConfig = qrPositionalSquaresConfig
+        }
 
-        @JvmOverloads fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05, relativeBorderRound: Double = 0.2) = apply { this.qrBorderConfig = QrBorderConfig(color, relativeSize, relativeBorderRound) }
+        @JvmOverloads fun qrBorderConfig(color: Color = Color.BLACK, relativeSize: Double = .05, relativeBorderRound: Double = 0.2) = apply {
+            this.qrBorderConfig = QrBorderConfig(color, relativeSize, relativeBorderRound)
+        }
 
         fun build() = QrCodeConfig(
             qrCodeText = qrCodeText,
@@ -67,10 +75,36 @@ class QrLogoConfig @JvmOverloads constructor(
     val logo: Image,
     val relativeSize: Double = .2,
     val bgColor: Color? = null,
+    val shape: LogoShape = LogoShape.CIRCLE,
 ) {
     init {
         require(relativeSize in .1..1.0) { "relativeSize must be in between 0.1 and 1." }
     }
+}
+
+/**
+ * Specify the shape of the logo.
+ */
+enum class LogoShape {
+    /**
+     * The logo will be rendered as a circle.
+     **/
+    CIRCLE,
+
+    /**
+     * The logo will be rendered as an ellipse.
+     */
+    ELLIPSE,
+
+    /**
+     * The logo will be rendered as a square.
+     */
+    SQUARE,
+
+    /**
+     * The logo will be rendered as the original shape.
+     */
+    ORIGINAL,
 }
 
 /**

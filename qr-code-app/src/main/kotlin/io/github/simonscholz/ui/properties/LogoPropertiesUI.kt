@@ -2,13 +2,16 @@ package io.github.simonscholz.ui.properties
 
 import io.github.simonscholz.extension.toDoubleObservable
 import io.github.simonscholz.extension.toObservable
+import io.github.simonscholz.extension.toSelectedItemObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
+import io.github.simonscholz.qrcode.LogoShape
 import io.github.simonscholz.ui.CustomItems
 import net.miginfocom.swing.MigLayout
 import org.eclipse.core.databinding.DataBindingContext
 import java.io.File
 import javax.swing.BorderFactory
 import javax.swing.JButton
+import javax.swing.JComboBox
 import javax.swing.JFileChooser
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -56,6 +59,12 @@ object LogoPropertiesUI {
         dataBindingContext.bindValue(sizeSpinner.toDoubleObservable(), qrCodeConfigViewModel.logoRelativeSize)
 
         CustomItems.createColorPickerItem(logoPropertiesPanel, "Logo Background Color:", qrCodeConfigViewModel.logoBackgroundColor, dataBindingContext, "wrap, growx, span 2")
+
+        logoPropertiesPanel.add(JLabel("Logo Shape:"))
+        val logoShapes = LogoShape.entries.toTypedArray()
+        val shapeComboBox = JComboBox(logoShapes)
+        dataBindingContext.bindValue(shapeComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.logoShape)
+        logoPropertiesPanel.add(shapeComboBox, "wrap, growx, span 3, width 200:220:300")
 
         return logoPropertiesPanel
     }

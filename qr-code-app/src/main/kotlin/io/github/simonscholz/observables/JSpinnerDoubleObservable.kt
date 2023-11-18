@@ -8,7 +8,7 @@ class JSpinnerDoubleObservable(
     private val jSpinner: JSpinner,
 ) : AbstractObservableValue<Double>() {
 
-    private var value: Double = jSpinner.value as Double
+    private var value: Double = doGetValue()
 
     init {
         jSpinner.addChangeListener {

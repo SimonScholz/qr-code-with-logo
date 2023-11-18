@@ -1,6 +1,7 @@
 package io.github.simonscholz.model
 
 import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
+import io.github.simonscholz.qrcode.LogoShape
 import org.eclipse.core.databinding.observable.value.WritableValue
 import java.awt.Color
 
@@ -13,6 +14,7 @@ class QrCodeConfigViewModel {
     val logo: WritableValue<String> = WritableValue("", String::class.java)
     val logoRelativeSize: WritableValue<Double> = WritableValue(.2, Double::class.java)
     val logoBackgroundColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
+    val logoShape: WritableValue<LogoShape> = WritableValue(LogoShape.CIRCLE, LogoShape::class.java)
 
     val borderColor: WritableValue<Color> = WritableValue(Color.BLACK, Color::class.java)
     val relativeBorderSize: WritableValue<Double> = WritableValue(.05, Double::class.java)
