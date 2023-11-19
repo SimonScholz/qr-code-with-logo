@@ -23,8 +23,8 @@ jobs:
       - name: Echo JAVA_HOME
         run: echo $JAVA_HOME
       - name: Execute qr-code-app:jpackageImageZip
-        run: ./gradlew --info --stacktrace qr-code-app:jpackageImageZip
+        run: ./gradlew --info --stacktrace qr-code-app:jpackageImage
       - uses: actions/upload-artifact@v3
         with:
           name: qr-code-app-${{ matrix.os }}
-          path: qr-code-app/build/dist/qr-code-app.zip
+          path: qr-code-app/build/jpackage/qr-code-app/
