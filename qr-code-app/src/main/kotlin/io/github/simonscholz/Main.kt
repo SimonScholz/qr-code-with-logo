@@ -2,6 +2,7 @@ package io.github.simonscholz
 
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.observables.SwingRealm
+import io.github.simonscholz.service.ConfigService
 import io.github.simonscholz.service.ImageService
 import io.github.simonscholz.ui.ImageUI
 import io.github.simonscholz.ui.MainMenu
@@ -28,9 +29,12 @@ fun main() {
         val frame = JFrame("QR Code AWT/Swing UI")
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         val dataBindingContext = DataBindingContext(SwingRealm())
+        val qrCodeConfigViewModel = QrCodeConfigViewModel()
+        val configService = ConfigService(qrCodeConfigViewModel)
         frame.addWindowListener(
             object : WindowAdapter() {
                 override fun windowClosing(windowEvent: WindowEvent) {
+                    configService.saveConfig()
                     dataBindingContext.dispose()
                 }
             },
@@ -38,7 +42,6 @@ fun main() {
 
         var alreadyAppliedOnce = false
         val alreadyAppliedOnceDelegate = { alreadyAppliedOnce }
-        val qrCodeConfigViewModel = QrCodeConfigViewModel()
         val imageService = ImageService(qrCodeConfigViewModel, alreadyAppliedOnceDelegate)
         MainMenu.createFrameMenu(frame, qrCodeConfigViewModel.qrCodeContent, imageService)
 
@@ -62,6 +65,7 @@ fun main() {
                 }
             }
         }
+        configService.loadConfig()
     }
 }
 

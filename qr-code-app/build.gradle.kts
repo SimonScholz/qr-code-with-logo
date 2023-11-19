@@ -50,6 +50,7 @@ dependencies {
         exclude(group = "org.eclipse.platform", module = "org.eclipse.osgi")
     }
     implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
 
     // implementation("io.quarkus:quarkus-awt-deployment:3.5.0")
 
