@@ -1,5 +1,5 @@
 # Also see https://github.com/beryx-gist/badass-runtime-example-javafx/blob/master/.github/workflows/gradle.yml
-name: Build platform-specific qr-code-app images
+name: 🏗️ Platform specific qr-code-app
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3.13.0
         with:
-          java-version: 21
+          java-version: 17
           distribution: 'temurin'
       - name: Echo JAVA_HOME
         run: echo $JAVA_HOME
@@ -28,4 +28,3 @@ jobs:
         with:
           name: qr-code-app-${{ matrix.os }}
           path: qr-code-app/build/dist/qr-code-app.zip
-
