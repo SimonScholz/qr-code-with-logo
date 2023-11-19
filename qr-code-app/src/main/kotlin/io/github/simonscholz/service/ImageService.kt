@@ -59,17 +59,17 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel, pri
 
     private fun getScaledLogo(logo: Image, qrCodeConfigViewModel: QrCodeConfigViewModel): Image {
         val maxLogoSize = (qrCodeConfigViewModel.size.value * qrCodeConfigViewModel.logoRelativeSize.value).toInt()
-        if(logo.getWidth(null) <= maxLogoSize && logo.getHeight(null) <= maxLogoSize) {
+        if (logo.getWidth(null) <= maxLogoSize && logo.getHeight(null) <= maxLogoSize) {
             return logo
         }
 
-        if(logo.getWidth(null) > logo.getHeight(null)) {
+        if (logo.getWidth(null) > logo.getHeight(null)) {
             val ratio = logo.getHeight(null).toDouble() / logo.getWidth(null).toDouble()
-            return logo.getScaledInstance(maxLogoSize, (maxLogoSize*ratio).toInt(), Image.SCALE_SMOOTH)
+            return logo.getScaledInstance(maxLogoSize, (maxLogoSize * ratio).toInt(), Image.SCALE_SMOOTH)
         }
 
         val ratio = logo.getWidth(null).toDouble() / logo.getHeight(null).toDouble()
-        return logo.getScaledInstance((maxLogoSize*ratio).toInt(), maxLogoSize, Image.SCALE_SMOOTH)
+        return logo.getScaledInstance((maxLogoSize * ratio).toInt(), maxLogoSize, Image.SCALE_SMOOTH)
     }
 
     fun saveFile() {

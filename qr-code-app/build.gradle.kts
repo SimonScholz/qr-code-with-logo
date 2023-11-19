@@ -8,13 +8,34 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 
     id("org.graalvm.buildtools.native") version "0.9.28"
-    id("edu.sc.seis.launch4j") version "3.0.5"
+    id("org.beryx.runtime") version "1.12.7"
 }
 
 distributions {
     main {
         distributionBaseName = "qr-code-with-logo-app"
     }
+}
+
+runtime {
+    addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
+
+    launcher {
+        noConsole = true
+    }
+    jpackage {
+        val currentOs = org.gradle.internal.os.OperatingSystem.current()
+        val imgType = if (currentOs.isWindows) "ico" else if (currentOs.isMacOsX) "icns" else "png"
+        imageOptions = listOf("--icon", "src/main/resources/app_icon.$imgType")
+    }
+}
+
+tasks.register<Zip>("jpackageImageZip") {
+    dependsOn("jpackageImage")
+    archiveFileName = "qr-code-app.zip"
+    destinationDirectory = layout.buildDirectory.dir("dist")
+
+    from(layout.buildDirectory.dir("jpackage/qr-code-app/"))
 }
 
 repositories {
@@ -38,13 +59,6 @@ dependencies {
 
 application {
     mainClass = "io.github.simonscholz.MainKt"
-}
-
-tasks.withType<edu.sc.seis.launch4j.tasks.DefaultLaunch4jTask> {
-    outfile.set("Qr-Code-App.exe")
-    mainClassName.set("io.github.simonscholz.MainKt")
-    icon.set("$projectDir/app_icon.ico")
-    productName.set("Qr Code App")
 }
 
 graalvmNative {
