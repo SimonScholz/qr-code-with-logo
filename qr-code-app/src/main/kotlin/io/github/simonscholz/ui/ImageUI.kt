@@ -33,6 +33,7 @@ object ImageUI {
         val setImage = (imageDrawPanel::setImage as (BufferedImage) -> Unit)
 
         imageContainer.add(JLabel("This image is just a preview of the actual qr code."), "wrap")
+        imageContainer.add(JLabel("Caution! Certain color combinations won't work!"), "wrap")
 
         return Pair(imageContainer, setImage)
     }
