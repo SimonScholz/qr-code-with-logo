@@ -10,6 +10,21 @@ This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` 
 
 Examples for Java or Kotlin can be found in the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample`] or https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/Main.kt[`kotlin-sample`] module.
 
+The qr-code-app project makes it even easier to create QR codes with this library.
+
+image::./docs/qr-code-app-ui.png[]
+
+Just run the `qr-code-app` project and create your QR code with a nice UI.
+
+[source, bash]
+----
+./gradlew :qr-code-app:run
+----
+
+Or download the appropriate distribution from the https://github.com/SimonScholz/qr-code-with-logo/releases[releases section].
+
+More details about the application can be found https://github.com/SimonScholz/qr-code-with-logo#qr-code-app[here]
+
 == Quickstart
 
 === Gradle
@@ -264,6 +279,32 @@ These are bad examples, because the colors are not contrasting enough.
 So please be cautious when changing the colors!
 *Not* having enough contrast may cause that qr code scanners are not capable to read the qr code!
 If you try to scan the bad exmaple qr codes from above, you will see that it's not working.
+
+== Qr Code App
+
+The `qr-code-app` project is a simple Swing application, which uses this library to create QR codes.
+
+=== Config of the UI
+
+The latest config is stored in a `config.json` file in your `user.home` folder inside `user.home/.qr-code-app` directory,
+when closing the application.
+On starup of the application this config is loaded and used to create a QR code.
+
+=== Running the app
+
+Either start it from your IDE or use Gradle to run it:
+
+[source, bash]
+----
+./gradlew :qr-code-app:run
+----
+
+The https://github.com/SimonScholz/qr-code-with-logo/releases[releases section] offers several different distributions for the `qr-code-app` project.
+
+* Distribution, which constists of a `qr-code-app` or `qr-code-app.bat` file in the `/bin` folder, which can be executed directly. (requires Java to be installed on your system)
+* JPackage distribution, which constists of a `bin/qr-code-app` or `qr-code-app.exe` file, which can be executed directly. (does *not* require Java to be installed on your system)
+
+
 
 == Useful sources
 
