@@ -1,5 +1,5 @@
 # Also see https://github.com/beryx-gist/badass-runtime-example-javafx/blob/master/.github/workflows/gradle.yml
-name: 🏗️ Platform specific qr-code-app
+name: 🏗️ qr-code-app standalone
 
 on:
   workflow_dispatch:
@@ -23,8 +23,8 @@ jobs:
       - name: Echo JAVA_HOME
         run: echo $JAVA_HOME
       - name: Execute qr-code-app:jpackageImageZip
-        run: ./gradlew --info --stacktrace qr-code-app:jpackageImage
+        run: ./gradlew --info --stacktrace qr-code-app:runtime
       - uses: actions/upload-artifact@v3
         with:
           name: qr-code-app-${{ matrix.os }}
-          path: qr-code-app/build/jpackage/qr-code-app/
+          path: qr-code-app/build/qr-code-with-logo-app/
