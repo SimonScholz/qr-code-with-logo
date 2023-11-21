@@ -6,33 +6,39 @@ import io.github.simonscholz.model.Mapper
 import io.github.simonscholz.model.QrCodeConfig
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.util.prefs.Preferences
 
 class ConfigService(
     private val qrCodeConfigViewModel: QrCodeConfigViewModel,
 ) {
-
     private val objectMapper = ObjectMapper().registerKotlinModule()
+    private val preferences = Preferences.userRoot().node("qr-code-app")
 
-    fun saveConfig(fileName: String = "config.json") {
-        val path = Paths.get(System.getProperty("user.home"), ".qr-code-app")
-        Files.createDirectories(path)
-        val qrCodeDir = path.toAbsolutePath().toString()
-
+    fun saveConfig() {
         val config = Mapper.fromViewModel(qrCodeConfigViewModel)
         val configJson = objectMapper.writeValueAsString(config)
-        val configJsonFile = File(qrCodeDir, fileName)
+        preferences.put("config", configJson)
+    }
+
+    fun saveConfigFile(filePath: String) {
+        val config = Mapper.fromViewModel(qrCodeConfigViewModel)
+        val configJson = objectMapper.writeValueAsString(config)
+        val finalFilePath = if (filePath.endsWith(".json")) filePath else "$filePath.json"
+        val configJsonFile = File(finalFilePath)
         configJsonFile.writeText(configJson)
     }
 
     fun loadConfig() {
-        val path = Paths.get(System.getProperty("user.home"), ".qr-code-app")
-        val configJsonFile = File(path.toAbsolutePath().toString(), "config.json")
-        if (configJsonFile.exists()) {
-            val configJson = configJsonFile.readText()
-            val config = objectMapper.readValue(configJson, QrCodeConfig::class.java)
+        preferences.get("config", null)?.let {
+            val config = objectMapper.readValue(it, QrCodeConfig::class.java)
             Mapper.applyViewModel(config, qrCodeConfigViewModel)
         }
+    }
+
+    fun loadConfigFile(filePath: String) {
+        val configJsonFile = File(filePath)
+        val configJson = configJsonFile.readText()
+        val config = objectMapper.readValue(configJson, QrCodeConfig::class.java)
+        Mapper.applyViewModel(config, qrCodeConfigViewModel)
     }
 }

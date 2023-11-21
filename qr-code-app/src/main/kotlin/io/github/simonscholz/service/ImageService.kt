@@ -10,11 +10,9 @@ import java.awt.Image
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import javax.swing.JFileChooser
 import javax.swing.JOptionPane
-import javax.swing.filechooser.FileNameExtensionFilter
 
-class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel, private val alreadyAppliedOnceDelegate: () -> Boolean) {
+class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
     fun renderImage(): BufferedImage {
         val builder = QrCodeConfig.Builder(qrCodeConfigViewModel.qrCodeContent.value)
             .qrCodeSize(qrCodeConfigViewModel.size.value)
@@ -70,26 +68,6 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel, pri
 
         val ratio = logo.getWidth(null).toDouble() / logo.getHeight(null).toDouble()
         return logo.getScaledInstance((maxLogoSize * ratio).toInt(), maxLogoSize, Image.SCALE_SMOOTH)
-    }
-
-    fun saveFile() {
-        val fileChooser = JFileChooser()
-        fileChooser.fileFilter = FileNameExtensionFilter("Png Image Files (*.png)", "png")
-        val result = fileChooser.showSaveDialog(null)
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            if (fileChooser.selectedFile.extension.endsWith("png")) {
-                val selectedFile = fileChooser.selectedFile
-                val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
-                    renderImage()
-                } else {
-                    renderInitialImage()
-                }
-                ImageIO.write(qrCodeImage, "png", selectedFile)
-            } else {
-                JOptionPane.showMessageDialog(null, "The file to be saved must have the png extension", "Image Saving Error", JOptionPane.ERROR_MESSAGE)
-            }
-        }
     }
 
     fun renderInitialImage(): BufferedImage {

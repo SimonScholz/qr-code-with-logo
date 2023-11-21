@@ -3,7 +3,7 @@ package io.github.simonscholz.ui
 import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
-import io.github.simonscholz.service.ImageService
+import io.github.simonscholz.service.ConfigService
 import io.github.simonscholz.ui.dialogs.InputDialogs
 import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.Desktop
@@ -21,23 +21,61 @@ import javax.swing.KeyStroke
 import kotlin.system.exitProcess
 
 object MainMenu {
-    fun createFrameMenu(frame: JFrame, qrCodeContentObservable: IObservableValue<String>, imageService: ImageService) {
-        // Create and set the menu bar
+    fun createFrameMenu(
+        frame: JFrame,
+        qrCodeContentObservable: IObservableValue<String>,
+        fileUI: FileUI,
+        configService: ConfigService,
+    ) {
         val menuBar = JMenuBar()
         frame.jMenuBar = menuBar
 
-        createFileMenu(menuBar, frame, imageService)
+        createFileMenu(menuBar, frame, fileUI, configService)
 
         createSpecialContentMenu(menuBar, frame, qrCodeContentObservable)
+
+        createGenerateCodeMenu(menuBar, frame, fileUI)
 
         createHelpMenu(menuBar, frame)
     }
 
-    private fun createFileMenu(menuBar: JMenuBar, frame: JFrame, imageService: ImageService) {
+    private fun createGenerateCodeMenu(menuBar: JMenuBar, frame: JFrame, fileUI: FileUI) {
+        val generateCodeMenu = JMenu("Generate Code")
+        menuBar.add(generateCodeMenu)
+
+        val copyJavaCodeMenuItem = JMenuItem("Copy Java Code")
+        copyJavaCodeMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK)
+        frame.rootPane.actionMap.put(
+            "CopyJavaCodeAction",
+            object : AbstractAction() {
+                override fun actionPerformed(e: ActionEvent) {
+                    fileUI.copyJavaCodeToClipboard()
+                }
+            },
+        )
+
+        val copyKotlinCodeMenuItem = JMenuItem("Copy Kotlin Code")
+        copyKotlinCodeMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK)
+        frame.rootPane.actionMap.put(
+            "CopyKotlinCodeAction",
+            object : AbstractAction() {
+                override fun actionPerformed(e: ActionEvent) {
+                    fileUI.copyKotlinCodeToClipboard()
+                }
+            },
+        )
+
+        copyJavaCodeMenuItem.addActionListener { fileUI.copyJavaCodeToClipboard() }
+        copyKotlinCodeMenuItem.addActionListener { fileUI.copyKotlinCodeToClipboard() }
+
+        generateCodeMenu.add(copyJavaCodeMenuItem)
+        generateCodeMenu.add(copyKotlinCodeMenuItem)
+    }
+
+    private fun createFileMenu(menuBar: JMenuBar, frame: JFrame, fileUI: FileUI, configService: ConfigService) {
         val fileMenu = JMenu("File")
         menuBar.add(fileMenu)
 
-        // Create menu items for File menu
         val saveMenuItem = JMenuItem("Save Qr Code Image")
         // Add the keybinding for Save (Ctrl + S)
         saveMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)
@@ -45,27 +83,54 @@ object MainMenu {
             "SaveAction",
             object : AbstractAction() {
                 override fun actionPerformed(e: ActionEvent) {
-                    imageService.saveFile()
+                    fileUI.saveQrCodeImageFile()
                 }
             },
         )
+
+        val importConfigMenuItem = JMenuItem("Import Config")
+        // Add the keybinding for Save (Ctrl + I)
+        importConfigMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK)
+        frame.rootPane.actionMap.put(
+            "ImportAction",
+            object : AbstractAction() {
+                override fun actionPerformed(e: ActionEvent) {
+                    fileUI.loadConfig()
+                }
+            },
+        )
+
+        val exportConfigMenuItem = JMenuItem("Export Config")
+        // Add the keybinding for Save (Ctrl + E)
+        exportConfigMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK)
+        frame.rootPane.actionMap.put(
+            "ExportAction",
+            object : AbstractAction() {
+                override fun actionPerformed(e: ActionEvent) {
+                    fileUI.saveConfig()
+                }
+            },
+        )
+
         val exitMenuItem = JMenuItem("Exit")
         exitMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK)
         frame.rootPane.actionMap.put(
             "ExitAction",
             object : AbstractAction() {
                 override fun actionPerformed(e: ActionEvent) {
-                    exitApplication()
+                    exitApplication(configService)
                 }
             },
         )
 
-        // Add ActionListeners to the menu items
-        saveMenuItem.addActionListener { imageService.saveFile() }
-        exitMenuItem.addActionListener { exitApplication() }
+        saveMenuItem.addActionListener { fileUI.saveQrCodeImageFile() }
+        importConfigMenuItem.addActionListener { fileUI.loadConfig() }
+        exportConfigMenuItem.addActionListener { fileUI.saveConfig() }
+        exitMenuItem.addActionListener { exitApplication(configService) }
 
-        // Add menu items to the File menu
         fileMenu.add(saveMenuItem)
+        fileMenu.add(importConfigMenuItem)
+        fileMenu.add(exportConfigMenuItem)
         fileMenu.add(exitMenuItem)
     }
 
@@ -222,7 +287,8 @@ object MainMenu {
         }
     }
 
-    private fun exitApplication() {
+    private fun exitApplication(configService: ConfigService) {
+        configService.saveConfig()
         exitProcess(0)
     }
 }

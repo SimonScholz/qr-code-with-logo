@@ -6,6 +6,7 @@ plugins {
 
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
+    id("com.github.ben-manes.versions")
 
     id("org.graalvm.buildtools.native") version "0.9.28"
     id("org.beryx.runtime") version "1.12.7"
@@ -19,6 +20,8 @@ distributions {
 
 runtime {
     addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
+    imageDir = file("${layout.buildDirectory.asFile.get().name}/qr-code-with-logo-app")
+    imageZip = file("${layout.buildDirectory.asFile.get().name}/qr-code-with-logo-app.zip")
 
     launcher {
         noConsole = true
@@ -28,14 +31,6 @@ runtime {
         val imgType = if (currentOs.isWindows) "ico" else if (currentOs.isMacOsX) "icns" else "png"
         imageOptions = listOf("--icon", "src/main/resources/app_icon.$imgType")
     }
-}
-
-tasks.register<Zip>("jpackageImageZip") {
-    dependsOn("jpackageImage")
-    archiveFileName = "qr-code-app.zip"
-    destinationDirectory = layout.buildDirectory.dir("dist")
-
-    from(layout.buildDirectory.dir("jpackage/qr-code-app/"))
 }
 
 repositories {
@@ -51,6 +46,7 @@ dependencies {
     }
     implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
+    implementation("com.squareup:kotlinpoet-javapoet:1.15.1")
 
     // implementation("io.quarkus:quarkus-awt-deployment:3.5.0")
 

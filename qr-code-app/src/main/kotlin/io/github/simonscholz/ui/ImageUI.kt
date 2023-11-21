@@ -1,7 +1,6 @@
 package io.github.simonscholz.ui
 
 import io.github.simonscholz.service.ImageService
-import io.github.simonscholz.service.RenderImageService.renderInitialImage
 import net.miginfocom.swing.MigLayout
 import java.awt.Color
 import java.awt.Dimension
@@ -18,7 +17,7 @@ import javax.swing.JPopupMenu
 import javax.swing.KeyStroke
 
 object ImageUI {
-    fun createImagePanel(imageService: ImageService): Pair<JPanel, (BufferedImage) -> Unit> {
+    fun createImagePanel(imageService: ImageService, fileUI: FileUI): Pair<JPanel, (BufferedImage) -> Unit> {
         val imageContainer = JPanel(MigLayout("", "[center]"))
         imageContainer.background = Color.WHITE
 
@@ -28,7 +27,7 @@ object ImageUI {
             setImage(image)
         }
         imageContainer.add(imageDrawPanel, "wrap")
-        createPopupMenu(imageService, imageDrawPanel)
+        createPopupMenu(fileUI, imageDrawPanel)
 
         val setImage = (imageDrawPanel::setImage as (BufferedImage) -> Unit)
 
@@ -38,16 +37,12 @@ object ImageUI {
         return Pair(imageContainer, setImage)
     }
 
-    private fun createPopupMenu(imageService: ImageService, imagePanel: ImagePanel) {
-        val saveImageMenuItem = JMenuItem("Save Qr Code Image")
-        // Add the keybinding for Save (Ctrl + S)
-        saveImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)
-        saveImageMenuItem.addActionListener {
-            imageService.saveFile()
-        }
-
+    private fun createPopupMenu(fileUI: FileUI, imagePanel: ImagePanel) {
         val contextMenu = JPopupMenu()
-        contextMenu.add(saveImageMenuItem)
+
+        contextMenu.add(saveQrCodeImageMenuItem(fileUI))
+        contextMenu.add(saveKotlinCodeMenuItem(fileUI))
+        contextMenu.add(saveJavaCodeMenuItem(fileUI))
 
         imagePanel.addMouseListener(
             object : MouseAdapter() {
@@ -66,6 +61,36 @@ object ImageUI {
                 }
             },
         )
+    }
+
+    private fun saveQrCodeImageMenuItem(fileUI: FileUI): JMenuItem {
+        val saveImageMenuItem = JMenuItem("Save Qr Code Image")
+        // Add the keybinding for Save (Ctrl + S)
+        saveImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK)
+        saveImageMenuItem.addActionListener {
+            fileUI.saveQrCodeImageFile()
+        }
+        return saveImageMenuItem
+    }
+
+    private fun saveKotlinCodeMenuItem(fileUI: FileUI): JMenuItem {
+        val saveImageMenuItem = JMenuItem("Copy Kotlin code to clipboard")
+        // Add the keybinding for Save (Ctrl + K)
+        saveImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK)
+        saveImageMenuItem.addActionListener {
+            fileUI.copyKotlinCodeToClipboard()
+        }
+        return saveImageMenuItem
+    }
+
+    private fun saveJavaCodeMenuItem(fileUI: FileUI): JMenuItem {
+        val saveImageMenuItem = JMenuItem("Copy Java code to clipboard")
+        // Add the keybinding for Save (Ctrl + J)
+        saveImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK)
+        saveImageMenuItem.addActionListener {
+            fileUI.copyJavaCodeToClipboard()
+        }
+        return saveImageMenuItem
     }
 
     internal class ImagePanel : JPanel(true) {
