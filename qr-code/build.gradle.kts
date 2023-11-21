@@ -8,6 +8,7 @@ plugins {
 
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
+    id("com.github.ben-manes.versions")
 
     id("com.vanniktech.maven.publish") version "0.25.3"
     id("org.jetbrains.dokka") version "1.9.10"
