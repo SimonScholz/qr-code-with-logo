@@ -9,7 +9,7 @@ plugins {
     id("com.github.ben-manes.versions")
 
     id("org.graalvm.buildtools.native") version "0.9.28"
-    id("org.beryx.runtime") version "1.12.7"
+    id("org.beryx.runtime") version "1.13.0"
 }
 
 distributions {
