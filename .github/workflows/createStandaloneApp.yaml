@@ -13,15 +13,6 @@ jobs:
       fail-fast: false
     name: ${{ matrix.os }}
     steps:
-      - name: Set distribution os env var
-        run: |
-          OS_NAME=${{ matrix.os }}
-          if [ "${{ runner.os }}" == "Windows" ]; then
-            SET OS_NAME=%OS_NAME:-1%
-          else
-            OS_NAME="${OS_NAME::-1}"
-          fi
-          echo "OS=${OS_NAME}" >> $GITHUB_ENV
       - name: Git checkout
         uses: actions/checkout@v4.1.1
       - name: Set up JDK
@@ -35,5 +26,5 @@ jobs:
         run: ./gradlew --info --stacktrace qr-code-app:runtime
       - uses: actions/upload-artifact@v3
         with:
-          name: qr-code-app-${{ env.OS }}
+          name: qr-code-app-${{ matrix.os }}
           path: qr-code-app/build/qr-code-with-logo-app/
