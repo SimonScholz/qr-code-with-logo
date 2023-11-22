@@ -9,28 +9,7 @@ plugins {
     id("com.github.ben-manes.versions")
 
     id("org.graalvm.buildtools.native") version "0.9.28"
-    id("org.beryx.runtime") version "1.12.7"
-}
-
-distributions {
-    main {
-        distributionBaseName = "qr-code-with-logo-app"
-    }
-}
-
-runtime {
-    addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
-    imageDir = file("${layout.buildDirectory.asFile.get().name}/qr-code-with-logo-app")
-    imageZip = file("${layout.buildDirectory.asFile.get().name}/qr-code-with-logo-app.zip")
-
-    launcher {
-        noConsole = true
-    }
-    jpackage {
-        val currentOs = org.gradle.internal.os.OperatingSystem.current()
-        val imgType = if (currentOs.isWindows) "ico" else if (currentOs.isMacOsX) "icns" else "png"
-        imageOptions = listOf("--icon", "src/main/resources/app_icon.$imgType")
-    }
+    id("com.ryandens.jlink-application") version "0.3.0"
 }
 
 repositories {
@@ -54,8 +33,25 @@ dependencies {
     // implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.15.100")
 }
 
+distributions {
+    main {
+        distributionBaseName = "qr-code-with-logo-app"
+    }
+}
+
 application {
     mainClass = "io.github.simonscholz.MainKt"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+jlinkJre {
+    // defaults to only java.base
+    modules.set(setOf("java.desktop"))
 }
 
 graalvmNative {
