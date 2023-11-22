@@ -51,7 +51,7 @@ java {
 
 jlinkJre {
     // defaults to only java.base
-    modules.set(setOf("java.desktop"))
+    modules.set(setOf("java.desktop", "jdk.charsets"))
 }
 
 graalvmNative {
