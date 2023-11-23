@@ -26,15 +26,6 @@ object LogoPropertiesUI {
     fun createLogoPropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {
         val logoPropertiesPanel = JPanel(MigLayout())
 
-        logoPropertiesPanel.setBorder(
-            BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(),
-                "Qr Code Logo",
-                TitledBorder.LEFT,
-                TitledBorder.TOP,
-            ),
-        )
-
         logoPropertiesPanel.add(JLabel("Logo:"))
         val logoTextField = JTextField()
         dataBindingContext.bindValue(logoTextField.toObservable(), qrCodeConfigViewModel.logo)

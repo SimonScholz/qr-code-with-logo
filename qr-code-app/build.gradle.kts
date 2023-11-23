@@ -9,7 +9,7 @@ plugins {
     id("com.github.ben-manes.versions")
 
     id("org.graalvm.buildtools.native") version "0.9.28"
-    id("com.ryandens.jlink-application") version "0.3.0"
+    id("com.ryandens.jlink-application") version "0.4.0"
 }
 
 repositories {
@@ -24,6 +24,7 @@ dependencies {
         exclude(group = "org.eclipse.platform", module = "org.eclipse.osgi")
     }
     implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
+    implementation("org.swinglabs:swingx:1.6.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
     implementation("com.squareup:kotlinpoet-javapoet:1.15.1")
 

@@ -19,15 +19,6 @@ object BorderPropertiesUI {
     fun createBorderPropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {
         val borderPropertiesPanel = JPanel(MigLayout())
 
-        borderPropertiesPanel.setBorder(
-            BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(),
-                "Qr Code Border",
-                TitledBorder.LEFT,
-                TitledBorder.TOP,
-            ),
-        )
-
         borderPropertiesPanel.add(JLabel("Relative Border Size:"))
         val relativeSizeSpinnerModel = SpinnerNumberModel(.2, .0, 1.0, 0.01)
         val borderSizeSpinner = JSpinner(relativeSizeSpinnerModel)

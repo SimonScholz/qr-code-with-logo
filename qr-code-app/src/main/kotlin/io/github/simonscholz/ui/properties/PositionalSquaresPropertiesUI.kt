@@ -19,15 +19,6 @@ object PositionalSquaresPropertiesUI {
     fun createPositionalSquarePropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {
         val positionalSquaresPropertiesPanel = JPanel(MigLayout())
 
-        positionalSquaresPropertiesPanel.setBorder(
-            BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(),
-                "Qr Code Positional Squares",
-                TitledBorder.LEFT,
-                TitledBorder.TOP,
-            ),
-        )
-
         positionalSquaresPropertiesPanel.add(JLabel("Is Circle Shape:"))
         val isCircleShaped = JCheckBox("(Disables Border Radius)")
         positionalSquaresPropertiesPanel.add(isCircleShaped, "wrap, growx, width 200:220:300")
