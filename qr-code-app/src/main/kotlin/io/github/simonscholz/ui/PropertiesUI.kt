@@ -6,6 +6,10 @@ import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
 import io.github.simonscholz.ui.properties.LogoPropertiesUI
 import io.github.simonscholz.ui.properties.PositionalSquaresPropertiesUI
+import net.miginfocom.swing.MigLayout
+import org.eclipse.core.databinding.DataBindingContext
+import org.jdesktop.swingx.JXTaskPane
+import org.jdesktop.swingx.JXTaskPaneContainer
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Font
@@ -19,10 +23,6 @@ import javax.swing.JTextArea
 import javax.swing.SpinnerNumberModel
 import javax.swing.UIManager
 import javax.swing.plaf.FontUIResource
-import net.miginfocom.swing.MigLayout
-import org.eclipse.core.databinding.DataBindingContext
-import org.jdesktop.swingx.JXTaskPane
-import org.jdesktop.swingx.JXTaskPaneContainer
 
 object PropertiesUI {
 
@@ -102,7 +102,7 @@ object PropertiesUI {
                 "TaskPane.background",
                 it,
             )
-            UIManager.put("TaskPaneContainer.background", it);
+            UIManager.put("TaskPaneContainer.background", it)
         }
         UIManager.put("TaskPaneContainer.useGradient", false)
 

@@ -7,13 +7,11 @@ import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.ui.CustomItems
 import net.miginfocom.swing.MigLayout
 import org.eclipse.core.databinding.DataBindingContext
-import javax.swing.BorderFactory
 import javax.swing.JCheckBox
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JSpinner
 import javax.swing.SpinnerNumberModel
-import javax.swing.border.TitledBorder
 
 object PositionalSquaresPropertiesUI {
     fun createPositionalSquarePropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {

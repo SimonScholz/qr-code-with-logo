@@ -9,7 +9,6 @@ import io.github.simonscholz.ui.CustomItems
 import net.miginfocom.swing.MigLayout
 import org.eclipse.core.databinding.DataBindingContext
 import java.io.File
-import javax.swing.BorderFactory
 import javax.swing.JButton
 import javax.swing.JComboBox
 import javax.swing.JFileChooser
@@ -18,7 +17,6 @@ import javax.swing.JPanel
 import javax.swing.JSpinner
 import javax.swing.JTextField
 import javax.swing.SpinnerNumberModel
-import javax.swing.border.TitledBorder
 import javax.swing.filechooser.FileNameExtensionFilter
 
 object LogoPropertiesUI {

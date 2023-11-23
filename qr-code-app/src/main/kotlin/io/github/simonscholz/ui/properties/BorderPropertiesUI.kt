@@ -6,14 +6,12 @@ import io.github.simonscholz.model.QrCodeConfigViewModel
 import net.miginfocom.swing.MigLayout
 import org.eclipse.core.databinding.DataBindingContext
 import java.awt.Color
-import javax.swing.BorderFactory
 import javax.swing.JButton
 import javax.swing.JColorChooser
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JSpinner
 import javax.swing.SpinnerNumberModel
-import javax.swing.border.TitledBorder
 
 object BorderPropertiesUI {
     fun createBorderPropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {

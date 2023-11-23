@@ -1,9 +1,8 @@
 package io.github.simonscholz.ui
 
+import net.miginfocom.swing.MigLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
-import net.miginfocom.swing.MigLayout
-
 
 object MainUI {
 
