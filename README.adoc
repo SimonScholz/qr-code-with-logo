@@ -292,6 +292,7 @@ The `qr-code-app` project is a simple Swing application, which uses this library
 - Offers properties panel for the QR code design (colors, shapes, logo, etc.)
 - Save the QR code as image
 - Copy the QR code to the clipboard
+- Copy the QR code as Base64 encoded string to the clipboard
 - Save the QR code config/design to a file
 - Load a QR code from a config/design file
 - Copy sample code based on current config to the clipboard (Java or Kotlin)
