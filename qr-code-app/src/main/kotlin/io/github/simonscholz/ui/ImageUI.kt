@@ -41,6 +41,7 @@ object ImageUI {
         val contextMenu = JPopupMenu()
 
         contextMenu.add(saveQrCodeImageMenuItem(fileUI))
+        contextMenu.add(copyQrCodeImageMenuItem(fileUI))
         contextMenu.add(saveKotlinCodeMenuItem(fileUI))
         contextMenu.add(saveJavaCodeMenuItem(fileUI))
 
@@ -71,6 +72,16 @@ object ImageUI {
             fileUI.saveQrCodeImageFile()
         }
         return saveImageMenuItem
+    }
+
+    private fun copyQrCodeImageMenuItem(fileUI: FileUI): JMenuItem {
+        val copyImageMenuItem = JMenuItem("Copy Qr Code Image to clipboard")
+        // Add the keybinding for Save (Ctrl + C)
+        copyImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)
+        copyImageMenuItem.addActionListener {
+            fileUI.copyImageToClipboard()
+        }
+        return copyImageMenuItem
     }
 
     private fun saveKotlinCodeMenuItem(fileUI: FileUI): JMenuItem {

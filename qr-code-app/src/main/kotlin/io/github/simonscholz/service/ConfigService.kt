@@ -17,7 +17,18 @@ class ConfigService(
     fun saveConfig() {
         val config = Mapper.fromViewModel(qrCodeConfigViewModel)
         val configJson = objectMapper.writeValueAsString(config)
-        preferences.put("config", configJson)
+        preferences.put(QR_CODE_CONFIG_PREFERENCE_KEY, configJson)
+    }
+
+    fun loadConfig() {
+        preferences.get(QR_CODE_CONFIG_PREFERENCE_KEY, null)?.let {
+            val config = objectMapper.readValue(it, QrCodeConfig::class.java)
+            Mapper.applyViewModel(config, qrCodeConfigViewModel)
+        }
+    }
+
+    fun resetConfig() {
+        preferences.remove(QR_CODE_CONFIG_PREFERENCE_KEY)
     }
 
     fun saveConfigFile(filePath: String) {
@@ -28,17 +39,14 @@ class ConfigService(
         configJsonFile.writeText(configJson)
     }
 
-    fun loadConfig() {
-        preferences.get("config", null)?.let {
-            val config = objectMapper.readValue(it, QrCodeConfig::class.java)
-            Mapper.applyViewModel(config, qrCodeConfigViewModel)
-        }
-    }
-
     fun loadConfigFile(filePath: String) {
         val configJsonFile = File(filePath)
         val configJson = configJsonFile.readText()
         val config = objectMapper.readValue(configJson, QrCodeConfig::class.java)
         Mapper.applyViewModel(config, qrCodeConfigViewModel)
+    }
+
+    companion object {
+        private const val QR_CODE_CONFIG_PREFERENCE_KEY = "qrcode.config"
     }
 }

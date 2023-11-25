@@ -36,7 +36,7 @@ object MainMenu {
 
         createGenerateCodeMenu(menuBar, frame, fileUI)
 
-        createHelpMenu(menuBar, frame)
+        createHelpMenu(menuBar, frame, configService)
     }
 
     private fun createGenerateCodeMenu(menuBar: JMenuBar, frame: JFrame, fileUI: FileUI) {
@@ -88,6 +88,18 @@ object MainMenu {
             },
         )
 
+        val copyMenuItem = JMenuItem("Copy Qr Code Image")
+        // Add the keybinding for Save (Ctrl + C)
+        copyMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)
+        frame.rootPane.actionMap.put(
+            "CopyAction",
+            object : AbstractAction() {
+                override fun actionPerformed(e: ActionEvent) {
+                    fileUI.copyImageToClipboard()
+                }
+            },
+        )
+
         val importConfigMenuItem = JMenuItem("Import Config")
         // Add the keybinding for Save (Ctrl + I)
         importConfigMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK)
@@ -124,11 +136,13 @@ object MainMenu {
         )
 
         saveMenuItem.addActionListener { fileUI.saveQrCodeImageFile() }
+        copyMenuItem.addActionListener { fileUI.copyImageToClipboard() }
         importConfigMenuItem.addActionListener { fileUI.loadConfig() }
         exportConfigMenuItem.addActionListener { fileUI.saveConfig() }
         exitMenuItem.addActionListener { exitApplication(configService) }
 
         fileMenu.add(saveMenuItem)
+        fileMenu.add(copyMenuItem)
         fileMenu.add(importConfigMenuItem)
         fileMenu.add(exportConfigMenuItem)
         fileMenu.add(exitMenuItem)
@@ -254,7 +268,7 @@ object MainMenu {
         specialContentMenu.add(urlMenuItem)
     }
 
-    private fun createHelpMenu(menuBar: JMenuBar, frame: JFrame) {
+    private fun createHelpMenu(menuBar: JMenuBar, frame: JFrame, configService: ConfigService) {
         // Create the Help menu
         val helpMenu = JMenu("Help")
         menuBar.add(helpMenu)
@@ -262,14 +276,28 @@ object MainMenu {
         val gitHubRepoMenuItem = JMenuItem("GitHub Repository")
         val readmeMenuItem = JMenuItem("README")
         val issueMenuItem = JMenuItem("Open Issue")
+        val resetPreferences = JMenuItem("Reset Preferences")
 
         gitHubRepoMenuItem.addActionListener { openURL(frame, "https://github.com/SimonScholz/qr-code-with-logo") }
         readmeMenuItem.addActionListener { openURL(frame, "https://github.com/SimonScholz/qr-code-with-logo/blob/main/README.adoc") }
         issueMenuItem.addActionListener { openURL(frame, "https://github.com/SimonScholz/qr-code-with-logo/issues") }
+        resetPreferences.addActionListener {
+            val result = JOptionPane.showConfirmDialog(
+                frame,
+                "Do you really want to reset all preferences?",
+                "Reset Preferences",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+            )
+            if (result == JOptionPane.YES_OPTION) {
+                configService.resetConfig()
+            }
+        }
 
         helpMenu.add(gitHubRepoMenuItem)
         helpMenu.add(readmeMenuItem)
         helpMenu.add(issueMenuItem)
+        helpMenu.add(resetPreferences)
     }
 
     private fun openURL(frame: JFrame, url: String) {
