@@ -42,6 +42,7 @@ object ImageUI {
 
         contextMenu.add(saveQrCodeImageMenuItem(fileUI))
         contextMenu.add(copyQrCodeImageMenuItem(fileUI))
+        contextMenu.add(copyBase64QrCodeImageMenuItem(fileUI))
         contextMenu.add(saveKotlinCodeMenuItem(fileUI))
         contextMenu.add(saveJavaCodeMenuItem(fileUI))
 
@@ -80,6 +81,16 @@ object ImageUI {
         copyImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)
         copyImageMenuItem.addActionListener {
             fileUI.copyImageToClipboard()
+        }
+        return copyImageMenuItem
+    }
+
+    private fun copyBase64QrCodeImageMenuItem(fileUI: FileUI): JMenuItem {
+        val copyImageMenuItem = JMenuItem("Copy Base64 Qr Code Image to clipboard")
+        // Add the keybinding for Save (Ctrl + B)
+        copyImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK)
+        copyImageMenuItem.addActionListener {
+            fileUI.copyBase64ImageToClipboard()
         }
         return copyImageMenuItem
     }

@@ -17,6 +17,7 @@ import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.JOptionPane
+import javax.swing.JSeparator
 import javax.swing.KeyStroke
 import kotlin.system.exitProcess
 
@@ -100,6 +101,18 @@ object MainMenu {
             },
         )
 
+        val copyBase64MenuItem = JMenuItem("Copy Qr Code Image in Base64")
+        // Add the keybinding for Save (Ctrl + B)
+        copyBase64MenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_DOWN_MASK)
+        frame.rootPane.actionMap.put(
+            "CopyBase64Action",
+            object : AbstractAction() {
+                override fun actionPerformed(e: ActionEvent) {
+                    fileUI.copyBase64ImageToClipboard()
+                }
+            },
+        )
+
         val importConfigMenuItem = JMenuItem("Import Config")
         // Add the keybinding for Save (Ctrl + I)
         importConfigMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK)
@@ -137,14 +150,19 @@ object MainMenu {
 
         saveMenuItem.addActionListener { fileUI.saveQrCodeImageFile() }
         copyMenuItem.addActionListener { fileUI.copyImageToClipboard() }
+        copyBase64MenuItem.addActionListener { fileUI.copyBase64ImageToClipboard() }
         importConfigMenuItem.addActionListener { fileUI.loadConfig() }
         exportConfigMenuItem.addActionListener { fileUI.saveConfig() }
         exitMenuItem.addActionListener { exitApplication(configService) }
 
         fileMenu.add(saveMenuItem)
+        fileMenu.add(JSeparator())
         fileMenu.add(copyMenuItem)
+        fileMenu.add(copyBase64MenuItem)
+        fileMenu.add(JSeparator())
         fileMenu.add(importConfigMenuItem)
         fileMenu.add(exportConfigMenuItem)
+        fileMenu.add(JSeparator())
         fileMenu.add(exitMenuItem)
     }
 

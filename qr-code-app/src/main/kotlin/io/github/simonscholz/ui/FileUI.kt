@@ -1,5 +1,6 @@
 package io.github.simonscholz.ui
 
+import io.github.simonscholz.qrcode.toBase64
 import io.github.simonscholz.service.CodeGeneratorService
 import io.github.simonscholz.service.ConfigService
 import io.github.simonscholz.service.ImageService
@@ -22,6 +23,16 @@ class FileUI(
     private val imageService: ImageService,
     private val alreadyAppliedOnceDelegate: () -> Boolean,
 ) {
+    fun copyBase64ImageToClipboard() {
+        val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
+            imageService.renderImage()
+        } else {
+            imageService.renderInitialImage()
+        }
+        val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+        val copyString = StringSelection(qrCodeImage.toBase64())
+        clipboard.setContents(copyString, null)
+    }
 
     fun copyImageToClipboard() {
         val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
