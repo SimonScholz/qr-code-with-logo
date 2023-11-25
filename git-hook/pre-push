@@ -1,0 +1,22 @@
+#!/bin/sh
+#husky 0.13.4
+
+# This script runs ktlint check before pushing to the remote repository
+
+echo "Running ktlint check ..."
+./gradlew ktlintCheck 2> /dev/null
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "                                                                     "
+  echo "*********************************************************************"
+  echo "*                                                                    "
+  echo "*                        ktlint failed                               "
+  echo "*                                                                    "
+  echo "*     Please fix the issues above before pushing.                    "
+  echo "*     Usually running'ktlintFormat' fixes issues automatically.      "
+  echo "*     ./gradlew ktlintFormat                                         "
+  echo "*                                                                    "
+  echo "*********************************************************************"
+  echo "                                                                     "
+  exit $EXIT_CODE
+fi

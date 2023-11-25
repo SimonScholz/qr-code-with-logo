@@ -6,9 +6,11 @@ import io.github.simonscholz.service.ImageService
 import org.jdesktop.swingx.graphics.GraphicsUtilities
 import java.awt.Image
 import java.awt.Toolkit
-import java.awt.datatransfer.*
+import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.DataFlavor
+import java.awt.datatransfer.StringSelection
+import java.awt.datatransfer.Transferable
 import java.io.File
-import java.io.IOException
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
@@ -127,26 +129,28 @@ class FileUI(
         override fun isDataFlavorSupported(flavor: DataFlavor): Boolean {
             return if (flavor === DataFlavor.imageFlavor) {
                 true
-            } else flavor === DataFlavor.javaFileListFlavor
+            } else {
+                flavor === DataFlavor.javaFileListFlavor
+            }
         }
 
-        @Throws(UnsupportedFlavorException::class, IOException::class)
         override fun getTransferData(flavor: DataFlavor): Any {
-            //log.fine("doing get trans data: " + flavor);
+            // log.fine("doing get trans data: " + flavor);
             if (flavor === DataFlavor.imageFlavor) {
                 return img
             }
             if (flavor === DataFlavor.javaFileListFlavor) {
                 if (files == null) {
                     val file = File.createTempFile(exportName, ".$exportFormat")
-                    //log.fine("writing to: " + file);
+                    // log.fine("writing to: " + file);
                     ImageIO.write(
                         GraphicsUtilities.convertToBufferedImage(img),
-                        exportFormat, file,
+                        exportFormat,
+                        file,
                     )
                     files = listOf(file).toMutableList()
                 }
-                //log.fine("returning: " + files);
+                // log.fine("returning: " + files);
                 return files as MutableList<File>
             }
             return emptyList<File>()

@@ -5,16 +5,10 @@ import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrCodeFactory
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import io.github.simonscholz.ui.ImageUI
-import org.jdesktop.swingx.graphics.GraphicsUtilities
 import java.awt.Color
 import java.awt.Image
-import java.awt.datatransfer.DataFlavor
-import java.awt.datatransfer.Transferable
-import java.awt.datatransfer.UnsupportedFlavorException
 import java.awt.image.BufferedImage
 import java.io.File
-import java.io.IOException
-import java.util.ArrayList
 import javax.imageio.ImageIO
 import javax.swing.JOptionPane
 

@@ -4,3 +4,13 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1" apply false
     id("com.github.ben-manes.versions") version "0.50.0" apply false
 }
+
+tasks.register("installKtlintGitPrePushHook", Copy::class) {
+    from("${rootProject.rootDir}/git-hook/pre-push")
+    into("${rootProject.rootDir}/.git/hooks")
+    doLast {
+        exec {
+            commandLine("chmod", "+x", "${rootProject.rootDir}/.git/hooks/pre-push")
+        }
+    }
+}
