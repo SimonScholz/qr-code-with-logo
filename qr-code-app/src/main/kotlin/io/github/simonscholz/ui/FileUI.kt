@@ -21,25 +21,16 @@ class FileUI(
     private val codeGeneratorService: CodeGeneratorService,
     private val configService: ConfigService,
     private val imageService: ImageService,
-    private val alreadyAppliedOnceDelegate: () -> Boolean,
 ) {
     fun copyBase64ImageToClipboard() {
-        val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
-            imageService.renderImage()
-        } else {
-            imageService.renderInitialImage()
-        }
+        val qrCodeImage = imageService.renderImage()
         val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
         val copyString = StringSelection(qrCodeImage.toBase64())
         clipboard.setContents(copyString, null)
     }
 
     fun copyImageToClipboard() {
-        val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
-            imageService.renderImage()
-        } else {
-            imageService.renderInitialImage()
-        }
+        val qrCodeImage = imageService.renderImage()
         val transferableImage = ImageTransferable(qrCodeImage)
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
         clipboard.setContents(transferableImage, null)
@@ -71,11 +62,7 @@ class FileUI(
                 File("${fileChooser.selectedFile.absolutePath}.png")
             }
 
-            val qrCodeImage = if (alreadyAppliedOnceDelegate()) {
-                imageService.renderImage()
-            } else {
-                imageService.renderInitialImage()
-            }
+            val qrCodeImage = imageService.renderImage()
             ImageIO.write(qrCodeImage, "png", fileToSave)
         }
     }

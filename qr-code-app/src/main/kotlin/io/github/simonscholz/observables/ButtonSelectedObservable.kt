@@ -4,7 +4,7 @@ import org.eclipse.core.databinding.observable.Diffs
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue
 import javax.swing.AbstractButton
 
-class CheckboxObservable(
+class ButtonSelectedObservable(
     private val button: AbstractButton,
 ) : AbstractObservableValue<Boolean>() {
 

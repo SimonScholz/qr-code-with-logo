@@ -1,6 +1,6 @@
 package io.github.simonscholz.ui.properties
 
-import io.github.simonscholz.extension.toCheckboxObservable
+import io.github.simonscholz.extension.toButtonSelectedObservable
 import io.github.simonscholz.extension.toDoubleObservable
 import io.github.simonscholz.extension.toEnabledInvertedObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
@@ -20,7 +20,7 @@ object PositionalSquaresPropertiesUI {
         positionalSquaresPropertiesPanel.add(JLabel("Is Circle Shape:"))
         val isCircleShaped = JCheckBox("(Disables Border Radius)")
         positionalSquaresPropertiesPanel.add(isCircleShaped, "wrap, growx, width 200:220:300")
-        dataBindingContext.bindValue(isCircleShaped.toCheckboxObservable(), qrCodeConfigViewModel.positionalSquareIsCircleShaped)
+        dataBindingContext.bindValue(isCircleShaped.toButtonSelectedObservable(), qrCodeConfigViewModel.positionalSquareIsCircleShaped)
 
         positionalSquaresPropertiesPanel.add(JLabel("Positional Sqaure Border Radius:"))
         val relativeSquareBorderRoundSpinnerModel = SpinnerNumberModel(.2, .0, 1.0, 0.01)
@@ -28,7 +28,7 @@ object PositionalSquaresPropertiesUI {
         dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toDoubleObservable(), qrCodeConfigViewModel.positionalSquareRelativeBorderRound)
         positionalSquaresPropertiesPanel.add(relativePositionalSquareBorderRoundSpinner, "wrap, growx, width 200:220:300")
 
-        dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toEnabledInvertedObservable(), isCircleShaped.toCheckboxObservable())
+        dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toEnabledInvertedObservable(), isCircleShaped.toButtonSelectedObservable())
 
         CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Center Color:", qrCodeConfigViewModel.positionalSquareCenterColor, dataBindingContext)
         CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Inner Square Color:", qrCodeConfigViewModel.positionalSquareInnerSquareColor, dataBindingContext)

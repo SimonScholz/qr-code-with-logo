@@ -11,6 +11,8 @@ object Mapper {
             backgroundColor = viewModel.backgroundColor.value.toColorInfo(),
             foregroundColor = viewModel.foregroundColor.value.toColorInfo(),
             logo = viewModel.logo.value,
+            logoBase64 = viewModel.logoBase64.value,
+            useBase64Logo = viewModel.useBase64Logo.value,
             logoRelativeSize = viewModel.logoRelativeSize.value,
             logoBackgroundColor = viewModel.logoBackgroundColor.value.toColorInfo(),
             logoShape = viewModel.logoShape.value,

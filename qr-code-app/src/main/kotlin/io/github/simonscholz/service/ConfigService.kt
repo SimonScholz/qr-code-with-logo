@@ -6,29 +6,41 @@ import io.github.simonscholz.model.Mapper
 import io.github.simonscholz.model.QrCodeConfig
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import java.io.File
-import java.util.prefs.Preferences
+import java.nio.file.Paths
+import kotlin.io.path.createDirectories
 
 class ConfigService(
     private val qrCodeConfigViewModel: QrCodeConfigViewModel,
 ) {
     private val objectMapper = ObjectMapper().registerKotlinModule()
-    private val preferences = Preferences.userRoot().node("qr-code-app")
 
     fun saveConfig() {
-        val config = Mapper.fromViewModel(qrCodeConfigViewModel)
-        val configJson = objectMapper.writeValueAsString(config)
-        preferences.put(QR_CODE_CONFIG_PREFERENCE_KEY, configJson)
+        runCatching {
+            val config = Mapper.fromViewModel(qrCodeConfigViewModel)
+            objectMapper.writeValue(getConfigFile(), config)
+        }.onFailure {
+            println("Failed to save config to preferences. ${it.message}")
+            it.printStackTrace()
+        }
     }
 
     fun loadConfig() {
-        preferences.get(QR_CODE_CONFIG_PREFERENCE_KEY, null)?.let {
-            val config = objectMapper.readValue(it, QrCodeConfig::class.java)
+        runCatching {
+            val config = objectMapper.readValue(getConfigFile(), QrCodeConfig::class.java)
             Mapper.applyViewModel(config, qrCodeConfigViewModel)
+        }.onFailure {
+            println("Failed to load config from preferences. ${it.message}")
+            resetConfig()
         }
     }
 
     fun resetConfig() {
-        preferences.remove(QR_CODE_CONFIG_PREFERENCE_KEY)
+        runCatching {
+            File(getQrCodeAppDataFolder(), QR_CODE_CONFIG_FILE).delete()
+        }.onFailure {
+            println("Failed to delete config file. ${it.message}")
+            it.printStackTrace()
+        }
     }
 
     fun saveConfigFile(filePath: String) {
@@ -46,7 +58,29 @@ class ConfigService(
         Mapper.applyViewModel(config, qrCodeConfigViewModel)
     }
 
+    private fun getConfigFile(): File {
+        val configDirectory = Paths.get(getQrCodeAppDataFolder()).createDirectories()
+        return File(configDirectory.toFile(), QR_CODE_CONFIG_FILE)
+    }
+
+    private fun getQrCodeAppDataFolder(): String {
+        val os = System.getProperty("os.name").lowercase()
+
+        return when {
+            os.contains("win") -> {
+                // Windows
+                System.getenv("APPDATA")?.let { "$it/qr-code-app" } ?: throw IllegalStateException("APPDATA environment variable not found.")
+            }
+            os.contains("nix") || os.contains("nux") || os.contains("mac") -> {
+                // Linux or macOS
+                val homeDir = System.getProperty("user.home")
+                "$homeDir/.config/qr-code-app"
+            }
+            else -> throw UnsupportedOperationException("Unsupported operating system: $os")
+        }
+    }
+
     companion object {
-        private const val QR_CODE_CONFIG_PREFERENCE_KEY = "qrcode.config"
+        private const val QR_CODE_CONFIG_FILE = "config.json"
     }
 }

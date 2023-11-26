@@ -21,7 +21,7 @@ object ImageUI {
         val imageContainer = JPanel(MigLayout("", "[center]"))
         imageContainer.background = Color.WHITE
 
-        val image = imageService.renderInitialImage()
+        val image = imageService.renderImage()
 
         val imageDrawPanel = ImagePanel().apply {
             setImage(image)

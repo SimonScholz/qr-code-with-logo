@@ -4,8 +4,6 @@ import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrCodeFactory
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
-import io.github.simonscholz.ui.ImageUI
-import java.awt.Color
 import java.awt.Image
 import java.awt.image.BufferedImage
 import java.io.File
@@ -36,7 +34,7 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
                     outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
                 ),
             )
-        if (qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
+        if (!qrCodeConfigViewModel.useBase64Logo.value && qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
             runCatching {
                 ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
                     val scaledLogo = getScaledLogo(it, qrCodeConfigViewModel)
@@ -51,6 +49,13 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
             }.onFailure { _ ->
                 JOptionPane.showMessageDialog(null, "You did not select a proper image", "Image Loading Error", JOptionPane.ERROR_MESSAGE)
             }
+        } else if (qrCodeConfigViewModel.useBase64Logo.value && qrCodeConfigViewModel.logoBase64.value.isNotBlank()) {
+            builder.qrLogoConfig(
+                base64Logo = qrCodeConfigViewModel.logoBase64.value,
+                relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
+                bgColor = qrCodeConfigViewModel.logoBackgroundColor.value,
+                shape = qrCodeConfigViewModel.logoShape.value,
+            )
         }
         val qrCodeConfig = builder.build()
         return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
@@ -69,22 +74,5 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
 
         val ratio = logo.getWidth(null).toDouble() / logo.getHeight(null).toDouble()
         return logo.getScaledInstance((maxLogoSize * ratio).toInt(), maxLogoSize, Image.SCALE_SMOOTH)
-    }
-
-    fun renderInitialImage(): BufferedImage {
-        val resource = ImageUI::class.java.getClassLoader().getResource("avatar-60x.png")
-        val logo = ImageIO.read(resource)
-        val qrCodeConfig = QrCodeConfig.Builder("https://simonscholz.github.io/")
-            .qrBorderConfig(Color.BLACK)
-            .qrLogoConfig(logo)
-            .qrPositionalSquaresConfig(
-                QrPositionalSquaresConfig(
-                    isCircleShaped = true,
-                    relativeSquareBorderRound = .2,
-                    centerColor = Color.RED,
-                ),
-            )
-            .build()
-        return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
     }
 }

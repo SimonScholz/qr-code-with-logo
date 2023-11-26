@@ -41,16 +41,13 @@ fun main() {
             },
         )
 
-        var alreadyAppliedOnce = false
-        val alreadyAppliedOnceDelegate = { alreadyAppliedOnce }
         val imageService = ImageService(qrCodeConfigViewModel)
-        val fileUi = FileUI(CodeGeneratorService(qrCodeConfigViewModel), configService, imageService, alreadyAppliedOnceDelegate)
+        val fileUi = FileUI(CodeGeneratorService(qrCodeConfigViewModel), configService, imageService)
         MainMenu.createFrameMenu(frame, qrCodeConfigViewModel.qrCodeContent, fileUi, configService)
 
         val (imagePanel, setImage) = ImageUI.createImagePanel(imageService, fileUi)
         val (propertiesPanel, applyOnChange) = PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {
             onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
-            alreadyAppliedOnce = true
         }
 
         val mainPanel = MainUI.createMainPanel(imagePanel, propertiesPanel)
@@ -60,7 +57,6 @@ fun main() {
             it.model.addChangeListener {
                 if (applyOnChange()) {
                     onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
-                    alreadyAppliedOnce = true
                 }
             }
         }

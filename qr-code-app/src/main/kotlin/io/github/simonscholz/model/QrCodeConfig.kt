@@ -9,6 +9,8 @@ data class QrCodeConfig(
     val foregroundColor: ColorInfo,
 
     val logo: String,
+    val logoBase64: String?,
+    val useBase64Logo: Boolean,
     val logoRelativeSize: Double,
     val logoBackgroundColor: ColorInfo,
     val logoShape: LogoShape,
