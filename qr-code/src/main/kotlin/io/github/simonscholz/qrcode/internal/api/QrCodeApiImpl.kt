@@ -49,7 +49,7 @@ internal class QrCodeApiImpl : QrCodeApi {
 
             graphics.drawImage(qrCode, 0, 0, null)
 
-            qrCodeConfig.qrLogoConfig?.also {qrCodeLogoConfig ->
+            qrCodeConfig.qrLogoConfig?.also { qrCodeLogoConfig ->
                 if (qrCodeLogoConfig.base64Logo != null) {
                     runCatching {
                         qrCodeLogoConfig.base64Logo.imageFromBase64()
