@@ -38,7 +38,11 @@ class QrCodeConfig @JvmOverloads constructor(
         fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
 
         @JvmOverloads fun qrLogoConfig(logo: Image, relativeSize: Double = .2, bgColor: Color? = null, shape: LogoShape = LogoShape.CIRCLE) = apply {
-            this.qrLogoConfig = QrLogoConfig(logo, relativeSize, bgColor, shape)
+            this.qrLogoConfig = QrLogoConfig(logo = logo, base64Logo = null, relativeSize = relativeSize, bgColor = bgColor, shape = shape)
+        }
+
+        @JvmOverloads fun qrLogoConfig(base64Logo: String, relativeSize: Double = .2, bgColor: Color? = null, shape: LogoShape = LogoShape.CIRCLE) = apply {
+            this.qrLogoConfig = QrLogoConfig(base64Logo = base64Logo, relativeSize = relativeSize, bgColor = bgColor, shape = shape)
         }
 
         @JvmOverloads fun qrCodeColorConfig(bgColor: Color = Color.WHITE, fillColor: Color = Color.BLACK) = apply {
@@ -67,18 +71,20 @@ class QrCodeConfig @JvmOverloads constructor(
 /**
  * Pass a logo as BufferedImage and specify the relativeSize of the logo in the qr code.
  *
- * @param logo - BufferedImage to be rendered as logo in the center of the qr code
+ * @param logo - [Image] to be rendered as logo in the center of the qr code
  * @param relativeSize - relative size of the logo, defaults to 0.2
  * @param bgColor - specify the background color of the logo, defaults to null
  */
 class QrLogoConfig @JvmOverloads constructor(
-    val logo: Image,
+    val logo: Image? = null,
+    val base64Logo: String? = null,
     val relativeSize: Double = .2,
     val bgColor: Color? = null,
     val shape: LogoShape = LogoShape.CIRCLE,
 ) {
     init {
         require(relativeSize in .1..1.0) { "relativeSize must be in between 0.1 and 1." }
+        require(logo != null || base64Logo != null) { "Either logo or base64Logo must be set." }
     }
 }
 

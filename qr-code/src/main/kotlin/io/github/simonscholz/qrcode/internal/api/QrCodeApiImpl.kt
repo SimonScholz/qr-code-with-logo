@@ -2,6 +2,7 @@ package io.github.simonscholz.qrcode.internal.api
 
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeConfig
+import io.github.simonscholz.qrcode.imageFromBase64
 import io.github.simonscholz.qrcode.internal.border.BorderGraphics
 import io.github.simonscholz.qrcode.internal.logo.LogoGraphics
 import io.github.simonscholz.qrcode.internal.qr.QrCodeCreator
@@ -48,8 +49,30 @@ internal class QrCodeApiImpl : QrCodeApi {
 
             graphics.drawImage(qrCode, 0, 0, null)
 
-            qrCodeConfig.qrLogoConfig?.let {
-                LogoGraphics.drawLogo(graphics, qrCodeConfig.qrCodeSize, it.logo, it.relativeSize, it.bgColor, it.shape)
+            qrCodeConfig.qrLogoConfig?.also {qrCodeLogoConfig ->
+                if (qrCodeLogoConfig.base64Logo != null) {
+                    runCatching {
+                        qrCodeLogoConfig.base64Logo.imageFromBase64()
+                    }.onSuccess {
+                        LogoGraphics.drawLogo(
+                            graphics,
+                            qrCodeConfig.qrCodeSize,
+                            it,
+                            qrCodeLogoConfig.relativeSize,
+                            qrCodeLogoConfig.bgColor,
+                            qrCodeLogoConfig.shape,
+                        )
+                    }
+                } else if (qrCodeLogoConfig.logo != null) {
+                    LogoGraphics.drawLogo(
+                        graphics,
+                        qrCodeConfig.qrCodeSize,
+                        qrCodeLogoConfig.logo,
+                        qrCodeLogoConfig.relativeSize,
+                        qrCodeLogoConfig.bgColor,
+                        qrCodeLogoConfig.shape,
+                    )
+                }
             }
             image
         } finally {
