@@ -48,6 +48,7 @@ internal class QrCodeCreator {
         quietZone: Int,
         borderWidth: Int,
         relativeBorderRound: Double,
+        customDotStyler: ((x: Int, y: Int, size: Int, graphics: Graphics2D) -> Unit)? = null,
     ): BufferedImage {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
         val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone)
@@ -74,7 +75,8 @@ internal class QrCodeCreator {
             dataSquares.forEach { s ->
                 if (s.isFilled) {
                     graphics.color = fillColor
-                    graphics.fillRect(s.x, s.y, s.size, s.size)
+                    customDotStyler?.invoke(s.x, s.y, s.size, graphics)
+                        ?: graphics.fillRect(s.x, s.y, s.size, s.size)
                 } else {
                     graphics.color = bgColor
                     graphics.fillRect(s.x, s.y, s.size, s.size)

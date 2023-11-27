@@ -1,7 +1,9 @@
 package io.github.simonscholz.qrcode
 
 import java.awt.Color
+import java.awt.Graphics2D
 import java.awt.Image
+import kotlin.reflect.KFunction4
 
 const val DEFAULT_IMG_SIZE = 300
 
@@ -13,6 +15,7 @@ const val DEFAULT_IMG_SIZE = 300
  * @param qrLogoConfig - configuration of the logo to be rendered in the middle of the qr code, may be null
  * @param qrCodeColorConfig - configuration of the colors of the qr code
  * @param qrPositionalSquaresConfig - configure the positional squares on the qr code
+ * @param qrCodeDotStyler - configure the shape of the dots in the qr code, also see [QrCodeDotShape]
  * @param qrBorderConfig - configure the border of the qr code
  */
 class QrCodeConfig @JvmOverloads constructor(
@@ -21,6 +24,7 @@ class QrCodeConfig @JvmOverloads constructor(
     val qrLogoConfig: QrLogoConfig? = null,
     val qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig(),
     val qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig(),
+    val qrCodeDotStyler: QrCodeDotStyler = QrCodeDotShape.SQUARE,
     val qrBorderConfig: QrBorderConfig? = null,
 ) {
     init {
@@ -34,6 +38,7 @@ class QrCodeConfig @JvmOverloads constructor(
         private var qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig()
         private var qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig()
         private var qrBorderConfig: QrBorderConfig? = null
+        private var qrCodeDotStyler: QrCodeDotStyler = QrCodeDotShape.SQUARE
 
         fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
 
@@ -57,12 +62,25 @@ class QrCodeConfig @JvmOverloads constructor(
             this.qrBorderConfig = QrBorderConfig(color, relativeSize, relativeBorderRound)
         }
 
+        fun qrCodeDotStyler(qrCodeDotStyler: QrCodeDotStyler) = apply {
+            this.qrCodeDotStyler = qrCodeDotStyler
+        }
+
+        fun qrCodeDotStyler(qrCodeDotStyler: KFunction4<Int, Int, Int, Graphics2D, Unit>) = apply {
+            this.qrCodeDotStyler = object : QrCodeDotStyler {
+                override fun createDot(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+                    qrCodeDotStyler.invoke(x, y, dotSize, graphics)
+                }
+            }
+        }
+
         fun build() = QrCodeConfig(
             qrCodeText = qrCodeText,
             qrCodeSize = qrCodeSize,
             qrLogoConfig = qrLogoConfig,
             qrCodeColorConfig = qrCodeColorConfig,
             qrPositionalSquaresConfig = qrPositionalSquaresConfig,
+            qrCodeDotStyler = qrCodeDotStyler,
             qrBorderConfig = qrBorderConfig,
         )
     }

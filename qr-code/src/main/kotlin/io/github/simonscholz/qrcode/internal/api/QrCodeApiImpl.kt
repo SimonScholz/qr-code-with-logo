@@ -45,6 +45,7 @@ internal class QrCodeApiImpl : QrCodeApi {
                 quietZone = qrCodeConfig.qrBorderConfig?.let { 1 } ?: 0, // have a quietZone if we have a border
                 borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
                 relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
+                customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,
             )
 
             graphics.drawImage(qrCode, 0, 0, null)
