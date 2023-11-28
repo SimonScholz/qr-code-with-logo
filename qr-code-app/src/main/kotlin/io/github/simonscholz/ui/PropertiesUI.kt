@@ -2,7 +2,9 @@ package io.github.simonscholz.ui
 
 import io.github.simonscholz.extension.toIntObservable
 import io.github.simonscholz.extension.toObservable
+import io.github.simonscholz.extension.toSelectedItemObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
+import io.github.simonscholz.qrcode.QrCodeDotShape
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
 import io.github.simonscholz.ui.properties.LogoPropertiesUI
 import io.github.simonscholz.ui.properties.PositionalSquaresPropertiesUI
@@ -15,6 +17,7 @@ import java.awt.Dimension
 import java.awt.Font
 import javax.swing.JButton
 import javax.swing.JCheckBox
+import javax.swing.JComboBox
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JScrollPane
@@ -52,6 +55,12 @@ object PropertiesUI {
 
         CustomItems.createColorPickerItem(baseTaskPane, "Background Color:", qrCodeConfigViewModel.backgroundColor, dataBindingContext)
         CustomItems.createColorPickerItem(baseTaskPane, "Foreground Color:", qrCodeConfigViewModel.foregroundColor, dataBindingContext)
+
+        baseTaskPane.add(JLabel("Dot Shape:"))
+        val logoShapes = QrCodeDotShape.entries.toTypedArray()
+        val shapeComboBox = JComboBox(logoShapes)
+        dataBindingContext.bindValue(shapeComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.dotShape)
+        baseTaskPane.add(shapeComboBox, "wrap, growx, span 3, width 200:220:300")
 
         jxTaskPaneContainer.add(baseTaskPane)
 

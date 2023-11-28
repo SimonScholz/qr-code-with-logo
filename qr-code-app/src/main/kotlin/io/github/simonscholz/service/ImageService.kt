@@ -19,6 +19,7 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
                 bgColor = qrCodeConfigViewModel.backgroundColor.value,
                 fillColor = qrCodeConfigViewModel.foregroundColor.value,
             )
+            .qrCodeDotStyler(qrCodeConfigViewModel.dotShape.value)
             .qrBorderConfig(
                 color = qrCodeConfigViewModel.borderColor.value,
                 relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
