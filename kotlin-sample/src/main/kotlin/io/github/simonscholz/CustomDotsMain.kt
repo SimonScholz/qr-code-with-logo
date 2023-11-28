@@ -8,6 +8,7 @@ import java.awt.Graphics2D
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import javax.imageio.ImageIO
 
 fun main() {
     val path = Paths.get(System.getProperty("user.home"), "qr-code-samples")
@@ -76,6 +77,40 @@ fun main() {
             qrCodeApi.createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-COLORFUL-HOUSE-dots-kotlin.png"))
         }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(::drawSmiley)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-SMILEY-dots-kotlin.png"))
+        }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(::drawSkull)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-SKULL-dots-kotlin.png"))
+        }
+}
+
+private fun drawSmiley(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    val resource = Main::class.java.getClassLoader().getResource("smiley_fill.png")
+    resource?.let {
+        val smiley = ImageIO.read(it)
+        graphics.drawImage(smiley, x, y, dotSize, dotSize, null)
+    }
+}
+
+private fun drawSkull(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    val resource = Main::class.java.getClassLoader().getResource("skull_fill.png")
+    resource?.let {
+        val smiley = ImageIO.read(it)
+        graphics.drawImage(smiley, x, y, dotSize, dotSize, null)
+    }
 }
 
 private fun drawColorfulHouseWithDoorAndWindow(x: Int, y: Int, size: Int, graphic: Graphics2D) {
