@@ -6,9 +6,6 @@ import io.github.simonscholz.qrcode.QrCodeFactory
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import java.awt.Image
 import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
-import javax.swing.JOptionPane
 
 class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
 
@@ -35,22 +32,7 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
                     outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
                 ),
             )
-        if (!qrCodeConfigViewModel.useBase64Logo.value && qrCodeConfigViewModel.logo.value.isNotBlank() && File(qrCodeConfigViewModel.logo.value).exists()) {
-            runCatching {
-                ImageIO.read(File(qrCodeConfigViewModel.logo.value)).let {
-                    val scaledLogo = getScaledLogo(it, qrCodeConfigViewModel)
-
-                    builder.qrLogoConfig(
-                        logo = scaledLogo,
-                        relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
-                        bgColor = qrCodeConfigViewModel.logoBackgroundColor.value,
-                        shape = qrCodeConfigViewModel.logoShape.value,
-                    )
-                }
-            }.onFailure { _ ->
-                JOptionPane.showMessageDialog(null, "You did not select a proper image", "Image Loading Error", JOptionPane.ERROR_MESSAGE)
-            }
-        } else if (qrCodeConfigViewModel.useBase64Logo.value && qrCodeConfigViewModel.logoBase64.value.isNotBlank()) {
+        if (qrCodeConfigViewModel.logoBase64.value.isNotBlank()) {
             builder.qrLogoConfig(
                 base64Logo = qrCodeConfigViewModel.logoBase64.value,
                 relativeSize = qrCodeConfigViewModel.logoRelativeSize.value,
