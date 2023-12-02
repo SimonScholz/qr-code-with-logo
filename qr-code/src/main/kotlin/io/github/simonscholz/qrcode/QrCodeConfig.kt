@@ -87,11 +87,14 @@ class QrCodeConfig @JvmOverloads constructor(
 }
 
 /**
- * Pass a logo as BufferedImage and specify the relativeSize of the logo in the qr code.
+ * Pass a logo as BufferedImage or base64 encoded image,
+ * specify the relativeSize of the logo in the qr code and choose the logo shape.
  *
  * @param logo - [Image] to be rendered as logo in the center of the qr code
+ * @param base64Logo - base64 encoded image to be rendered as logo in the center of the qr code
  * @param relativeSize - relative size of the logo, defaults to 0.2
  * @param bgColor - specify the background color of the logo, defaults to null
+ * @param shape - specify the shape of the logo, defaults to [LogoShape.CIRCLE]
  */
 class QrLogoConfig @JvmOverloads constructor(
     val logo: Image? = null,
