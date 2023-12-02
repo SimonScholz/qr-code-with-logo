@@ -23,7 +23,7 @@ import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
  * This class shows how to create QR Codes with different designs.
  * For the types of a QR Code, please have a look at {@link QrCodeTypesMain}.
  */
-public class Main {
+public class BasicsMain {
     private static final double RELATIVE_SQUARE_BORDER_ROUND = .5;
     private static final Color VIOLET = new Color(0x0063, 0x000B, 0x00A5);
 
@@ -39,8 +39,8 @@ public class Main {
     static void generateSamples(QrCodeApi qrCodeApi, String qrCodeDir) throws IOException {
         createDefaultQrCode(qrCodeApi, qrCodeDir);
 
-        final URL resource = Main.class.getClassLoader()
-                                       .getResource("avatar-60x.png");
+        final URL resource = BasicsMain.class.getClassLoader()
+                                             .getResource("avatar-60x.png");
         if (resource != null) {
             createDefaultQrCodeWithLogo(resource, qrCodeApi, qrCodeDir);
 
@@ -157,8 +157,8 @@ public class Main {
     }
 
     private static void rainbowColor(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final URL resource = Objects.requireNonNull(Main.class.getClassLoader()
-                                                              .getResource("rainbow.png"));
+        final URL resource = Objects.requireNonNull(BasicsMain.class.getClassLoader()
+                                                                    .getResource("rainbow.png"));
         final BufferedImage logo = ImageIO.read(resource);
 
         final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.github.io/").qrBorderConfig(Color.YELLOW)
@@ -194,8 +194,8 @@ public class Main {
     }
 
     private static void drawQrCodeOnImage(final BufferedImage qrCode, final String qrCodeDir) throws IOException {
-        final URL url = Objects.requireNonNull(Main.class.getClassLoader()
-                                                         .getResource("cup.jpg"));
+        final URL url = Objects.requireNonNull(BasicsMain.class.getClassLoader()
+                                                               .getResource("cup.jpg"));
         final BufferedImage mainImg = ImageIO.read(url);
         final Graphics graphics = mainImg.getGraphics();
         graphics.drawImage(qrCode, 330, 600, null);

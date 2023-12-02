@@ -20,7 +20,7 @@ import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
 
 /**
  * This class shows how to create QR Codes with different types.
- * For the design of a QR Code, please have a look at {@link Main}.
+ * For the design of a QR Code, please have a look at {@link BasicsMain}.
  */
 public class QrCodeTypesMain {
     public static void main(final String[] args) throws IOException {

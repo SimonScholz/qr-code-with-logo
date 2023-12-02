@@ -95,21 +95,60 @@ fun main() {
             qrCodeApi.createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-SKULL-dots-kotlin.png"))
         }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(::drawPumpkin)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-pumpkin-dots-kotlin.png"))
+        }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(::drawEvilPumpkin)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-pumpkin-evil-dots-kotlin.png"))
+        }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(::drawChristmasTree)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-christmas-tree-dots-kotlin.png"))
+        }
 }
 
 private fun drawSmiley(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
-    val resource = Main::class.java.getClassLoader().getResource("smiley_fill.png")
-    resource?.let {
-        val smiley = ImageIO.read(it)
-        graphics.drawImage(smiley, x, y, dotSize, dotSize, null)
-    }
+    drawDotImage(x, y, dotSize, graphics, "smiley_fill.png")
 }
 
 private fun drawSkull(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
-    val resource = Main::class.java.getClassLoader().getResource("skull_fill.png")
+    drawDotImage(x, y, dotSize, graphics, "skull_fill.png")
+}
+
+private fun drawPumpkin(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    drawDotImage(x, y, dotSize, graphics, "halloween_pumpkin.png")
+}
+
+private fun drawEvilPumpkin(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    drawDotImage(x, y, dotSize, graphics, "halloween_pumpkin_evil.png")
+}
+
+private fun drawChristmasTree(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    drawDotImage(x, y, dotSize, graphics, "christmas_tree.png")
+}
+
+private fun drawDotImage(x: Int, y: Int, dotSize: Int, graphics: Graphics2D, image: String) {
+    val resource = Main::class.java.getClassLoader().getResource(image)
     resource?.let {
-        val smiley = ImageIO.read(it)
-        graphics.drawImage(smiley, x, y, dotSize, dotSize, null)
+        val imageDot = ImageIO.read(it)
+        graphics.drawImage(imageDot, x, y, dotSize, dotSize, null)
     }
 }
 

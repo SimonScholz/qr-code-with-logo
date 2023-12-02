@@ -16,7 +16,7 @@ public class QrCodeTest {
     public void testMain(@TempDir Path tempDir) {
         assertDoesNotThrow(() -> {
             QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
-            Main.generateSamples(qrCodeApi, tempDir.toAbsolutePath().toString());
+            BasicsMain.generateSamples(qrCodeApi, tempDir.toAbsolutePath().toString());
         });
     }
 
