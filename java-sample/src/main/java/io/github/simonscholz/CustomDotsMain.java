@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,8 +23,7 @@ public class CustomDotsMain {
     public static void main(final String[] args) throws IOException {
         final Path path = Paths.get(System.getProperty("user.home"), "qr-code-samples");
         Files.createDirectories(path);
-        final String qrCodeDir = path.toAbsolutePath()
-                                     .toString();
+        final String qrCodeDir = path.toAbsolutePath().toString();
         final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
 
         createQrCodeWithDotStyle(QrCodeDotShape.CIRCLE, qrCodeDir, qrCodeApi, "qr-with-CIRCLE-dots-java.png");
@@ -101,7 +101,7 @@ public class CustomDotsMain {
     }
 
     private static void drawDotImage(final int x, final int y, final int dotSize, final Graphics2D graphics, final String image) {
-        final var resource = CustomDotsMain.class.getClassLoader()
+        final URL resource = CustomDotsMain.class.getClassLoader()
                                                  .getResource(image);
         if (resource != null) {
             try {

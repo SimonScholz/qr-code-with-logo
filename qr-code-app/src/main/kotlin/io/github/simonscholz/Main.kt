@@ -11,6 +11,7 @@ import io.github.simonscholz.ui.MainMenu
 import io.github.simonscholz.ui.MainUI
 import io.github.simonscholz.ui.PropertiesUI
 import org.eclipse.core.databinding.DataBindingContext
+import org.eclipse.core.databinding.observable.sideeffect.ISideEffect
 import org.eclipse.core.databinding.observable.value.IObservableValue
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -32,14 +33,6 @@ fun main() {
         val dataBindingContext = DataBindingContext(SwingRealm())
         val qrCodeConfigViewModel = QrCodeConfigViewModel()
         val configService = ConfigService(qrCodeConfigViewModel)
-        frame.addWindowListener(
-            object : WindowAdapter() {
-                override fun windowClosing(windowEvent: WindowEvent) {
-                    configService.saveConfig()
-                    dataBindingContext.dispose()
-                }
-            },
-        )
 
         val imageService = ImageService(qrCodeConfigViewModel)
         val fileUi = FileUI(CodeGeneratorService(qrCodeConfigViewModel), configService, imageService)
@@ -53,19 +46,60 @@ fun main() {
         val mainPanel = MainUI.createMainPanel(imagePanel, propertiesPanel)
         frame.add(mainPanel)
 
-        dataBindingContext.bindings.forEach {
-            it.model.addChangeListener {
-                if (applyOnChange()) {
-                    onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
+        val sideEffect: ISideEffect = trackChanges(qrCodeConfigViewModel, applyOnChange, imageService, setImage, imagePanel)
+        frame.addWindowListener(
+            object : WindowAdapter() {
+                override fun windowClosing(windowEvent: WindowEvent) {
+                    configService.saveConfig()
+                    dataBindingContext.dispose()
+                    sideEffect.dispose()
                 }
-            }
-        }
+            },
+        )
+
         configService.loadConfig()
 
         frame.pack()
         frame.isVisible = true
     }
 }
+
+private fun trackChanges(
+    qrCodeConfigViewModel: QrCodeConfigViewModel,
+    applyOnChange: () -> Boolean,
+    imageService: ImageService,
+    setImage: (BufferedImage) -> Unit,
+    imagePanel: JPanel,
+): ISideEffect =
+    ISideEffect.create(
+        {
+            qrCodeConfigViewModel.qrCodeContent.value
+            qrCodeConfigViewModel.size.value
+            qrCodeConfigViewModel.backgroundColor.value
+            qrCodeConfigViewModel.foregroundColor.value
+            qrCodeConfigViewModel.dotShape.value
+
+            qrCodeConfigViewModel.logoBase64.value
+            qrCodeConfigViewModel.logoRelativeSize.value
+            qrCodeConfigViewModel.logoBackgroundColor.value
+            qrCodeConfigViewModel.logoShape.value
+
+            qrCodeConfigViewModel.borderColor.value
+            qrCodeConfigViewModel.relativeBorderSize.value
+            qrCodeConfigViewModel.borderRadius.value
+
+            qrCodeConfigViewModel.positionalSquareIsCircleShaped.value
+            qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value
+            qrCodeConfigViewModel.positionalSquareCenterColor.value
+            qrCodeConfigViewModel.positionalSquareInnerSquareColor.value
+            qrCodeConfigViewModel.positionalSquareOuterSquareColor.value
+            qrCodeConfigViewModel.positionalSquareOuterBorderColor.value
+        },
+    ) {
+        if (applyOnChange()) {
+            onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
+        }
+    }
 
 private fun onPropertyApply(qrCodeContentObservable: IObservableValue<String>, imageService: ImageService, setImage: (BufferedImage) -> Unit, imagePanel: JPanel) {
     if (qrCodeContentObservable.value.isNotBlank()) {
