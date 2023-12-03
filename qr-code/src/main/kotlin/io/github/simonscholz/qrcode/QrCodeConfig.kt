@@ -1,9 +1,7 @@
 package io.github.simonscholz.qrcode
 
 import java.awt.Color
-import java.awt.Graphics2D
 import java.awt.Image
-import kotlin.reflect.KFunction4
 
 const val DEFAULT_IMG_SIZE = 300
 
@@ -64,14 +62,6 @@ class QrCodeConfig @JvmOverloads constructor(
 
         fun qrCodeDotStyler(qrCodeDotStyler: QrCodeDotStyler) = apply {
             this.qrCodeDotStyler = qrCodeDotStyler
-        }
-
-        fun qrCodeDotStyler(qrCodeDotStyler: KFunction4<Int, Int, Int, Graphics2D, Unit>) = apply {
-            this.qrCodeDotStyler = object : QrCodeDotStyler {
-                override fun createDot(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
-                    qrCodeDotStyler.invoke(x, y, dotSize, graphics)
-                }
-            }
         }
 
         fun build() = QrCodeConfig(

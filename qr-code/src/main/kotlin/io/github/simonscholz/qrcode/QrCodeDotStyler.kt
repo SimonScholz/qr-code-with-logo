@@ -3,7 +3,7 @@ package io.github.simonscholz.qrcode
 import io.github.simonscholz.qrcode.internal.graphics.CustomQrCodeDotStyler
 import java.awt.Graphics2D
 
-interface QrCodeDotStyler {
+fun interface QrCodeDotStyler {
     fun createDot(x: Int, y: Int, dotSize: Int, graphics: Graphics2D)
 }
 

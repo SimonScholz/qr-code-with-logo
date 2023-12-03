@@ -3,8 +3,8 @@ package io.github.simonscholz.ui
 import io.github.simonscholz.extension.toIntObservable
 import io.github.simonscholz.extension.toObservable
 import io.github.simonscholz.extension.toSelectedItemObservable
+import io.github.simonscholz.model.DotShapes
 import io.github.simonscholz.model.QrCodeConfigViewModel
-import io.github.simonscholz.qrcode.QrCodeDotShape
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
 import io.github.simonscholz.ui.properties.LogoPropertiesUI
 import io.github.simonscholz.ui.properties.PositionalSquaresPropertiesUI
@@ -57,7 +57,7 @@ object PropertiesUI {
         CustomItems.createColorPickerItem(baseTaskPane, "Foreground Color:", qrCodeConfigViewModel.foregroundColor, dataBindingContext)
 
         baseTaskPane.add(JLabel("Dot Shape:"))
-        val logoShapes = QrCodeDotShape.entries.toTypedArray()
+        val logoShapes = DotShapes.entries.toTypedArray()
         val shapeComboBox = JComboBox(logoShapes)
         dataBindingContext.bindValue(shapeComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.dotShape)
         baseTaskPane.add(shapeComboBox, "wrap, growx, span 3, width 200:220:300")
@@ -94,9 +94,6 @@ object PropertiesUI {
         applyButton.addActionListener {
             clickedApply()
         }
-
-        // TODO allow to save config
-        // propertiesPanel.add(JButton("Save Config"), "wrap, growx, span 2, gaptop 25")
 
         val scrollPane = JScrollPane(jxTaskPaneContainer)
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED)

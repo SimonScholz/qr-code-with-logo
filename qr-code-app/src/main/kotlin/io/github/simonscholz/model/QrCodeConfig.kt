@@ -1,14 +1,13 @@
 package io.github.simonscholz.model
 
 import io.github.simonscholz.qrcode.LogoShape
-import io.github.simonscholz.qrcode.QrCodeDotShape
 
 data class QrCodeConfig(
     val qrCodeContent: String,
     val size: Int,
     val backgroundColor: ColorInfo,
     val foregroundColor: ColorInfo,
-    val dotShape: QrCodeDotShape,
+    val dotShape: DotShapes,
 
     val logoBase64: String,
     val logoRelativeSize: Double,
