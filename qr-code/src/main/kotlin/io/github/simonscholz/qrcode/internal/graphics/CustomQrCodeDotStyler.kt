@@ -24,9 +24,9 @@ internal object CustomQrCodeDotStyler {
     }
 
     fun drawHeart(x: Int, y: Int, size: Int, graphic: Graphics2D) {
-        val heartWidth = handleRoundingIssues(size)
-        val heartHeight = handleRoundingIssues(size)
-        val gap = heartWidth / 4
+        val heartWidth = decreaseOnRoundingIssues(size)
+        val heartHeight = decreaseOnRoundingIssues(size)
+        val gap = increaseOnRoundingIssues(heartWidth / 4)
 
         // Draw the left arc of the heart
         graphic.fillArc(x, y, heartWidth / 2, heartHeight / 2, 0, 180)
@@ -40,11 +40,18 @@ internal object CustomQrCodeDotStyler {
         graphic.fillPolygon(triangleXPoints, triangleYPoints, 4)
     }
 
-    private fun handleRoundingIssues(size: Int): Int =
+    private fun decreaseOnRoundingIssues(size: Int): Int =
         if (size % 2 == 0) {
             size
         } else {
             size - 1
+        }
+
+    private fun increaseOnRoundingIssues(size: Int): Int =
+        if (size % 2 == 0) {
+            size
+        } else {
+            size + 1
         }
 
     fun drawHexagon(x: Int, y: Int, size: Int, graphic: Graphics2D) {
