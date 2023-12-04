@@ -199,6 +199,12 @@ Predefined dot shapes of the library:
 
 The app and samples show how to use these predefined dot shapes or create your own dot shapes.
 
+image::./docs/dots/star.png[]
+
+image::./docs/dots/heart.png[]
+
+If you want to see more examples, just run the sample code or the app.
+
 The following example shows how to use the predefined dot shapes:
 
 [source, kotlin]
@@ -390,6 +396,8 @@ The `qr-code-app` project is a simple Swing application, which uses this library
 - Offers a UI for simple QR codes (url, email, phone number, sms, geolocation)
 - Offers a UI for more complex QR codes (vcard, vevent)
 - Offers properties panel for the QR code design (colors, shapes, logo, etc.)
+- Offers a preview panel to see the QR code design
+- Logo can be added as file or base64 encoded string
 - Save the QR code as image
 - Copy the QR code to the clipboard
 - Copy the QR code as Base64 encoded string to the clipboard
