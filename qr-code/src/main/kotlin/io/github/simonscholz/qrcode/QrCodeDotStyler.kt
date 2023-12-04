@@ -43,5 +43,20 @@ enum class QrCodeDotShape : QrCodeDotStyler {
             CustomQrCodeDotStyler.drawHouse(x, y, dotSize, graphics)
         }
     },
+    STAR {
+        override fun createDot(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+            CustomQrCodeDotStyler.drawStar(x, y, dotSize, graphics)
+        }
+    },
+    DIAMOND {
+        override fun createDot(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+            CustomQrCodeDotStyler.drawDiamond(x, y, dotSize, graphics)
+        }
+    },
+    CROSS {
+        override fun createDot(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+            CustomQrCodeDotStyler.drawCross(x, y, dotSize, graphics)
+        }
+    },
     ;
 }

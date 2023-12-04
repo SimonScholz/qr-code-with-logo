@@ -1,5 +1,6 @@
 package io.github.simonscholz.ui
 
+import io.github.simonscholz.extension.changeItemOnScroll
 import io.github.simonscholz.extension.toIntObservable
 import io.github.simonscholz.extension.toObservable
 import io.github.simonscholz.extension.toSelectedItemObservable
@@ -57,8 +58,9 @@ object PropertiesUI {
         CustomItems.createColorPickerItem(baseTaskPane, "Foreground Color:", qrCodeConfigViewModel.foregroundColor, dataBindingContext)
 
         baseTaskPane.add(JLabel("Dot Shape:"))
-        val logoShapes = DotShapes.entries.toTypedArray()
-        val shapeComboBox = JComboBox(logoShapes)
+        val dotShapes = DotShapes.entries.toTypedArray()
+        val shapeComboBox = JComboBox(dotShapes)
+        shapeComboBox.changeItemOnScroll()
         dataBindingContext.bindValue(shapeComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.dotShape)
         baseTaskPane.add(shapeComboBox, "wrap, growx, span 3, width 200:220:300")
 

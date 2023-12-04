@@ -1,5 +1,6 @@
 package io.github.simonscholz.ui.properties
 
+import io.github.simonscholz.extension.changeItemOnScroll
 import io.github.simonscholz.extension.toDoubleObservable
 import io.github.simonscholz.extension.toSelectedItemObservable
 import io.github.simonscholz.model.QrCodeConfigViewModel
@@ -90,6 +91,7 @@ object LogoPropertiesUI {
         logoPropertiesPanel.add(JLabel("Logo Shape:"))
         val logoShapes = LogoShape.entries.toTypedArray()
         val shapeComboBox = JComboBox(logoShapes)
+        shapeComboBox.changeItemOnScroll()
         dataBindingContext.bindValue(shapeComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.logoShape)
         logoPropertiesPanel.add(shapeComboBox, "wrap, growx, span 3, width 200:220:300")
 

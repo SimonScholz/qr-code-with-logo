@@ -25,6 +25,8 @@ Or download the appropriate distribution from the https://github.com/SimonScholz
 
 More details about the application can be found https://github.com/SimonScholz/qr-code-with-logo#qr-code-app[here]
 
+The app you can also generate the code for you, so you can just copy and paste it into your project.
+
 == Quickstart
 
 === Gradle
@@ -34,7 +36,7 @@ Getting a released version:
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.2.0")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.3.0")
 }
 ----
 
@@ -50,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.3.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0-SNAPSHOT")
 }
 ----
 
@@ -61,7 +63,7 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 </dependency>
 ----
 
@@ -136,6 +138,10 @@ So you should either scale the logo manually or use the following beforehand:
 
 All the examples you can see here are implemented in the `java-sample` and `kotlin-sample` modules.
 
+The `qr-code-app` project makes it even easier to create QR codes with this library,
+because it offers a UI to create QR codes and also offers a UI for the QR code design.
+It can even generate the code for you, so you can just copy and paste it into your project.
+
 === Shapes
 
 Using the defaults only:
@@ -173,6 +179,100 @@ Make the QR code transparent and draw it onto a background image:
 image::./docs/transparent-color.png[]
 
 To see what's possible with colors, have a look at the rainbow example in the bad examples below.
+
+=== Custom dot shapes
+
+The library comes with some predefined dot shapes, but you can also create your own dot shapes.
+
+Predefined dot shapes of the library:
+
+- `QrCodeDotShape.SQUARE`
+- `QrCodeDotShape.ROUNDED_SQUARE`
+- `QrCodeDotShape.CIRCLE`
+- `QrCodeDotShape.HEXAGON`
+- `QrCodeDotShape.TRIANGLE`
+- `QrCodeDotShape.HEART`
+- `QrCodeDotShape.HOUSE`
+- `QrCodeDotShape.STAR`
+- `QrCodeDotShape.DIAMOND`
+- `QrCodeDotShape.CROSS`
+
+The app and samples show how to use these predefined dot shapes or create your own dot shapes.
+
+The following example shows how to use the predefined dot shapes:
+
+[source, kotlin]
+----
+import io.github.simonscholz.qrcode.QrCodeConfig
+import io.github.simonscholz.qrcode.QrCodeDotShape
+import io.github.simonscholz.qrcode.QrCodeFactory
+import java.awt.Color
+import java.awt.Graphics2D
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import javax.imageio.ImageIO
+
+fun main() {
+  val path = Paths.get(System.getProperty("user.home"), "qr-code-samples")
+  Files.createDirectories(path)
+  val qrCodeDir = path.toAbsolutePath().toString()
+  val qrCodeApi = QrCodeFactory.createQrCodeApi()
+
+  QrCodeConfig.Builder("https://simonscholz.github.io/")
+      .qrCodeDotShape(QrCodeDotShape.HEART)
+      .qrCodeSize(800)
+      .build()
+      .run {
+          qrCodeApi.createQrCodeImage(this)
+              .toFile(File(qrCodeDir, "/qr-with-HEART-dots-kotlin.png"))
+      }
+}
+----
+
+The following example shows how to create a custom dot shape:
+
+[source, kotlin]
+----
+import io.github.simonscholz.qrcode.QrCodeConfig
+import io.github.simonscholz.qrcode.QrCodeDotShape
+import io.github.simonscholz.qrcode.QrCodeFactory
+import java.awt.Color
+import java.awt.Graphics2D
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import javax.imageio.ImageIO
+
+fun main() {
+  val path = Paths.get(System.getProperty("user.home"), "qr-code-samples")
+  Files.createDirectories(path)
+  val qrCodeDir = path.toAbsolutePath().toString()
+  val qrCodeApi = QrCodeFactory.createQrCodeApi()
+  QrCodeConfig.Builder("https://simonscholz.github.io/")
+      .qrCodeDotStyler(::drawSmiley)
+      .qrCodeSize(800)
+      .build()
+      .run {
+          qrCodeApi.createQrCodeImage(this)
+              .toFile(File(qrCodeDir, "/qr-with-SMILEY-dots-kotlin.png"))
+      }
+
+  private fun drawSmiley(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+      drawDotImage(x, y, dotSize, graphics, "smiley_fill.png")
+  }
+
+  private fun drawDotImage(x: Int, y: Int, dotSize: Int, graphics: Graphics2D, image: String) {
+      val resource = Main::class.java.getClassLoader().getResource(image)
+      resource?.let {
+          val imageDot = ImageIO.read(it)
+          graphics.drawImage(imageDot, x, y, dotSize, dotSize, null)
+      }
+  }
+}
+----
+
+For more advanced examples and Java usage, please have a look at the `kotlin-sample` or `java-sample` modules.
 
 === Types
 
@@ -293,16 +393,23 @@ The `qr-code-app` project is a simple Swing application, which uses this library
 - Save the QR code as image
 - Copy the QR code to the clipboard
 - Copy the QR code as Base64 encoded string to the clipboard
-- Save the QR code config/design to a file
-- Load a QR code from a config/design file
+- Save/Export the QR code config/design to a file for later or sharing with others
+- Load/Import a QR code from a config/design file
 - Copy sample code based on current config to the clipboard (Java or Kotlin)
 
 Feel free to ask for new features or create a pull request if you want to add more features.
 
 === Config of the UI
 
-The latest config is stored in the user preferences when closing the application.
+The latest config is stored in the operating systems app data directory (~/.config/qr-code-app or C:\AppData\qr-code-app) when closing the application.
 On startup of the application this config is loaded and used to create a QR code.
+
+=== Sharing the config
+
+The config can be shared with others by saving it via `File > Export Config` or `CTRL+E` shortcut to a file and sending it to others.
+Others can then load the config via `File > Import Config` or `CTRL+I` shortcut.
+The good thing is that also the logo image is stored in the config file, so you don't have to send the logo image separately.
+This is archived by converting the logo image to a Base64 encoded string.
 
 === Running the app
 
@@ -313,7 +420,11 @@ Either start it from your IDE or use Gradle to run it:
 ./gradlew :qr-code-app:run
 ----
 
-The https://github.com/SimonScholz/qr-code-with-logo/releases[releases section] offers distributions for different operating systems, which consists of a `qr-code-app` and `qr-code-app.bat` file in the `/bin` folder, which can be executed directly. (does **not** require Java to be installed on your system)
+=== Downloading the app (without Java)
+
+The https://github.com/SimonScholz/qr-code-with-logo/releases[releases section] offers distributions for different operating systems,
+which consists of a `qr-code-app` and `qr-code-app.bat` file in the `/bin` folder, which can be executed directly.
+(does **not** require Java to be installed on your system)
 
 == Useful sources
 

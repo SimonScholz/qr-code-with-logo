@@ -58,6 +58,9 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
             DotShapes.TRIANGLE -> QrCodeDotShape.TRIANGLE
             DotShapes.HEART -> QrCodeDotShape.HEART
             DotShapes.HOUSE -> QrCodeDotShape.HOUSE
+            DotShapes.STAR -> QrCodeDotShape.STAR
+            DotShapes.DIAMOND -> QrCodeDotShape.DIAMOND
+            DotShapes.CROSS -> QrCodeDotShape.CROSS
             DotShapes.HOUSE_WITH_DOOR_AND_WINDOW -> QrCodeDotStyler { x, y, size, graphic ->
                 drawColorfulHouseWithDoorAndWindow(x, y, size, graphic)
             }

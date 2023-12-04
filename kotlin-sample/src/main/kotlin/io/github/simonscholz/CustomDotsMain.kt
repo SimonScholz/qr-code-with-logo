@@ -70,6 +70,33 @@ fun main() {
         }
 
     QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(QrCodeDotShape.STAR)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-STAR-dots-kotlin.png"))
+        }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(QrCodeDotShape.DIAMOND)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-DIAMOND-dots-kotlin.png"))
+        }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
+        .qrCodeDotStyler(QrCodeDotShape.CROSS)
+        .qrCodeSize(800)
+        .build()
+        .run {
+            qrCodeApi.createQrCodeImage(this)
+                .toFile(File(qrCodeDir, "/qr-with-CROSS-dots-kotlin.png"))
+        }
+
+    QrCodeConfig.Builder("https://simonscholz.github.io/")
         .qrCodeDotStyler(::drawColorfulHouseWithDoorAndWindow)
         .qrCodeSize(800)
         .build()

@@ -71,4 +71,39 @@ internal object CustomQrCodeDotStyler {
 
         graphic.fillPolygon(triangleXPoints, triangleYPoints, 3)
     }
+
+    fun drawStar(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+        val outerRadius: Double = (size / 2).toDouble()
+        val innerRadius: Double = (size / 4).toDouble()
+
+        val xPoints = IntArray(10)
+        val yPoints = IntArray(10)
+
+        for (i in 0 until 10) {
+            val angle = Math.PI / 5 * i
+            val radius = if (i % 2 == 0) outerRadius else innerRadius
+            xPoints[i] = (x + size / 2 + radius * cos(angle)).toInt()
+            yPoints[i] = (y + size / 2 + radius * sin(angle)).toInt()
+        }
+
+        val star = Polygon(xPoints, yPoints, 10)
+
+        graphic.fill(star)
+    }
+
+    fun drawDiamond(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+        val halfSize = size / 2
+
+        val xPoints = intArrayOf(x + halfSize, x + size, x + halfSize, x)
+        val yPoints = intArrayOf(y, y + halfSize, y + size, y + halfSize)
+
+        val diamond = Polygon(xPoints, yPoints, 4)
+
+        graphic.fill(diamond)
+    }
+
+    fun drawCross(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+        graphic.fillRect(x, y + size / 4, size, size / 2)
+        graphic.fillRect(x + size / 4, y, size / 2, size)
+    }
 }
