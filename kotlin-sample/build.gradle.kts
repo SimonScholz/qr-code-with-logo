@@ -17,7 +17,7 @@ dependencies {
 }
 
 detekt {
-    toolVersion = "1.23.1"
+    toolVersion = "1.23.4"
     config.setFrom(file("${project.rootDir}/config/detekt/detekt.yml"))
     buildUponDefaultConfig = true
 }
