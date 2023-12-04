@@ -7,6 +7,7 @@ import io.github.simonscholz.model.QrCodeConfig
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import java.io.File
 import java.nio.file.Paths
+import java.util.prefs.Preferences
 import kotlin.io.path.createDirectories
 
 class ConfigService(
@@ -80,7 +81,21 @@ class ConfigService(
         }
     }
 
+    fun saveLastUsedDirectory(id: String, directory: File) {
+        preferences.put(id, directory.absolutePath)
+    }
+
+    fun getLastUsedDirectory(id: String): File? {
+        val lastUsedDirectory = preferences.get(id, null)
+        return if (lastUsedDirectory != null) {
+            File(lastUsedDirectory)
+        } else {
+            null
+        }
+    }
+
     companion object {
         private const val QR_CODE_CONFIG_FILE = "config.json"
+        private val preferences: Preferences = Preferences.userRoot().node("QrCodeAppPreferences")
     }
 }

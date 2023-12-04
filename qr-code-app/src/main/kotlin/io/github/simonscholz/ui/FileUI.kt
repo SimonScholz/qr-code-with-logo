@@ -52,7 +52,9 @@ class FileUI(
 
     fun saveQrCodeImageFile() {
         val fileChooser = JFileChooser()
+        fileChooser.fileSelectionMode = JFileChooser.FILES_ONLY
         fileChooser.fileFilter = FileNameExtensionFilter("Png Image Files (*.png)", "png")
+        fileChooser.currentDirectory = configService.getLastUsedDirectory("saveQrCodeImageFile")
         val result = fileChooser.showSaveDialog(null)
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -61,6 +63,7 @@ class FileUI(
             } else {
                 File("${fileChooser.selectedFile.absolutePath}.png")
             }
+            configService.saveLastUsedDirectory("saveQrCodeImageFile", fileToSave.parentFile)
 
             val qrCodeImage = imageService.renderImage()
             ImageIO.write(qrCodeImage, "png", fileToSave)
@@ -69,7 +72,9 @@ class FileUI(
 
     fun saveConfig() {
         val fileChooser = JFileChooser()
+        fileChooser.fileSelectionMode = JFileChooser.FILES_ONLY
         fileChooser.fileFilter = FileNameExtensionFilter("Json Files (*.json)", "json")
+        fileChooser.currentDirectory = configService.getLastUsedDirectory("saveConfig")
         val result = fileChooser.showSaveDialog(null)
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -81,6 +86,7 @@ class FileUI(
 
             runCatching {
                 configService.saveConfigFile(fileToSave.absolutePath)
+                configService.saveLastUsedDirectory("saveConfig", fileToSave.parentFile)
             }.onFailure {
                 JOptionPane.showMessageDialog(
                     null,
@@ -95,11 +101,13 @@ class FileUI(
     fun loadConfig() {
         val fileChooser = JFileChooser()
         fileChooser.fileFilter = FileNameExtensionFilter("Json Files (*.json)", "json")
+        fileChooser.currentDirectory = configService.getLastUsedDirectory("loadConfig")
         val result = fileChooser.showOpenDialog(null)
 
         if (result == JFileChooser.APPROVE_OPTION) {
             runCatching {
                 configService.loadConfigFile(fileChooser.selectedFile.absolutePath)
+                configService.saveLastUsedDirectory("loadConfig", fileChooser.selectedFile.parentFile)
             }.onFailure {
                 JOptionPane.showMessageDialog(
                     null,

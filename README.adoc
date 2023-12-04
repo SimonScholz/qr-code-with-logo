@@ -109,31 +109,6 @@ ImageIO.write(qrCode, "png", new File("qr-with-defaults-java.png"));
 
 For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample` module].
 
-== Logo scaling
-
-Scaling down the logo image in advance will improve the image quality of the logo.
-
-But compare yourself:
-
-Logo with 500x500px (Qr Code size=300px):
-
-image::./docs/qr-with-logo-unscaled.png[]
-
-Logo with 60x60px (Qr Code size=300px):
-
-image::./docs/qr-with-logo-scaled.png[]
-
-NOTE: I chose 60x60px, because the default logo relative size is 0.2, which means 20% of the QR code size, which is 60x60px when having a 300x300px qr code (300*0.2=60).
-
-The reason for this is the fact that the scaling capabilities of awt are *not* that good.
-
-So you should either scale the logo manually or use the following beforehand:
-
-- java.awt.Image.getScaledInstance(int width, int height, int hints)
-- https://github.com/rkalla/imgscalr
-- https://github.com/downgoon/marvin
-- https://github.com/coobird/thumbnailator
-
 == Example QR codes
 
 All the examples you can see here are implemented in the `java-sample` and `kotlin-sample` modules.
@@ -369,6 +344,39 @@ The `vCardQrCodeText` can then be used to create a QR code.
 ====
 image::./docs/types/vCard.png[]
 ====
+
+== Base64 encoded qr code image and logo
+
+The logo image can be added as file or as Base64 encoded string.
+
+The qr code image can also be returned as Base64 encoded string.
+
+Also the the qr-code-app application, which can also deal with Base64 encoded strings for the logo and the qr code image.
+
+== Logo scaling
+
+Scaling down the logo image in advance will improve the image quality of the logo.
+
+But compare yourself:
+
+Logo with 500x500px (Qr Code size=300px):
+
+image::./docs/qr-with-logo-unscaled.png[]
+
+Logo with 60x60px (Qr Code size=300px):
+
+image::./docs/qr-with-logo-scaled.png[]
+
+NOTE: I chose 60x60px, because the default logo relative size is 0.2, which means 20% of the QR code size, which is 60x60px when having a 300x300px qr code (300*0.2=60).
+
+The reason for this is the fact that the scaling capabilities of awt are *not* that good.
+
+So you should either scale the logo manually or use the following beforehand:
+
+- java.awt.Image.getScaledInstance(int width, int height, int hints)
+- https://github.com/rkalla/imgscalr
+- https://github.com/downgoon/marvin
+- https://github.com/coobird/thumbnailator
 
 == Bad examples
 

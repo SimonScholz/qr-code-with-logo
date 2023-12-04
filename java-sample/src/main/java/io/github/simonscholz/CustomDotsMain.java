@@ -32,6 +32,9 @@ public class CustomDotsMain {
         createQrCodeWithDotStyle(QrCodeDotShape.TRIANGLE, qrCodeDir, qrCodeApi, "qr-with-TRIANGLE-dots-java.png");
         createQrCodeWithDotStyle(QrCodeDotShape.HEART, qrCodeDir, qrCodeApi, "qr-with-HEART-dots-java.png");
         createQrCodeWithDotStyle(QrCodeDotShape.HOUSE, qrCodeDir, qrCodeApi, "qr-with-HOUSE-dots-java.png");
+        createQrCodeWithDotStyle(QrCodeDotShape.STAR, qrCodeDir, qrCodeApi, "qr-with-STAR-dots-java.png");
+        createQrCodeWithDotStyle(QrCodeDotShape.CROSS, qrCodeDir, qrCodeApi, "qr-with-CROSS-dots-java.png");
+        createQrCodeWithDotStyle(QrCodeDotShape.DIAMOND, qrCodeDir, qrCodeApi, "qr-with-DIAMOND-dots-java.png");
 
         createQrCodeWithDotStyler(CustomDotsMain::drawColorfulHouseWithDoorAndWindow, qrCodeDir, qrCodeApi, "qr-with-COLORFUL-HOUSE-dots-java.png");
         createQrCodeWithDotStyler(CustomDotsMain::drawSmiley, qrCodeDir, qrCodeApi, "qr-with-SMILEY-dots-java.png");
