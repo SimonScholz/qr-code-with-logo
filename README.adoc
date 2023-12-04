@@ -201,12 +201,12 @@ fun main() {
   val qrCodeApi = QrCodeFactory.createQrCodeApi()
 
   QrCodeConfig.Builder("https://simonscholz.github.io/")
-      .qrCodeDotShape(QrCodeDotShape.HEART)
+      .qrCodeDotStyler(QrCodeDotShape.STAR)
       .qrCodeSize(800)
       .build()
       .run {
           qrCodeApi.createQrCodeImage(this)
-              .toFile(File(qrCodeDir, "/qr-with-HEART-dots-kotlin.png"))
+              .toFile(File(qrCodeDir, "/qr-with-STAR-dots-kotlin.png"))
       }
 }
 ----
@@ -252,6 +252,8 @@ fun main() {
   }
 }
 ----
+
+Besides just drawing a logo with the `Graphics2D` object, you can also draw whatever you want.
 
 For more advanced examples and Java usage, please have a look at the `kotlin-sample` or `java-sample` modules.
 
