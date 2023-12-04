@@ -88,10 +88,9 @@ class VCard {
         state: String = "",
         postOfficeBox: String = "",
         extendedAddress: String = "",
-    ) =
-        apply {
-            this.address = "$postOfficeBox;$extendedAddress;$street;$city;$state;$postalCode;$country"
-        }
+    ) = apply {
+        this.address = "$postOfficeBox;$extendedAddress;$street;$city;$state;$postalCode;$country"
+    }
 
     /**
      * Url of a website
@@ -103,8 +102,7 @@ class VCard {
      */
     fun birthday(date: String) = apply { this.birthday = date }
 
-    fun birthday(birthday: LocalDate) =
-        apply { this.birthday = birthday.format(DateTimeFormatter.ISO_LOCAL_DATE) }
+    fun birthday(birthday: LocalDate) = apply { this.birthday = birthday.format(DateTimeFormatter.ISO_LOCAL_DATE) }
 
     /**
      * Can be an url to an image or base64 encoded image
@@ -134,25 +132,25 @@ class VCard {
      *
      * Will be translated to ISO 8601 format, e.g., 2023-10-13T15:30:00Z
      */
-    fun revisionDate(revisionDate: LocalDateTime) =
-        apply { this.revisionDate = revisionDate.format(DateTimeFormatter.ISO_INSTANT) }
+    fun revisionDate(revisionDate: LocalDateTime) = apply { this.revisionDate = revisionDate.format(DateTimeFormatter.ISO_INSTANT) }
 
     /**
      * Indicates the last time the VCard was updated.
      *
      * Will be translated to ISO 8601 format, e.g., 2023-10-13T15:30:00Z
      */
-    fun revisionDate(revisionDate: TemporalAccessor) =
-        apply { this.revisionDate = DateTimeFormatter.ISO_INSTANT.format(revisionDate) }
+    fun revisionDate(revisionDate: TemporalAccessor) = apply { this.revisionDate = DateTimeFormatter.ISO_INSTANT.format(revisionDate) }
 
     /**
      * Specifies the latitude and longitude of a location
      */
-    fun geographicPosition(latitude: Double, longitude: Double) =
-        apply {
-            this.latitude = latitude.toString()
-            this.longitude = longitude.toString()
-        }
+    fun geographicPosition(
+        latitude: Double,
+        longitude: Double,
+    ) = apply {
+        this.latitude = latitude.toString()
+        this.longitude = longitude.toString()
+    }
 
     /**
      * Instant Messaging and Presence Protocol: Specifies instant messaging handles, including the IM protocol used (e.g., Skype, AIM, XMPP)

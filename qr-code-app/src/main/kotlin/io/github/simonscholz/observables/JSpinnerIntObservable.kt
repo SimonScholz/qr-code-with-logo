@@ -7,7 +7,6 @@ import javax.swing.JSpinner
 class JSpinnerIntObservable(
     private val jSpinner: JSpinner,
 ) : AbstractObservableValue<Int>() {
-
     private var value: Int = jSpinner.value as Int
 
     init {
@@ -18,8 +17,7 @@ class JSpinnerIntObservable(
         }
     }
 
-    override fun doGetValue(): Int =
-        jSpinner.value as Int
+    override fun doGetValue(): Int = jSpinner.value as Int
 
     override fun getValueType(): Any = Int::class.java
 

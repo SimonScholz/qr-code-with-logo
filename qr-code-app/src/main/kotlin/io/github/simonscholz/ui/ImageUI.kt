@@ -17,15 +17,19 @@ import javax.swing.JPopupMenu
 import javax.swing.KeyStroke
 
 object ImageUI {
-    fun createImagePanel(imageService: ImageService, fileUI: FileUI): Pair<JPanel, (BufferedImage) -> Unit> {
+    fun createImagePanel(
+        imageService: ImageService,
+        fileUI: FileUI,
+    ): Pair<JPanel, (BufferedImage) -> Unit> {
         val imageContainer = JPanel(MigLayout("", "[center]"))
         imageContainer.background = Color.WHITE
 
         val image = imageService.renderImage()
 
-        val imageDrawPanel = ImagePanel().apply {
-            setImage(image)
-        }
+        val imageDrawPanel =
+            ImagePanel().apply {
+                setImage(image)
+            }
         imageContainer.add(imageDrawPanel, "wrap")
         createPopupMenu(fileUI, imageDrawPanel)
 
@@ -37,7 +41,10 @@ object ImageUI {
         return Pair(imageContainer, setImage)
     }
 
-    private fun createPopupMenu(fileUI: FileUI, imagePanel: ImagePanel) {
+    private fun createPopupMenu(
+        fileUI: FileUI,
+        imagePanel: ImagePanel,
+    ) {
         val contextMenu = JPopupMenu()
 
         contextMenu.add(saveQrCodeImageMenuItem(fileUI))

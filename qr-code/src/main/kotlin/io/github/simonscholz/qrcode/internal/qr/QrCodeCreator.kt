@@ -33,7 +33,6 @@ import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 
 internal class QrCodeCreator {
-
     fun createQrImageWithPositionals(
         qrCodeText: String,
         size: Int,
@@ -114,17 +113,33 @@ internal class QrCodeCreator {
         }
     }
 
-    private fun drawPositionalSquare(graphics: Graphics2D, x: Int, y: Int, width: Int, height: Int, circularPositionalSquares: Boolean, relativePositionalSquareRound: Double) {
+    private fun drawPositionalSquare(
+        graphics: Graphics2D,
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        circularPositionalSquares: Boolean,
+        relativePositionalSquareRound: Double,
+    ) {
         if (circularPositionalSquares) {
             graphics.fillArc(x, y, width, height, 0, 360)
         } else {
-            graphics.fillRoundRect(x, y, width, height, (width * relativePositionalSquareRound).toInt(), (height * relativePositionalSquareRound).toInt())
+            graphics.fillRoundRect(
+                x,
+                y,
+                width,
+                height,
+                (width * relativePositionalSquareRound).toInt(),
+                (height * relativePositionalSquareRound).toInt(),
+            )
         }
     }
 
-    private fun encodeHintTypes() = mapOf(
-        EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H,
-        EncodeHintType.MARGIN to 0,
-        EncodeHintType.CHARACTER_SET to "UTF-8",
-    )
+    private fun encodeHintTypes() =
+        mapOf(
+            EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H,
+            EncodeHintType.MARGIN to 0,
+            EncodeHintType.CHARACTER_SET to "UTF-8",
+        )
 }

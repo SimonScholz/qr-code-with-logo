@@ -81,7 +81,10 @@ class ConfigService(
         }
     }
 
-    fun saveLastUsedDirectory(id: String, directory: File) {
+    fun saveLastUsedDirectory(
+        id: String,
+        directory: File,
+    ) {
         preferences.put(id, directory.absolutePath)
     }
 

@@ -35,57 +35,85 @@ fun main() {
     createWithVCard(qrCodeApi, qrCodeDir)
 }
 
-private fun createWithUrl(qrCodeApi: QrCodeApi, qrCodeDir: String) {
+private fun createWithUrl(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
     val url = url("https://simonscholz.github.io/")
     createDefaultQrCode(qrCodeApi, url, File(qrCodeDir, "simple-url.png"))
 }
 
-private fun createWithGeolocation(qrCodeApi: QrCodeApi, qrCodeDir: String) {
+private fun createWithGeolocation(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
     val geolocation = geolocation(53.59659752940634, 10.006589989354053)
     createDefaultQrCode(qrCodeApi, geolocation, File(qrCodeDir, "simple-geolocation.png"))
 }
 
-private fun createWithEmail(qrCodeApi: QrCodeApi, qrCodeDir: String) {
+private fun createWithEmail(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
     val email = email("simon@example.com", "Hello World", "This is a test email")
     createDefaultQrCode(qrCodeApi, email, File(qrCodeDir, "simple-email.png"))
 }
 
-private fun createWithPhoneNumber(qrCodeApi: QrCodeApi, qrCodeDir: String) {
+private fun createWithPhoneNumber(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
     val phoneNumber = phoneNumber("+49 176 12345678")
     createDefaultQrCode(qrCodeApi, phoneNumber, File(qrCodeDir, "simple-phoneNumber.png"))
 }
 
-private fun createWithSms(qrCodeApi: QrCodeApi, qrCodeDir: String) {
+private fun createWithSms(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
     val sms = sms("+49 176 12345678", "Hello, this is a test SMS")
     createDefaultQrCode(qrCodeApi, sms, File(qrCodeDir, "simple-sms.png"))
 }
 
-private fun createWithVEvent(qrCodeApi: QrCodeApi, qrCodeDir: String) {
-    val startDateTime = LocalDateTime.now()
-        .plusWeeks(2)
-    val vEventQrCodeText = VEvent()
-        .summary("QR Codes with Kotlin & Java")
-        .location("Java User Group Hamburg")
-        .startDate(startDateTime)
-        .endDate(startDateTime.plusHours(2))
-        .description("Let's create QR Codes with Kotlin & Java")
-        .toVEventQrCodeText()
+private fun createWithVEvent(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
+    val startDateTime =
+        LocalDateTime.now()
+            .plusWeeks(2)
+    val vEventQrCodeText =
+        VEvent()
+            .summary("QR Codes with Kotlin & Java")
+            .location("Java User Group Hamburg")
+            .startDate(startDateTime)
+            .endDate(startDateTime.plusHours(2))
+            .description("Let's create QR Codes with Kotlin & Java")
+            .toVEventQrCodeText()
     createDefaultQrCode(qrCodeApi, vEventQrCodeText, File(qrCodeDir, "vevent.png"))
 }
 
-private fun createWithVCard(qrCodeApi: QrCodeApi, qrCodeDir: String) {
-    val vCardQrCodeText = VCard()
-        .formattedName("Simon Scholz")
-        .email("simon@example.com")
-        .address("Main Street 1", "Hamburg", "22855")
-        .organization("Self Employed")
-        .phoneNumber("+49 176 12345678")
-        .website("https://simonscholz.github.io/")
-        .toVCardQrCodeText()
+private fun createWithVCard(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
+    val vCardQrCodeText =
+        VCard()
+            .formattedName("Simon Scholz")
+            .email("simon@example.com")
+            .address("Main Street 1", "Hamburg", "22855")
+            .organization("Self Employed")
+            .phoneNumber("+49 176 12345678")
+            .website("https://simonscholz.github.io/")
+            .toVCardQrCodeText()
     createDefaultQrCode(qrCodeApi, vCardQrCodeText, File(qrCodeDir, "vCard.png"))
 }
 
-private fun createDefaultQrCode(qrCodeApi: QrCodeApi, qrCodeText: String, qrCodeFile: File) {
+private fun createDefaultQrCode(
+    qrCodeApi: QrCodeApi,
+    qrCodeText: String,
+    qrCodeFile: File,
+) {
     val qrCode = qrCodeApi.createQrCodeImage(QrCodeConfig(qrCodeText, DEFAULT_IMG_SIZE))
     ImageIO.write(qrCode, "png", qrCodeFile)
 }

@@ -8,8 +8,12 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 internal object CustomQrCodeDotStyler {
-
-    fun drawHouse(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawHouse(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val roofHeight = size / 2
         val houseWidth = size - 1 // -1 to have a gap between the houses
         val houseHeight = size - roofHeight
@@ -23,7 +27,12 @@ internal object CustomQrCodeDotStyler {
         graphic.fillPolygon(roofXPoints, roofYPoints, 3)
     }
 
-    fun drawHeart(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawHeart(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val heartWidth = decreaseOnRoundingIssues(size)
         val heartHeight = decreaseOnRoundingIssues(size)
         val gap = increaseOnRoundingIssues(heartWidth / 4)
@@ -36,7 +45,8 @@ internal object CustomQrCodeDotStyler {
 
         // Draw the bottom triangle of the heart
         val triangleXPoints = intArrayOf(x, x + heartWidth / 2, x + heartWidth, x)
-        val triangleYPoints = intArrayOf(y + heartHeight / 2 - gap, y + heartHeight - gap, y + heartHeight / 2 - gap, y + heartHeight / 2 - gap)
+        val triangleYPoints =
+            intArrayOf(y + heartHeight / 2 - gap, y + heartHeight - gap, y + heartHeight / 2 - gap, y + heartHeight / 2 - gap)
         graphic.fillPolygon(triangleXPoints, triangleYPoints, 4)
     }
 
@@ -54,12 +64,20 @@ internal object CustomQrCodeDotStyler {
             size + 1
         }
 
-    fun drawHexagon(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawHexagon(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val hexRadius = size / 2
         graphic.fillPolygon(createHexagon(Point(x + hexRadius, y + hexRadius), hexRadius))
     }
 
-    private fun createHexagon(center: Point, radius: Int): Polygon {
+    private fun createHexagon(
+        center: Point,
+        radius: Int,
+    ): Polygon {
         val polygon = Polygon()
         for (i in 0..5) {
             polygon.addPoint(
@@ -70,7 +88,12 @@ internal object CustomQrCodeDotStyler {
         return polygon
     }
 
-    fun drawEquilateralTriangle(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawEquilateralTriangle(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val triangleHeight = (sqrt(3.0) / 2 * size).toInt()
 
         val triangleXPoints = intArrayOf(x, x + size / 2, x + size, x)
@@ -79,7 +102,12 @@ internal object CustomQrCodeDotStyler {
         graphic.fillPolygon(triangleXPoints, triangleYPoints, 3)
     }
 
-    fun drawStar(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawStar(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val outerRadius: Double = (size / 2).toDouble()
         val innerRadius: Double = (size / 4).toDouble()
 
@@ -98,7 +126,12 @@ internal object CustomQrCodeDotStyler {
         graphic.fill(star)
     }
 
-    fun drawDiamond(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawDiamond(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val halfSize = size / 2
 
         val xPoints = intArrayOf(x + halfSize, x + size, x + halfSize, x)
@@ -109,7 +142,12 @@ internal object CustomQrCodeDotStyler {
         graphic.fill(diamond)
     }
 
-    fun drawCross(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    fun drawCross(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         graphic.fillRect(x, y + size / 4, size, size / 2)
         graphic.fillRect(x + size / 4, y, size / 2, size)
     }

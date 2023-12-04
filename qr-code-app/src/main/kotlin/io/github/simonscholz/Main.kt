@@ -39,9 +39,10 @@ fun main() {
         MainMenu.createFrameMenu(frame, qrCodeConfigViewModel.qrCodeContent, fileUi, configService)
 
         val (imagePanel, setImage) = ImageUI.createImagePanel(imageService, fileUi)
-        val (propertiesPanel, applyOnChange) = PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {
-            onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
-        }
+        val (propertiesPanel, applyOnChange) =
+            PropertiesUI.createPropertiesUI(qrCodeConfigViewModel, dataBindingContext) {
+                onPropertyApply(qrCodeConfigViewModel.qrCodeContent, imageService, setImage, imagePanel)
+            }
 
         val mainPanel = MainUI.createMainPanel(imagePanel, propertiesPanel)
         frame.add(mainPanel)
@@ -101,7 +102,12 @@ private fun trackChanges(
         }
     }
 
-private fun onPropertyApply(qrCodeContentObservable: IObservableValue<String>, imageService: ImageService, setImage: (BufferedImage) -> Unit, imagePanel: JPanel) {
+private fun onPropertyApply(
+    qrCodeContentObservable: IObservableValue<String>,
+    imageService: ImageService,
+    setImage: (BufferedImage) -> Unit,
+    imagePanel: JPanel,
+) {
     if (qrCodeContentObservable.value.isNotBlank()) {
         val qrCodeImage = imageService.renderImage()
         setImage(qrCodeImage)

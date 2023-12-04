@@ -8,16 +8,13 @@ data class QrCodeConfig(
     val backgroundColor: ColorInfo,
     val foregroundColor: ColorInfo,
     val dotShape: DotShapes,
-
     val logoBase64: String,
     val logoRelativeSize: Double,
     val logoBackgroundColor: ColorInfo,
     val logoShape: LogoShape,
-
     val borderColor: ColorInfo,
     val relativeBorderSize: Double,
     val borderRadius: Double,
-
     val positionalSquareIsCircleShaped: Boolean,
     val positionalSquareRelativeBorderRound: Double,
     val positionalSquareCenterColor: ColorInfo,

@@ -6,7 +6,13 @@ import java.awt.Graphics2D
 import java.awt.Stroke
 
 internal object BorderGraphics {
-    fun drawBorder(graphics: Graphics2D, borderColor: Color, size: Int, relativeBorderRound: Double, borderWidth: Int) {
+    fun drawBorder(
+        graphics: Graphics2D,
+        borderColor: Color,
+        size: Int,
+        relativeBorderRound: Double,
+        borderWidth: Int,
+    ) {
         graphics.color = borderColor
 
         val oldStroke: Stroke = graphics.stroke

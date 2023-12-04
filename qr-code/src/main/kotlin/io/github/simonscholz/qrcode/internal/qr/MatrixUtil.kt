@@ -24,16 +24,16 @@ import com.google.zxing.qrcode.encoder.ByteMatrix
  * @author dswitkin@google.com (Daniel Switkin) - ported from C++
  */
 internal object MatrixUtil {
-
-    private val POSITION_DETECTION_PATTERN = arrayOf(
-        intArrayOf(1, 1, 1, 1, 1, 1, 1),
-        intArrayOf(1, 0, 0, 0, 0, 0, 1),
-        intArrayOf(1, 0, 1, 1, 1, 0, 1),
-        intArrayOf(1, 0, 1, 1, 1, 0, 1),
-        intArrayOf(1, 0, 1, 1, 1, 0, 1),
-        intArrayOf(1, 0, 0, 0, 0, 0, 1),
-        intArrayOf(1, 1, 1, 1, 1, 1, 1),
-    )
+    private val POSITION_DETECTION_PATTERN =
+        arrayOf(
+            intArrayOf(1, 1, 1, 1, 1, 1, 1),
+            intArrayOf(1, 0, 0, 0, 0, 0, 1),
+            intArrayOf(1, 0, 1, 1, 1, 0, 1),
+            intArrayOf(1, 0, 1, 1, 1, 0, 1),
+            intArrayOf(1, 0, 1, 1, 1, 0, 1),
+            intArrayOf(1, 0, 0, 0, 0, 0, 1),
+            intArrayOf(1, 1, 1, 1, 1, 1, 1),
+        )
 
     fun embedPositionDetectionPatternsAndSeparators(matrix: ByteMatrix) {
         // Embed three big squares at corners.
@@ -71,7 +71,12 @@ internal object MatrixUtil {
             matrix,
         )
     }
-    private fun embedPositionDetectionPattern(xStart: Int, yStart: Int, matrix: ByteMatrix) {
+
+    private fun embedPositionDetectionPattern(
+        xStart: Int,
+        yStart: Int,
+        matrix: ByteMatrix,
+    ) {
         for (y in 0..6) {
             for (x in 0..6) {
                 matrix.set(xStart + x, yStart + y, POSITION_DETECTION_PATTERN[y][x])

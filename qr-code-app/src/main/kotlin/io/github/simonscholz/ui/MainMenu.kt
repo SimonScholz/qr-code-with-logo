@@ -40,7 +40,11 @@ object MainMenu {
         createHelpMenu(menuBar, frame, configService)
     }
 
-    private fun createGenerateCodeMenu(menuBar: JMenuBar, frame: JFrame, fileUI: FileUI) {
+    private fun createGenerateCodeMenu(
+        menuBar: JMenuBar,
+        frame: JFrame,
+        fileUI: FileUI,
+    ) {
         val generateCodeMenu = JMenu("Generate Code")
         menuBar.add(generateCodeMenu)
 
@@ -73,7 +77,12 @@ object MainMenu {
         generateCodeMenu.add(copyKotlinCodeMenuItem)
     }
 
-    private fun createFileMenu(menuBar: JMenuBar, frame: JFrame, fileUI: FileUI, configService: ConfigService) {
+    private fun createFileMenu(
+        menuBar: JMenuBar,
+        frame: JFrame,
+        fileUI: FileUI,
+        configService: ConfigService,
+    ) {
         val fileMenu = JMenu("File")
         menuBar.add(fileMenu)
 
@@ -166,35 +175,40 @@ object MainMenu {
         fileMenu.add(exitMenuItem)
     }
 
-    private fun createSpecialContentMenu(menuBar: JMenuBar, frame: JFrame, qrCodeContentObservable: IObservableValue<String>) {
+    private fun createSpecialContentMenu(
+        menuBar: JMenuBar,
+        frame: JFrame,
+        qrCodeContentObservable: IObservableValue<String>,
+    ) {
         val specialContentMenu = JMenu("Special Content")
         menuBar.add(specialContentMenu)
 
         val vCardMenuItem = JMenuItem("VCard")
         vCardMenuItem.addActionListener {
             InputDialogs.showVCardInputDialog()?.let {
-                val qrCodeText = VCard().apply {
-                    it.formattedName.takeIf { it.isNotEmpty() }?.let { formattedName(it) }
-                    it.familyName.takeIf { it.isNotEmpty() }?.let { name(familyName = it) }
-                    it.givenName.takeIf { it.isNotEmpty() }?.let { name(givenName = it) }
-                    it.additionalName.takeIf { it.isNotEmpty() }?.let { name(additionalName = it) }
-                    it.namePrefix.takeIf { it.isNotEmpty() }?.let { name(namePrefix = it) }
-                    it.nameSuffix.takeIf { it.isNotEmpty() }?.let { name(nameSuffix = it) }
-                    it.organization.takeIf { it.isNotEmpty() }?.let { organization(it) }
-                    it.phoneNumber.takeIf { it.isNotEmpty() }?.let { phoneNumber(it) }
-                    it.email.takeIf { it.isNotEmpty() }?.let { email(it) }
-                    it.address.takeIf { it.isNotEmpty() }?.let { address(it) }
-                    it.website.takeIf { it.isNotEmpty() }?.let { website(it) }
-                    it.birthday?.let { birthday(it) }
-                    it.photo.takeIf { it.isNotEmpty() }?.let { photo(it) }
-                    it.note.takeIf { it.isNotEmpty() }?.let { note(it) }
-                    it.title.takeIf { it.isNotEmpty() }?.let { title(it) }
-                    it.revisionDate.takeIf { it.isNotEmpty() }?.let { revisionDate(it) }
-                    geographicPosition(it.latitude, it.longitude)
-                    it.instantMessaging.takeIf { it.isNotEmpty() }?.let { impp(it) }
-                    it.categories.takeIf { it.isNotEmpty() }?.let { categories(it) }
-                    it.other.takeIf { it.isNotEmpty() }?.let { other(it) }
-                }.toVCardQrCodeText()
+                val qrCodeText =
+                    VCard().apply {
+                        it.formattedName.takeIf { it.isNotEmpty() }?.let { formattedName(it) }
+                        it.familyName.takeIf { it.isNotEmpty() }?.let { name(familyName = it) }
+                        it.givenName.takeIf { it.isNotEmpty() }?.let { name(givenName = it) }
+                        it.additionalName.takeIf { it.isNotEmpty() }?.let { name(additionalName = it) }
+                        it.namePrefix.takeIf { it.isNotEmpty() }?.let { name(namePrefix = it) }
+                        it.nameSuffix.takeIf { it.isNotEmpty() }?.let { name(nameSuffix = it) }
+                        it.organization.takeIf { it.isNotEmpty() }?.let { organization(it) }
+                        it.phoneNumber.takeIf { it.isNotEmpty() }?.let { phoneNumber(it) }
+                        it.email.takeIf { it.isNotEmpty() }?.let { email(it) }
+                        it.address.takeIf { it.isNotEmpty() }?.let { address(it) }
+                        it.website.takeIf { it.isNotEmpty() }?.let { website(it) }
+                        it.birthday?.let { birthday(it) }
+                        it.photo.takeIf { it.isNotEmpty() }?.let { photo(it) }
+                        it.note.takeIf { it.isNotEmpty() }?.let { note(it) }
+                        it.title.takeIf { it.isNotEmpty() }?.let { title(it) }
+                        it.revisionDate.takeIf { it.isNotEmpty() }?.let { revisionDate(it) }
+                        geographicPosition(it.latitude, it.longitude)
+                        it.instantMessaging.takeIf { it.isNotEmpty() }?.let { impp(it) }
+                        it.categories.takeIf { it.isNotEmpty() }?.let { categories(it) }
+                        it.other.takeIf { it.isNotEmpty() }?.let { other(it) }
+                    }.toVCardQrCodeText()
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -204,13 +218,14 @@ object MainMenu {
         val vEventMenuItem = JMenuItem("VEvent")
         vEventMenuItem.addActionListener {
             InputDialogs.showVEventInputDialog()?.let { (summary, description, location, startDate, endDate) ->
-                val qrCodeText = VEvent().apply {
-                    summary?.let { summary(summary) }
-                    description?.let { description(description) }
-                    location?.let { location(location) }
-                    startDate?.let { startDate(startDate) }
-                    endDate?.let { endDate(endDate) }
-                }.toVEventQrCodeText()
+                val qrCodeText =
+                    VEvent().apply {
+                        summary?.let { summary(summary) }
+                        description?.let { description(description) }
+                        location?.let { location(location) }
+                        startDate?.let { startDate(startDate) }
+                        endDate?.let { endDate(endDate) }
+                    }.toVEventQrCodeText()
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -224,10 +239,11 @@ object MainMenu {
                 firstLabel = "Latitude:",
                 secondLabel = "Longitude:",
             )?.let { (latitude, longitude) ->
-                val qrCodeText = SimpleTypes.geolocation(
-                    latitude = latitude.toDouble(),
-                    longitude = longitude.toDouble(),
-                )
+                val qrCodeText =
+                    SimpleTypes.geolocation(
+                        latitude = latitude.toDouble(),
+                        longitude = longitude.toDouble(),
+                    )
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -237,11 +253,12 @@ object MainMenu {
         val emailMenuItem = JMenuItem("Email")
         emailMenuItem.addActionListener {
             InputDialogs.showEmailInputDialog()?.let { (emailAddress, subject, body) ->
-                val qrCodeText = SimpleTypes.email(
-                    emailAddress = emailAddress,
-                    subject = subject,
-                    body = body,
-                )
+                val qrCodeText =
+                    SimpleTypes.email(
+                        emailAddress = emailAddress,
+                        subject = subject,
+                        body = body,
+                    )
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -265,10 +282,11 @@ object MainMenu {
                 firstLabel = "Phone Number:",
                 secondLabel = "Message:",
             )?.let { (phoneNumber, message) ->
-                val qrCodeText = SimpleTypes.sms(
-                    phoneNumber = phoneNumber,
-                    message = message,
-                )
+                val qrCodeText =
+                    SimpleTypes.sms(
+                        phoneNumber = phoneNumber,
+                        message = message,
+                    )
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -286,7 +304,11 @@ object MainMenu {
         specialContentMenu.add(urlMenuItem)
     }
 
-    private fun createHelpMenu(menuBar: JMenuBar, frame: JFrame, configService: ConfigService) {
+    private fun createHelpMenu(
+        menuBar: JMenuBar,
+        frame: JFrame,
+        configService: ConfigService,
+    ) {
         // Create the Help menu
         val helpMenu = JMenu("Help")
         menuBar.add(helpMenu)
@@ -300,13 +322,14 @@ object MainMenu {
         readmeMenuItem.addActionListener { openURL(frame, "https://github.com/SimonScholz/qr-code-with-logo/blob/main/README.adoc") }
         issueMenuItem.addActionListener { openURL(frame, "https://github.com/SimonScholz/qr-code-with-logo/issues") }
         resetPreferences.addActionListener {
-            val result = JOptionPane.showConfirmDialog(
-                frame,
-                "Do you really want to reset all preferences?",
-                "Reset Preferences",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-            )
+            val result =
+                JOptionPane.showConfirmDialog(
+                    frame,
+                    "Do you really want to reset all preferences?",
+                    "Reset Preferences",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                )
             if (result == JOptionPane.YES_OPTION) {
                 configService.resetConfig()
             }
@@ -318,7 +341,10 @@ object MainMenu {
         helpMenu.add(resetPreferences)
     }
 
-    private fun openURL(frame: JFrame, url: String) {
+    private fun openURL(
+        frame: JFrame,
+        url: String,
+    ) {
         try {
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(URI(url))

@@ -3,7 +3,6 @@ package io.github.simonscholz.model
 import java.awt.Color
 
 object Mapper {
-
     fun fromViewModel(viewModel: QrCodeConfigViewModel): QrCodeConfig {
         return QrCodeConfig(
             qrCodeContent = viewModel.qrCodeContent.value,
@@ -27,7 +26,10 @@ object Mapper {
         )
     }
 
-    fun applyViewModel(qrCodeConfig: QrCodeConfig, qrCodeConfigViewModel: QrCodeConfigViewModel) {
+    fun applyViewModel(
+        qrCodeConfig: QrCodeConfig,
+        qrCodeConfigViewModel: QrCodeConfigViewModel,
+    ) {
         qrCodeConfigViewModel.apply {
             qrCodeContent.value = qrCodeConfig.qrCodeContent
             size.value = qrCodeConfig.size

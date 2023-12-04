@@ -5,7 +5,6 @@ package io.github.simonscholz.qrcode.types
  * such as geolocation, email, phone number, sms, url.
  */
 object SimpleTypes {
-
     /**
      * Contains a geographic location.
      * When scanned as QrCode it usually opens the Maps app with the geographic location as the argument.
@@ -14,7 +13,10 @@ object SimpleTypes {
      * @param longitude Longitude in degrees. Must be in the range [-180.0, 180.0].
      */
     @JvmStatic
-    fun geolocation(latitude: Double, longitude: Double) = "geo:$latitude,$longitude"
+    fun geolocation(
+        latitude: Double,
+        longitude: Double,
+    ) = "geo:$latitude,$longitude"
 
     /**
      * mailto: link.
@@ -26,7 +28,11 @@ object SimpleTypes {
      */
     @JvmStatic
     @JvmOverloads
-    fun email(emailAddress: String, subject: String = "", body: String = "") = "mailto:$emailAddress?subject=$subject&body=$body"
+    fun email(
+        emailAddress: String,
+        subject: String = "",
+        body: String = "",
+    ) = "mailto:$emailAddress?subject=$subject&body=$body"
 
     /**
      * tel: number.
@@ -44,7 +50,10 @@ object SimpleTypes {
      */
     @JvmStatic
     @JvmOverloads
-    fun sms(phoneNumber: String, message: String = "") = "sms:$phoneNumber?body=$message"
+    fun sms(
+        phoneNumber: String,
+        message: String = "",
+    ) = "sms:$phoneNumber?body=$message"
 
     /**
      * Simply returns the given string.

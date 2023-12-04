@@ -7,7 +7,6 @@ import javax.swing.AbstractButton
 class ButtonSelectedObservable(
     private val button: AbstractButton,
 ) : AbstractObservableValue<Boolean>() {
-
     private var value: Boolean = button.isSelected
 
     init {

@@ -14,7 +14,10 @@ import javax.swing.JSpinner
 import javax.swing.SpinnerNumberModel
 
 object PositionalSquaresPropertiesUI {
-    fun createPositionalSquarePropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {
+    fun createPositionalSquarePropertiesUI(
+        dataBindingContext: DataBindingContext,
+        qrCodeConfigViewModel: QrCodeConfigViewModel,
+    ): JPanel {
         val positionalSquaresPropertiesPanel = JPanel(MigLayout())
 
         positionalSquaresPropertiesPanel.add(JLabel("Is Circle Shape:"))
@@ -25,15 +28,41 @@ object PositionalSquaresPropertiesUI {
         positionalSquaresPropertiesPanel.add(JLabel("Positional Sqaure Border Radius:"))
         val relativeSquareBorderRoundSpinnerModel = SpinnerNumberModel(.2, .0, 1.0, 0.01)
         val relativePositionalSquareBorderRoundSpinner = JSpinner(relativeSquareBorderRoundSpinnerModel)
-        dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toDoubleObservable(), qrCodeConfigViewModel.positionalSquareRelativeBorderRound)
+        dataBindingContext.bindValue(
+            relativePositionalSquareBorderRoundSpinner.toDoubleObservable(),
+            qrCodeConfigViewModel.positionalSquareRelativeBorderRound,
+        )
         positionalSquaresPropertiesPanel.add(relativePositionalSquareBorderRoundSpinner, "wrap, growx, width 200:220:300")
 
-        dataBindingContext.bindValue(relativePositionalSquareBorderRoundSpinner.toEnabledInvertedObservable(), isCircleShaped.toButtonSelectedObservable())
+        dataBindingContext.bindValue(
+            relativePositionalSquareBorderRoundSpinner.toEnabledInvertedObservable(),
+            isCircleShaped.toButtonSelectedObservable(),
+        )
 
-        CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Center Color:", qrCodeConfigViewModel.positionalSquareCenterColor, dataBindingContext)
-        CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Inner Square Color:", qrCodeConfigViewModel.positionalSquareInnerSquareColor, dataBindingContext)
-        CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Outer Square Color:", qrCodeConfigViewModel.positionalSquareOuterSquareColor, dataBindingContext)
-        CustomItems.createColorPickerItem(positionalSquaresPropertiesPanel, "Outer Border Color:", qrCodeConfigViewModel.positionalSquareOuterBorderColor, dataBindingContext)
+        CustomItems.createColorPickerItem(
+            positionalSquaresPropertiesPanel,
+            "Center Color:",
+            qrCodeConfigViewModel.positionalSquareCenterColor,
+            dataBindingContext,
+        )
+        CustomItems.createColorPickerItem(
+            positionalSquaresPropertiesPanel,
+            "Inner Square Color:",
+            qrCodeConfigViewModel.positionalSquareInnerSquareColor,
+            dataBindingContext,
+        )
+        CustomItems.createColorPickerItem(
+            positionalSquaresPropertiesPanel,
+            "Outer Square Color:",
+            qrCodeConfigViewModel.positionalSquareOuterSquareColor,
+            dataBindingContext,
+        )
+        CustomItems.createColorPickerItem(
+            positionalSquaresPropertiesPanel,
+            "Outer Border Color:",
+            qrCodeConfigViewModel.positionalSquareOuterBorderColor,
+            dataBindingContext,
+        )
 
         return positionalSquaresPropertiesPanel
     }

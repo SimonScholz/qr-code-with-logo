@@ -58,11 +58,12 @@ class FileUI(
         val result = fileChooser.showSaveDialog(null)
 
         if (result == JFileChooser.APPROVE_OPTION) {
-            val fileToSave = if (fileChooser.selectedFile.name.endsWith(".png")) {
-                fileChooser.selectedFile
-            } else {
-                File("${fileChooser.selectedFile.absolutePath}.png")
-            }
+            val fileToSave =
+                if (fileChooser.selectedFile.name.endsWith(".png")) {
+                    fileChooser.selectedFile
+                } else {
+                    File("${fileChooser.selectedFile.absolutePath}.png")
+                }
             configService.saveLastUsedDirectory("saveQrCodeImageFile", fileToSave.parentFile)
 
             val qrCodeImage = imageService.renderImage()
@@ -78,11 +79,12 @@ class FileUI(
         val result = fileChooser.showSaveDialog(null)
 
         if (result == JFileChooser.APPROVE_OPTION) {
-            val fileToSave = if (fileChooser.selectedFile.name.endsWith(".json")) {
-                fileChooser.selectedFile
-            } else {
-                File("${fileChooser.selectedFile.absolutePath}.json")
-            }
+            val fileToSave =
+                if (fileChooser.selectedFile.name.endsWith(".json")) {
+                    fileChooser.selectedFile
+                } else {
+                    File("${fileChooser.selectedFile.absolutePath}.json")
+                }
 
             runCatching {
                 configService.saveConfigFile(fileToSave.absolutePath)
@@ -125,6 +127,7 @@ class FileUI(
         private val exportFormat: String = "png",
     ) : Transferable {
         private var files: MutableList<File>? = null
+
         override fun getTransferDataFlavors(): Array<DataFlavor> {
             return arrayOf(
                 DataFlavor.imageFlavor,

@@ -31,22 +31,23 @@ internal class QrCodeApiImpl : QrCodeApi {
             }
 
             val qrCodeCreator = QrCodeCreator()
-            val qrCode = qrCodeCreator.createQrImageWithPositionals(
-                qrCodeText = qrCodeConfig.qrCodeText,
-                size = qrCodeConfig.qrCodeSize,
-                circularPositionals = qrCodeConfig.qrPositionalSquaresConfig.isCircleShaped,
-                relativePositionalsRound = qrCodeConfig.qrPositionalSquaresConfig.relativeSquareBorderRound,
-                fillColor = qrCodeConfig.qrCodeColorConfig.fillColor,
-                bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
-                outerBorderColor = qrCodeConfig.qrPositionalSquaresConfig.outerBorderColor,
-                outerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.outerSquareColor,
-                innerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.innerSquareColor,
-                centerColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
-                quietZone = qrCodeConfig.qrBorderConfig?.let { 1 } ?: 0, // have a quietZone if we have a border
-                borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
-                relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
-                customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,
-            )
+            val qrCode =
+                qrCodeCreator.createQrImageWithPositionals(
+                    qrCodeText = qrCodeConfig.qrCodeText,
+                    size = qrCodeConfig.qrCodeSize,
+                    circularPositionals = qrCodeConfig.qrPositionalSquaresConfig.isCircleShaped,
+                    relativePositionalsRound = qrCodeConfig.qrPositionalSquaresConfig.relativeSquareBorderRound,
+                    fillColor = qrCodeConfig.qrCodeColorConfig.fillColor,
+                    bgColor = qrCodeConfig.qrCodeColorConfig.bgColor,
+                    outerBorderColor = qrCodeConfig.qrPositionalSquaresConfig.outerBorderColor,
+                    outerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.outerSquareColor,
+                    innerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.innerSquareColor,
+                    centerColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
+                    quietZone = qrCodeConfig.qrBorderConfig?.let { 1 } ?: 0, // have a quietZone if we have a border
+                    borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
+                    relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
+                    customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,
+                )
 
             graphics.drawImage(qrCode, 0, 0, null)
 
@@ -81,7 +82,10 @@ internal class QrCodeApiImpl : QrCodeApi {
         }
     }
 
-    private fun relativeSize(size: Int, percentage: Double): Int {
+    private fun relativeSize(
+        size: Int,
+        percentage: Double,
+    ): Int {
         require(percentage in 0.0..1.0)
         return floor(size * percentage).toInt()
     }

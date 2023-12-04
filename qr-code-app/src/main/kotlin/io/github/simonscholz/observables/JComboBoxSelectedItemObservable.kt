@@ -7,7 +7,6 @@ import javax.swing.JComboBox
 class JComboBoxSelectedItemObservable<E>(
     private val jComboBox: JComboBox<E>,
 ) : AbstractObservableValue<E>() {
-
     private var value: E = doGetValue()
 
     init {

@@ -22,7 +22,6 @@ import com.squareup.javapoet.ClassName as JavaClassName
 import com.squareup.javapoet.TypeSpec as JavaTypeSpec
 
 class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
-
     fun generateKotlinCode(): String {
         val file = FileSpec.builder("io.github.simonscholz", "QrCodeGenerator")
 
@@ -55,10 +54,11 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
                 .build(),
         )
 
-        val generateQrCodeFunction = FunSpec.builder("generateQrCode")
-            .addParameter("logo", Image::class)
-            .addStatement(
-                """
+        val generateQrCodeFunction =
+            FunSpec.builder("generateQrCode")
+                .addParameter("logo", Image::class)
+                .addStatement(
+                    """
             |val qrPositionalSquaresConfig = %T.Builder()
             |    .circleShaped(${qrCodeConfigViewModel.positionalSquareIsCircleShaped.value})
             |    .relativeSquareBorderRound(${qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value})
@@ -67,15 +67,15 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             |    .outerSquareColor(${colorInstanceStringKotlin(qrCodeConfigViewModel.positionalSquareOuterSquareColor.value)})
             |    .outerBorderColor(${colorInstanceStringKotlin(qrCodeConfigViewModel.positionalSquareOuterBorderColor.value)})
             |    .build()
-                """.trimMargin(),
-                QrPositionalSquaresConfig::class,
-                Color::class,
-                Color::class,
-                Color::class,
-                Color::class,
-            )
-            .addStatement(
-                """
+                    """.trimMargin(),
+                    QrPositionalSquaresConfig::class,
+                    Color::class,
+                    Color::class,
+                    Color::class,
+                    Color::class,
+                )
+                .addStatement(
+                    """
             |val qrCodeConfig = %T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}")
             |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
             |    .qrCodeColorConfig(
@@ -95,22 +95,22 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             |    )
             |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
             |    .build()
-                """.trimMargin(),
-                QrCodeConfig::class,
-                Color::class,
-                Color::class,
-                Color::class,
-                LogoShape::class,
-                Color::class,
-            )
-            .addStatement(
-                """
+                    """.trimMargin(),
+                    QrCodeConfig::class,
+                    Color::class,
+                    Color::class,
+                    Color::class,
+                    LogoShape::class,
+                    Color::class,
+                )
+                .addStatement(
+                    """
             |return %T.createQrCodeApi().createQrCodeImage(qrCodeConfig)
-                """.trimMargin(),
-                QrCodeFactory::class,
-            )
-            .returns(BufferedImage::class)
-            .build()
+                    """.trimMargin(),
+                    QrCodeFactory::class,
+                )
+                .returns(BufferedImage::class)
+                .build()
 
         file.addType(
             TypeSpec.classBuilder("QrCodeGenerator")
@@ -124,8 +124,9 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
     }
 
     fun generateJavaCode(): String {
-        val qrCodeGenerator = JavaTypeSpec.classBuilder("QrCodeGenerator")
-            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+        val qrCodeGenerator =
+            JavaTypeSpec.classBuilder("QrCodeGenerator")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
 
         MethodSpec.methodBuilder("main")
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -148,12 +149,13 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             .build()
             .let(qrCodeGenerator::addMethod)
 
-        val generateQrCodeMethod = MethodSpec.methodBuilder("generateQrCode")
-            .addModifiers(Modifier.PUBLIC)
-            .addException(IOException::class.java)
-            .addParameter(Image::class.java, "logo")
-            .addStatement(
-                """
+        val generateQrCodeMethod =
+            MethodSpec.methodBuilder("generateQrCode")
+                .addModifiers(Modifier.PUBLIC)
+                .addException(IOException::class.java)
+                .addParameter(Image::class.java, "logo")
+                .addStatement(
+                    """
                 |final var qrPositionalSquaresConfig = new $T.Builder()
                 |    .circleShaped(${qrCodeConfigViewModel.positionalSquareIsCircleShaped.value})
                 |    .relativeSquareBorderRound(${qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value})
@@ -162,36 +164,42 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
                 |    .outerSquareColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareOuterSquareColor.value)})
                 |    .outerBorderColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareOuterBorderColor.value)})
                 |    .build()
-                """.trimMargin(),
-                QrPositionalSquaresConfig::class.java,
-                Color::class.java,
-                Color::class.java,
-                Color::class.java,
-                Color::class.java,
-            )
-            .addStatement(
-                """
+                    """.trimMargin(),
+                    QrPositionalSquaresConfig::class.java,
+                    Color::class.java,
+                    Color::class.java,
+                    Color::class.java,
+                    Color::class.java,
+                )
+                .addStatement(
+                    """
                 |final var qrCodeConfig = new $T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}}")
                 |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
-                |    .qrCodeColorConfig(${colorInstanceStringJava(qrCodeConfigViewModel.backgroundColor.value)}, ${colorInstanceStringJava(qrCodeConfigViewModel.foregroundColor.value)})
-                |    .qrLogoConfig(logo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(qrCodeConfigViewModel.logoBackgroundColor.value)}, $T.${qrCodeConfigViewModel.logoShape.value})
-                |    .qrBorderConfig(${colorInstanceStringJava(qrCodeConfigViewModel.borderColor.value)}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
+                |    .qrCodeColorConfig(${colorInstanceStringJava(
+                        qrCodeConfigViewModel.backgroundColor.value,
+                    )}, ${colorInstanceStringJava(qrCodeConfigViewModel.foregroundColor.value)})
+                |    .qrLogoConfig(logo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(
+                        qrCodeConfigViewModel.logoBackgroundColor.value,
+                    )}, $T.${qrCodeConfigViewModel.logoShape.value})
+                |    .qrBorderConfig(${colorInstanceStringJava(
+                        qrCodeConfigViewModel.borderColor.value,
+                    )}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
                 |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
                 |    .build()
-                """.trimMargin(),
-                QrCodeConfig::class.java,
-                Color::class.java,
-                Color::class.java,
-                Color::class.java,
-                LogoShape::class.java,
-                Color::class.java,
-            )
-            .addStatement(
-                "return $T.createQrCodeApi().createQrCodeImage(qrCodeConfig)",
-                QrCodeFactory::class.java,
-            )
-            .returns(BufferedImage::class.java)
-            .build()
+                    """.trimMargin(),
+                    QrCodeConfig::class.java,
+                    Color::class.java,
+                    Color::class.java,
+                    Color::class.java,
+                    LogoShape::class.java,
+                    Color::class.java,
+                )
+                .addStatement(
+                    "return $T.createQrCodeApi().createQrCodeImage(qrCodeConfig)",
+                    QrCodeFactory::class.java,
+                )
+                .returns(BufferedImage::class.java)
+                .build()
 
         qrCodeGenerator.addMethod(generateQrCodeMethod)
 

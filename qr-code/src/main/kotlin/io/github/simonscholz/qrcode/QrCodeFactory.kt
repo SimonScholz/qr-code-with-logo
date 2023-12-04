@@ -6,7 +6,6 @@ import io.github.simonscholz.qrcode.internal.api.QrCodeApiImpl
  * Entry point for this library to create qr codes.
  */
 object QrCodeFactory {
-
     /**
      * Obtain an instance of the QrCodeApi to generate qr codes.
      *

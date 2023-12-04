@@ -29,16 +29,20 @@ import javax.swing.UIManager
 import javax.swing.plaf.FontUIResource
 
 object PropertiesUI {
-
     private const val WIDTH = "width 200:220:300"
 
-    fun createPropertiesUI(qrCodeConfigViewModel: QrCodeConfigViewModel, dataBindingContext: DataBindingContext, clickedApply: () -> Unit): Pair<JComponent, () -> Boolean> {
+    fun createPropertiesUI(
+        qrCodeConfigViewModel: QrCodeConfigViewModel,
+        dataBindingContext: DataBindingContext,
+        clickedApply: () -> Unit,
+    ): Pair<JComponent, () -> Boolean> {
         configureTaskPaneUI()
         val jxTaskPaneContainer = JXTaskPaneContainer()
 
-        val baseTaskPane = JXTaskPane().apply {
-            title = "Base"
-        }
+        val baseTaskPane =
+            JXTaskPane().apply {
+                title = "Base"
+            }
         baseTaskPane.layout = MigLayout()
 
         baseTaskPane.add(JLabel("QR Code Content:"))
@@ -79,7 +83,11 @@ object PropertiesUI {
             add(borderPropertiesUI)
             jxTaskPaneContainer.add(this)
         }
-        val positionalSquaresPropertiesUI = PositionalSquaresPropertiesUI.createPositionalSquarePropertiesUI(dataBindingContext, qrCodeConfigViewModel)
+        val positionalSquaresPropertiesUI =
+            PositionalSquaresPropertiesUI.createPositionalSquarePropertiesUI(
+                dataBindingContext,
+                qrCodeConfigViewModel,
+            )
         JXTaskPane().apply {
             title = "Qr Code Positional Squares"
             isCollapsed = true

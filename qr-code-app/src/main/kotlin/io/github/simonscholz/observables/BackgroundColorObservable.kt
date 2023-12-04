@@ -8,7 +8,6 @@ import java.awt.Component
 class BackgroundColorObservable(
     private val component: Component,
 ) : AbstractObservableValue<Color>() {
-
     private var value: Color = component.background
 
     init {

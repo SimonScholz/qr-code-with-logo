@@ -151,27 +151,58 @@ fun main() {
         }
 }
 
-private fun drawSmiley(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+private fun drawSmiley(
+    x: Int,
+    y: Int,
+    dotSize: Int,
+    graphics: Graphics2D,
+) {
     drawDotImage(x, y, dotSize, graphics, "smiley_fill.png")
 }
 
-private fun drawSkull(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+private fun drawSkull(
+    x: Int,
+    y: Int,
+    dotSize: Int,
+    graphics: Graphics2D,
+) {
     drawDotImage(x, y, dotSize, graphics, "skull_fill.png")
 }
 
-private fun drawPumpkin(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+private fun drawPumpkin(
+    x: Int,
+    y: Int,
+    dotSize: Int,
+    graphics: Graphics2D,
+) {
     drawDotImage(x, y, dotSize, graphics, "halloween_pumpkin.png")
 }
 
-private fun drawEvilPumpkin(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+private fun drawEvilPumpkin(
+    x: Int,
+    y: Int,
+    dotSize: Int,
+    graphics: Graphics2D,
+) {
     drawDotImage(x, y, dotSize, graphics, "halloween_pumpkin_evil.png")
 }
 
-private fun drawChristmasTree(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+private fun drawChristmasTree(
+    x: Int,
+    y: Int,
+    dotSize: Int,
+    graphics: Graphics2D,
+) {
     drawDotImage(x, y, dotSize, graphics, "christmas_tree.png")
 }
 
-private fun drawDotImage(x: Int, y: Int, dotSize: Int, graphics: Graphics2D, image: String) {
+private fun drawDotImage(
+    x: Int,
+    y: Int,
+    dotSize: Int,
+    graphics: Graphics2D,
+    image: String,
+) {
     val resource = Main::class.java.getClassLoader().getResource(image)
     resource?.let {
         val imageDot = ImageIO.read(it)
@@ -179,7 +210,12 @@ private fun drawDotImage(x: Int, y: Int, dotSize: Int, graphics: Graphics2D, ima
     }
 }
 
-private fun drawColorfulHouseWithDoorAndWindow(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+private fun drawColorfulHouseWithDoorAndWindow(
+    x: Int,
+    y: Int,
+    size: Int,
+    graphic: Graphics2D,
+) {
     val roofHeight = size / 2
     val houseWidth = size
     val houseHeight = size - roofHeight

@@ -13,30 +13,31 @@ import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
 class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
-
     fun renderImage(): BufferedImage {
-        val builder = QrCodeConfig.Builder(qrCodeConfigViewModel.qrCodeContent.value)
-            .qrCodeSize(qrCodeConfigViewModel.size.value)
-            .qrCodeColorConfig(
-                bgColor = qrCodeConfigViewModel.backgroundColor.value,
-                fillColor = qrCodeConfigViewModel.foregroundColor.value,
-            )
-            .qrCodeDotStyler(mapCustomDotStyler(qrCodeConfigViewModel.dotShape.value))
-            .qrBorderConfig(
-                color = qrCodeConfigViewModel.borderColor.value,
-                relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
-                relativeBorderRound = qrCodeConfigViewModel.borderRadius.value,
-            )
-            .qrPositionalSquaresConfig(
-                qrPositionalSquaresConfig = QrPositionalSquaresConfig(
-                    isCircleShaped = qrCodeConfigViewModel.positionalSquareIsCircleShaped.value,
-                    relativeSquareBorderRound = qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value,
-                    centerColor = qrCodeConfigViewModel.positionalSquareCenterColor.value,
-                    innerSquareColor = qrCodeConfigViewModel.positionalSquareInnerSquareColor.value,
-                    outerSquareColor = qrCodeConfigViewModel.positionalSquareOuterSquareColor.value,
-                    outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
-                ),
-            )
+        val builder =
+            QrCodeConfig.Builder(qrCodeConfigViewModel.qrCodeContent.value)
+                .qrCodeSize(qrCodeConfigViewModel.size.value)
+                .qrCodeColorConfig(
+                    bgColor = qrCodeConfigViewModel.backgroundColor.value,
+                    fillColor = qrCodeConfigViewModel.foregroundColor.value,
+                )
+                .qrCodeDotStyler(mapCustomDotStyler(qrCodeConfigViewModel.dotShape.value))
+                .qrBorderConfig(
+                    color = qrCodeConfigViewModel.borderColor.value,
+                    relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
+                    relativeBorderRound = qrCodeConfigViewModel.borderRadius.value,
+                )
+                .qrPositionalSquaresConfig(
+                    qrPositionalSquaresConfig =
+                        QrPositionalSquaresConfig(
+                            isCircleShaped = qrCodeConfigViewModel.positionalSquareIsCircleShaped.value,
+                            relativeSquareBorderRound = qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value,
+                            centerColor = qrCodeConfigViewModel.positionalSquareCenterColor.value,
+                            innerSquareColor = qrCodeConfigViewModel.positionalSquareInnerSquareColor.value,
+                            outerSquareColor = qrCodeConfigViewModel.positionalSquareOuterSquareColor.value,
+                            outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
+                        ),
+                )
         if (qrCodeConfigViewModel.logoBase64.value.isNotBlank()) {
             builder.qrLogoConfig(
                 base64Logo = qrCodeConfigViewModel.logoBase64.value,
@@ -61,40 +62,71 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
             DotShapes.STAR -> QrCodeDotShape.STAR
             DotShapes.DIAMOND -> QrCodeDotShape.DIAMOND
             DotShapes.CROSS -> QrCodeDotShape.CROSS
-            DotShapes.HOUSE_WITH_DOOR_AND_WINDOW -> QrCodeDotStyler { x, y, size, graphic ->
-                drawColorfulHouseWithDoorAndWindow(x, y, size, graphic)
-            }
-            DotShapes.SMILEY -> QrCodeDotStyler { x, y, size, graphic ->
-                drawSmiley(x, y, size, graphic)
-            }
-            DotShapes.PUMPKIN -> QrCodeDotStyler { x, y, size, graphic ->
-                drawPumpkin(x, y, size, graphic)
-            }
-            DotShapes.CHRISTMAS_TREE -> QrCodeDotStyler { x, y, size, graphic ->
-                drawChristmasTree(x, y, size, graphic)
-            }
-            DotShapes.CAR -> QrCodeDotStyler { x, y, size, graphic ->
-                drawCar(x, y, size, graphic)
-            }
+            DotShapes.HOUSE_WITH_DOOR_AND_WINDOW ->
+                QrCodeDotStyler { x, y, size, graphic ->
+                    drawColorfulHouseWithDoorAndWindow(x, y, size, graphic)
+                }
+            DotShapes.SMILEY ->
+                QrCodeDotStyler { x, y, size, graphic ->
+                    drawSmiley(x, y, size, graphic)
+                }
+            DotShapes.PUMPKIN ->
+                QrCodeDotStyler { x, y, size, graphic ->
+                    drawPumpkin(x, y, size, graphic)
+                }
+            DotShapes.CHRISTMAS_TREE ->
+                QrCodeDotStyler { x, y, size, graphic ->
+                    drawChristmasTree(x, y, size, graphic)
+                }
+            DotShapes.CAR ->
+                QrCodeDotStyler { x, y, size, graphic ->
+                    drawCar(x, y, size, graphic)
+                }
         }
 
-    private fun drawSmiley(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    private fun drawSmiley(
+        x: Int,
+        y: Int,
+        dotSize: Int,
+        graphics: Graphics2D,
+    ) {
         drawDotImage(x, y, dotSize, graphics, "smiley_fill.png")
     }
 
-    private fun drawPumpkin(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    private fun drawPumpkin(
+        x: Int,
+        y: Int,
+        dotSize: Int,
+        graphics: Graphics2D,
+    ) {
         drawDotImage(x, y, dotSize, graphics, "halloween_pumpkin.png")
     }
 
-    private fun drawChristmasTree(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    private fun drawChristmasTree(
+        x: Int,
+        y: Int,
+        dotSize: Int,
+        graphics: Graphics2D,
+    ) {
         drawDotImage(x, y, dotSize, graphics, "christmas_tree.png")
     }
 
-    private fun drawCar(x: Int, y: Int, dotSize: Int, graphics: Graphics2D) {
+    private fun drawCar(
+        x: Int,
+        y: Int,
+        dotSize: Int,
+        graphics: Graphics2D,
+    ) {
         drawDotImage(x, y, dotSize, graphics, "car.png")
     }
 
-    private fun drawDotImage(x: Int, y: Int, dotSize: Int, graphics: Graphics2D, image: String) {
+    private fun drawDotImage(
+        x: Int,
+        y: Int,
+        dotSize: Int,
+        graphics: Graphics2D,
+        image: String,
+    ) {
         val resource = ImageService::class.java.getClassLoader().getResource(image)
         resource?.let {
             val imageDot = ImageIO.read(it)
@@ -102,7 +134,12 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
         }
     }
 
-    private fun drawColorfulHouseWithDoorAndWindow(x: Int, y: Int, size: Int, graphic: Graphics2D) {
+    private fun drawColorfulHouseWithDoorAndWindow(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
         val roofHeight = size / 2
         val houseWidth = size
         val houseHeight = size - roofHeight

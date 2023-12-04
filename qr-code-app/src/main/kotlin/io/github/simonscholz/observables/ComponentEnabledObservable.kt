@@ -6,7 +6,6 @@ import java.awt.Component
 class ComponentEnabledObservable(
     private val component: Component,
 ) : AbstractObservableValue<Boolean>() {
-
     override fun doGetValue(): Boolean = component.isEnabled
 
     override fun getValueType(): Any = Boolean::class.java

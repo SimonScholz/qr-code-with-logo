@@ -14,7 +14,10 @@ import javax.swing.JSpinner
 import javax.swing.SpinnerNumberModel
 
 object BorderPropertiesUI {
-    fun createBorderPropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {
+    fun createBorderPropertiesUI(
+        dataBindingContext: DataBindingContext,
+        qrCodeConfigViewModel: QrCodeConfigViewModel,
+    ): JPanel {
         val borderPropertiesPanel = JPanel(MigLayout())
 
         borderPropertiesPanel.add(JLabel("Relative Border Size:"))
@@ -30,9 +33,10 @@ object BorderPropertiesUI {
         borderPropertiesPanel.add(borderRadiusSpinner, "wrap, growx, width 200:220:300")
 
         borderPropertiesPanel.add(JLabel("Border Color:"))
-        val colorPicker = JButton("Choose Color").apply {
-            isFocusPainted = false
-        }
+        val colorPicker =
+            JButton("Choose Color").apply {
+                isFocusPainted = false
+            }
         colorPicker.addActionListener {
             qrCodeConfigViewModel.borderColor.value = JColorChooser.showDialog(borderPropertiesPanel.parent, "Choose a color", Color.WHITE)
         }

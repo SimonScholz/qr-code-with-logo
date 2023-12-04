@@ -26,8 +26,10 @@ import javax.swing.SpinnerNumberModel
 import javax.swing.filechooser.FileNameExtensionFilter
 
 object LogoPropertiesUI {
-
-    fun createLogoPropertiesUI(dataBindingContext: DataBindingContext, qrCodeConfigViewModel: QrCodeConfigViewModel): JPanel {
+    fun createLogoPropertiesUI(
+        dataBindingContext: DataBindingContext,
+        qrCodeConfigViewModel: QrCodeConfigViewModel,
+    ): JPanel {
         val logoPropertiesPanel = JPanel(MigLayout())
 
         logoPropertiesPanel.add(JLabel("Logo:"))
@@ -86,7 +88,13 @@ object LogoPropertiesUI {
         logoPropertiesPanel.add(sizeSpinner, "wrap, growx, span 3, width 200:220:300")
         dataBindingContext.bindValue(sizeSpinner.toDoubleObservable(), qrCodeConfigViewModel.logoRelativeSize)
 
-        CustomItems.createColorPickerItem(logoPropertiesPanel, "Logo Background Color:", qrCodeConfigViewModel.logoBackgroundColor, dataBindingContext, "wrap, growx, span 2")
+        CustomItems.createColorPickerItem(
+            logoPropertiesPanel,
+            "Logo Background Color:",
+            qrCodeConfigViewModel.logoBackgroundColor,
+            dataBindingContext,
+            "wrap, growx, span 2",
+        )
 
         logoPropertiesPanel.add(JLabel("Logo Shape:"))
         val logoShapes = LogoShape.entries.toTypedArray()

@@ -18,7 +18,11 @@ import javax.swing.SpinnerNumberModel
 import javax.swing.border.TitledBorder
 
 object InputDialogs {
-    fun showTwoValueInputDialog(title: String, firstLabel: String, secondLabel: String): Pair<String, String>? {
+    fun showTwoValueInputDialog(
+        title: String,
+        firstLabel: String,
+        secondLabel: String,
+    ): Pair<String, String>? {
         val panel = JPanel()
         panel.layout = GridLayout(2, 2)
 
@@ -301,7 +305,10 @@ object InputDialogs {
         return null
     }
 
-    private fun getLocalDateTime(startDate: LocalDate?, startTime: LocalTime?): LocalDateTime? =
+    private fun getLocalDateTime(
+        startDate: LocalDate?,
+        startTime: LocalTime?,
+    ): LocalDateTime? =
         when {
             startDate != null && startTime != null -> LocalDateTime.of(startDate, startTime)
             startDate != null -> LocalDateTime.of(startDate, LocalTime.now())

@@ -35,10 +35,10 @@ class DocumentObservable(private val document: Document) : AbstractObservableVal
             },
         )
     }
+
     override fun getValueType(): Any = String::class.java
 
-    override fun doGetValue(): String =
-        document.getText(0, document.length)
+    override fun doGetValue(): String = document.getText(0, document.length)
 
     override fun doSetValue(value: String?) {
         if (documentValue !== value) {

@@ -7,7 +7,6 @@ import javax.swing.JSpinner
 class JSpinnerDoubleObservable(
     private val jSpinner: JSpinner,
 ) : AbstractObservableValue<Double>() {
-
     private var value: Double = doGetValue()
 
     init {
@@ -18,8 +17,7 @@ class JSpinnerDoubleObservable(
         }
     }
 
-    override fun doGetValue(): Double =
-        jSpinner.value as Double
+    override fun doGetValue(): Double = jSpinner.value as Double
 
     override fun getValueType(): Any = Double::class.java
 

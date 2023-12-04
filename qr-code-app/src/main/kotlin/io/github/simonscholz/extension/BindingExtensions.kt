@@ -16,17 +16,16 @@ import javax.swing.JComboBox
 import javax.swing.JSpinner
 import javax.swing.text.JTextComponent
 
-fun JTextComponent.toObservable(): IObservableValue<String> =
-    DocumentObservable(this)
+fun JTextComponent.toObservable(): IObservableValue<String> = DocumentObservable(this)
 
 fun JSpinner.toIntObservable(): IObservableValue<Int> = JSpinnerIntObservable(this)
 
 fun JSpinner.toDoubleObservable(): IObservableValue<Double> = JSpinnerDoubleObservable(this)
 
-fun Component.toBackgroundColorObservable(): IObservableValue<Color> =
-    BackgroundColorObservable(this)
+fun Component.toBackgroundColorObservable(): IObservableValue<Color> = BackgroundColorObservable(this)
 
 fun Component.toEnabledObservable(): IObservableValue<Boolean> = ComponentEnabledObservable(this)
+
 fun Component.toEnabledInvertedObservable(): IObservableValue<Boolean> = ComponentInvertedEnabledObservable(this)
 
 fun AbstractButton.toButtonSelectedObservable(): IObservableValue<Boolean> = ButtonSelectedObservable(this)

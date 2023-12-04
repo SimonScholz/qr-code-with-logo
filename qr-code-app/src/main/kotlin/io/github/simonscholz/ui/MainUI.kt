@@ -5,8 +5,10 @@ import javax.swing.JComponent
 import javax.swing.JPanel
 
 object MainUI {
-
-    fun createMainPanel(imagePanel: JComponent, propertiesPanel: JComponent): JPanel {
+    fun createMainPanel(
+        imagePanel: JComponent,
+        propertiesPanel: JComponent,
+    ): JPanel {
         val mainPanel = JPanel(MigLayout("fill, wrap 2", "[70%][30%]"))
         mainPanel.add(imagePanel, "grow, push, w 70%")
 

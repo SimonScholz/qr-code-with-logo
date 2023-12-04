@@ -23,14 +23,11 @@ import java.util.Objects
 import javax.imageio.ImageIO
 
 class ReadCreatedQrCodeTest {
-
     private val qrCodeApi = QrCodeFactory.createQrCodeApi()
 
     @ParameterizedTest
     @MethodSource("provideDifferentQrCodeTypeTexts")
-    fun `Writing different QrCode type texts to BufferedImage and reading it should produce the same outcome`(
-        qrCodeInputText: String,
-    ) {
+    fun `Writing different QrCode type texts to BufferedImage and reading it should produce the same outcome`(qrCodeInputText: String) {
         val qrCodeImage = qrCodeApi.createQrCodeImage(QrCodeConfig(qrCodeInputText, DEFAULT_IMG_SIZE))
 
         val readQRCode = readQRCode(qrCodeImage)
@@ -67,47 +64,61 @@ class ReadCreatedQrCodeTest {
                 .getResource("rainbow.png"),
         )
 
-    private fun logoAndCirclePositionalSquares(resource: URL, qrCodeApi: QrCodeApi): BufferedImage {
+    private fun logoAndCirclePositionalSquares(
+        resource: URL,
+        qrCodeApi: QrCodeApi,
+    ): BufferedImage {
         val logo = ImageIO.read(resource)
-        val positionalSquaresConfig = QrPositionalSquaresConfig.Builder()
-            .circleShaped(true)
-            .build()
-        val qrCodeConfig = QrCodeConfig.Builder("https://simonscholz.github.io/")
-            .qrBorderConfig(Color.RED)
-            .qrLogoConfig(logo)
-            .qrPositionalSquaresConfig(positionalSquaresConfig)
-            .build()
+        val positionalSquaresConfig =
+            QrPositionalSquaresConfig.Builder()
+                .circleShaped(true)
+                .build()
+        val qrCodeConfig =
+            QrCodeConfig.Builder("https://simonscholz.github.io/")
+                .qrBorderConfig(Color.RED)
+                .qrLogoConfig(logo)
+                .qrPositionalSquaresConfig(positionalSquaresConfig)
+                .build()
         return qrCodeApi.createQrCodeImage(qrCodeConfig)
     }
 
-    private fun colorful(resource: URL, qrCodeApi: QrCodeApi): BufferedImage {
+    private fun colorful(
+        resource: URL,
+        qrCodeApi: QrCodeApi,
+    ): BufferedImage {
         val logo = ImageIO.read(resource)
         val bgColor = Color.RED
         val fillColor = Color.BLUE
-        val positionalSquaresConfig = QrPositionalSquaresConfig.Builder()
-            .circleShaped(true)
-            .centerColor(fillColor)
-            .innerSquareColor(bgColor)
-            .outerSquareColor(fillColor)
-            .outerBorderColor(bgColor)
-            .build()
-        val qrCodeConfig = QrCodeConfig.Builder("https://simonscholz.github.io/")
-            .qrBorderConfig(Color.WHITE)
-            .qrLogoConfig(logo)
-            .qrCodeColorConfig(bgColor, fillColor)
-            .qrPositionalSquaresConfig(positionalSquaresConfig)
-            .build()
+        val positionalSquaresConfig =
+            QrPositionalSquaresConfig.Builder()
+                .circleShaped(true)
+                .centerColor(fillColor)
+                .innerSquareColor(bgColor)
+                .outerSquareColor(fillColor)
+                .outerBorderColor(bgColor)
+                .build()
+        val qrCodeConfig =
+            QrCodeConfig.Builder("https://simonscholz.github.io/")
+                .qrBorderConfig(Color.WHITE)
+                .qrLogoConfig(logo)
+                .qrCodeColorConfig(bgColor, fillColor)
+                .qrPositionalSquaresConfig(positionalSquaresConfig)
+                .build()
         return qrCodeApi.createQrCodeImage(qrCodeConfig)
     }
 
-    private fun readQRCode(bufferedImage: BufferedImage, hintMap: Map<DecodeHintType, *>? = null): String {
-        val binaryBitmap = BinaryBitmap(
-            HybridBinarizer(
-                BufferedImageLuminanceSource(
-                    bufferedImage,
+    private fun readQRCode(
+        bufferedImage: BufferedImage,
+        hintMap: Map<DecodeHintType, *>? = null,
+    ): String {
+        val binaryBitmap =
+            BinaryBitmap(
+                HybridBinarizer(
+                    BufferedImageLuminanceSource(
+                        bufferedImage,
+                    ),
                 ),
-            ),
-        )
+            )
         val qrCodeResult = QRCodeMultiReader().decode(binaryBitmap, hintMap)
         return qrCodeResult.text
     }
@@ -120,22 +131,25 @@ class ReadCreatedQrCodeTest {
             val email = SimpleTypes.email("simon@example.com")
             val phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678")
             val sms = SimpleTypes.sms("+49 176 12345678", "Hello World")
-            val startDateTime = LocalDateTime.now()
-                .plusWeeks(2)
-            val vEvent = VEvent()
-                .summary("QR Codes with Kotlin & Java")
-                .location("Java User Group Hamburg")
-                .startDate(startDateTime)
-                .endDate(startDateTime.plusHours(2))
-                .description("Let's create QR Codes with Kotlin & Java")
-                .toVEventQrCodeText()
-            val vCard = VCard()
-                .formattedName("Simon Scholz")
-                .email("simon@example.com")
-                .organization("Self Employed")
-                .phoneNumber("+49 176 12345678")
-                .website("https://simonscholz.github.io/")
-                .toVCardQrCodeText()
+            val startDateTime =
+                LocalDateTime.now()
+                    .plusWeeks(2)
+            val vEvent =
+                VEvent()
+                    .summary("QR Codes with Kotlin & Java")
+                    .location("Java User Group Hamburg")
+                    .startDate(startDateTime)
+                    .endDate(startDateTime.plusHours(2))
+                    .description("Let's create QR Codes with Kotlin & Java")
+                    .toVEventQrCodeText()
+            val vCard =
+                VCard()
+                    .formattedName("Simon Scholz")
+                    .email("simon@example.com")
+                    .organization("Self Employed")
+                    .phoneNumber("+49 176 12345678")
+                    .website("https://simonscholz.github.io/")
+                    .toVCardQrCodeText()
             return listOf(
                 Arguments.of(url),
                 Arguments.of(geolocation),
