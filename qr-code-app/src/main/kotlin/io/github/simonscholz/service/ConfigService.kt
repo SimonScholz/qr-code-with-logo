@@ -70,7 +70,8 @@ class ConfigService(
         return when {
             os.contains("win") -> {
                 // Windows
-                System.getenv("APPDATA")?.let { "$it/qr-code-app" } ?: throw IllegalStateException("APPDATA environment variable not found.")
+                System.getenv("APPDATA")?.let { "$it/qr-code-app" }
+                    ?: throw IllegalStateException("APPDATA environment variable not found.")
             }
             os.contains("nix") || os.contains("nux") || os.contains("mac") -> {
                 // Linux or macOS

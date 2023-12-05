@@ -31,6 +31,7 @@ internal class QrCodeApiImpl : QrCodeApi {
             }
 
             val qrCodeCreator = QrCodeCreator()
+            // have a quietZone if we have a border
             val qrCode =
                 qrCodeCreator.createQrImageWithPositionals(
                     qrCodeText = qrCodeConfig.qrCodeText,
@@ -43,7 +44,7 @@ internal class QrCodeApiImpl : QrCodeApi {
                     outerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.outerSquareColor,
                     innerSquareColor = qrCodeConfig.qrPositionalSquaresConfig.innerSquareColor,
                     centerColor = qrCodeConfig.qrPositionalSquaresConfig.centerColor,
-                    quietZone = qrCodeConfig.qrBorderConfig?.let { 1 } ?: 0, // have a quietZone if we have a border
+                    quietZone = qrCodeConfig.qrBorderConfig?.let { 1 } ?: 0,
                     borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
                     relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
                     customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,

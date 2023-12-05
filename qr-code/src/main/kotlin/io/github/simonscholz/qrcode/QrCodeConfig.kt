@@ -48,7 +48,14 @@ class QrCodeConfig
                 bgColor: Color? = null,
                 shape: LogoShape = LogoShape.CIRCLE,
             ) = apply {
-                this.qrLogoConfig = QrLogoConfig(logo = logo, base64Logo = null, relativeSize = relativeSize, bgColor = bgColor, shape = shape)
+                this.qrLogoConfig =
+                    QrLogoConfig(
+                        logo = logo,
+                        base64Logo = null,
+                        relativeSize = relativeSize,
+                        bgColor = bgColor,
+                        shape = shape,
+                    )
             }
 
             @JvmOverloads fun qrLogoConfig(
@@ -57,7 +64,13 @@ class QrCodeConfig
                 bgColor: Color? = null,
                 shape: LogoShape = LogoShape.CIRCLE,
             ) = apply {
-                this.qrLogoConfig = QrLogoConfig(base64Logo = base64Logo, relativeSize = relativeSize, bgColor = bgColor, shape = shape)
+                this.qrLogoConfig =
+                    QrLogoConfig(
+                        base64Logo = base64Logo,
+                        relativeSize = relativeSize,
+                        bgColor = bgColor,
+                        shape = shape,
+                    )
             }
 
             @JvmOverloads fun qrCodeColorConfig(
