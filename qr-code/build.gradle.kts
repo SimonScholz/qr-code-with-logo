@@ -24,7 +24,7 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.4")
 
     testImplementation("com.google.zxing:javase:3.5.2")
-    testImplementation("com.willowtreeapps.assertk:assertk:0.27.0")
+    testImplementation("com.willowtreeapps.assertk:assertk:0.28.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.21")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
