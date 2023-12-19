@@ -20,7 +20,7 @@ repositories {
 dependencies {
     implementation(project(":qr-code"))
 
-    implementation("com.miglayout:miglayout-swing:11.2")
+    implementation("com.miglayout:miglayout-swing:11.3")
     implementation("org.eclipse.platform:org.eclipse.core.databinding:1.13.100") {
         exclude(group = "org.eclipse.platform", module = "org.eclipse.osgi")
     }
