@@ -9,7 +9,7 @@ object Mapper {
             size = viewModel.size.value,
             backgroundColor = viewModel.backgroundColor.value.toColorInfo(),
             foregroundColor = viewModel.foregroundColor.value.toColorInfo(),
-            dotShape = viewModel.dotShape.value,
+            dotShape = viewModel.dotShape.value.name,
             logoBase64 = viewModel.logoBase64.value,
             logoRelativeSize = viewModel.logoRelativeSize.value,
             logoBackgroundColor = viewModel.logoBackgroundColor.value.toColorInfo(),
@@ -35,7 +35,7 @@ object Mapper {
             size.value = qrCodeConfig.size
             backgroundColor.value = qrCodeConfig.backgroundColor.toColor()
             foregroundColor.value = qrCodeConfig.foregroundColor.toColor()
-            dotShape.value = qrCodeConfig.dotShape
+            dotShape.value = DotShapes.valueOf(qrCodeConfig.dotShape)
             logoBase64.value = qrCodeConfig.logoBase64
             logoRelativeSize.value = qrCodeConfig.logoRelativeSize
             logoBackgroundColor.value = qrCodeConfig.logoBackgroundColor.toColor()

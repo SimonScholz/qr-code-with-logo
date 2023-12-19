@@ -68,10 +68,14 @@ graalvmNative {
         buildArgs.add("-Djava.awt.headless=false")
         buildArgs.add("--verbose")
         buildArgs.add("--no-fallback")
-        buildArgs.add("-H:ConfigurationFileDirectories=src/main/resources/META-INF/native-image")
+        // https://www.graalvm.org/latest/reference-manual/native-image/dynamic-features/Resources/
+        buildArgs.add("-H:IncludeResources=.*png\$")
+        buildArgs.add("-H:ResourceConfigurationFiles=${layout.projectDirectory}/resource-config.json")
+        buildArgs.add("-H:ReflectionConfigurationFiles=${layout.projectDirectory}/reflection-config.json")
         buildArgs.add("-H:EnableURLProtocols=http,https")
         buildArgs.add("-H:+AddAllCharsets")
-        resources.autodetect()
+
+        resources { autodetect() }
     }
     toolchainDetection = false
 }
