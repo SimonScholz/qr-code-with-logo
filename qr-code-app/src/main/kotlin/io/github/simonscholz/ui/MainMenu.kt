@@ -4,13 +4,12 @@ import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
 import io.github.simonscholz.service.ConfigService
+import io.github.simonscholz.service.SimpleUrlBrowser
 import io.github.simonscholz.ui.dialogs.InputDialogs
 import org.eclipse.core.databinding.observable.value.IObservableValue
-import java.awt.Desktop
 import java.awt.event.ActionEvent
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
-import java.net.URI
 import javax.swing.AbstractAction
 import javax.swing.JFrame
 import javax.swing.JMenu
@@ -346,12 +345,7 @@ object MainMenu {
         url: String,
     ) {
         try {
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(URI(url))
-            } else {
-                // Handle the case where the Desktop class is not supported
-                JOptionPane.showMessageDialog(frame, "Desktop is not supported on this platform.", "Error", JOptionPane.ERROR_MESSAGE)
-            }
+            SimpleUrlBrowser.browse(url)
         } catch (e: Exception) {
             e.printStackTrace()
             // Handle any exceptions that may occur when opening the URL
