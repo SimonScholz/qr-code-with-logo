@@ -33,7 +33,7 @@ import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 
 internal class QrCodeCreator {
-    fun createQrImageWithPositionals(
+    fun createQrCodeWithPositionalsImage(
         qrCodeText: String,
         size: Int,
         circularPositionals: Boolean,
@@ -49,11 +49,47 @@ internal class QrCodeCreator {
         relativeBorderRound: Double,
         customDotStyler: ((x: Int, y: Int, size: Int, graphics: Graphics2D) -> Unit)? = null,
     ): BufferedImage {
-        val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
-        val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone)
-
         val image = BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR_PRE)
         val graphics = image.graphics as Graphics2D
+        drawQrCodeWithPositionals(
+            graphics,
+            qrCodeText,
+            size,
+            circularPositionals,
+            relativePositionalsRound,
+            fillColor,
+            bgColor,
+            outerBorderColor,
+            outerSquareColor,
+            innerSquareColor,
+            centerColor,
+            quietZone,
+            borderWidth,
+            relativeBorderRound,
+            customDotStyler,
+        )
+        return image
+    }
+
+    fun drawQrCodeWithPositionals(
+        graphics: Graphics2D,
+        qrCodeText: String,
+        size: Int,
+        circularPositionals: Boolean,
+        relativePositionalsRound: Double,
+        fillColor: Color,
+        bgColor: Color,
+        outerBorderColor: Color,
+        outerSquareColor: Color,
+        innerSquareColor: Color,
+        centerColor: Color,
+        quietZone: Int,
+        borderWidth: Int,
+        relativeBorderRound: Double,
+        customDotStyler: ((x: Int, y: Int, size: Int, graphics: Graphics2D) -> Unit)? = null,
+    ) {
+        val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
+        val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone)
 
         return try {
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
@@ -107,7 +143,6 @@ internal class QrCodeCreator {
                 graphics.color = centerColor
                 drawPositionalSquare(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
             }
-            image
         } finally {
             graphics.dispose()
         }

@@ -1,6 +1,7 @@
 package io.github.simonscholz.qrcode
 
 import java.awt.image.BufferedImage
+import java.io.Writer
 
 interface QrCodeApi {
     /**
@@ -18,4 +19,9 @@ interface QrCodeApi {
      * @return base64 encoded String
      */
     fun createBase64QrCodeImage(qrCodeConfig: QrCodeConfig): String = createQrCodeImage(qrCodeConfig).toBase64()
+
+    fun createQrCodeSvgDocument(
+        qrCodeConfig: QrCodeConfig,
+        writer: Writer,
+    )
 }

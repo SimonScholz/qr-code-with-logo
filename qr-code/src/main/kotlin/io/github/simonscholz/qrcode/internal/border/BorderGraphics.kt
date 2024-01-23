@@ -13,18 +13,22 @@ internal object BorderGraphics {
         relativeBorderRound: Double,
         borderWidth: Int,
     ) {
-        graphics.color = borderColor
-
+        val oldColor: Color = graphics.color
         val oldStroke: Stroke = graphics.stroke
-        graphics.stroke = BasicStroke(borderWidth.toFloat())
-        graphics.drawRoundRect(
-            borderWidth / 2,
-            borderWidth / 2,
-            size - borderWidth,
-            size - borderWidth,
-            (size * relativeBorderRound).toInt(),
-            (size * relativeBorderRound).toInt(),
-        )
-        graphics.stroke = oldStroke
+        try {
+            graphics.color = borderColor
+            graphics.stroke = BasicStroke(borderWidth.toFloat())
+            graphics.drawRoundRect(
+                borderWidth / 2,
+                borderWidth / 2,
+                size - borderWidth,
+                size - borderWidth,
+                (size * relativeBorderRound).toInt(),
+                (size * relativeBorderRound).toInt(),
+            )
+        } finally {
+            graphics.stroke = oldStroke
+            graphics.color = oldColor
+        }
     }
 }

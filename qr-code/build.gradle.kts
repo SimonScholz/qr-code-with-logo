@@ -21,6 +21,10 @@ repositories {
 dependencies {
     implementation("com.google.zxing:core:3.5.2")
 
+    implementation("org.apache.xmlgraphics:batik-dom:1.17")
+    implementation("org.apache.xmlgraphics:batik-svggen:1.17")
+    implementation("org.apache.xmlgraphics:batik-codec:1.17")
+
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.4")
 
     testImplementation("com.google.zxing:javase:3.5.2")
