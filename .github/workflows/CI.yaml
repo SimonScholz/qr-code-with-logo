@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           java-version: 20
 
-      - uses: gradle/gradle-build-action@v2.11.0
+      - uses: gradle/gradle-build-action@v2.11.1
 
       - name: Build
         run: ./gradlew build
@@ -38,7 +38,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
 
-      - uses: gradle/gradle-build-action@v2.11.0
+      - uses: gradle/gradle-build-action@v2.11.1
 
       - name: Build
         working-directory: java-sample/
@@ -58,7 +58,7 @@ jobs:
           distribution: 'temurin'
           java-version: 20
 
-      - uses: gradle/gradle-build-action@v2.11.0
+      - uses: gradle/gradle-build-action@v2.11.1
 
       - name: Publish Artifacts
         run: ./gradlew publishAllPublicationsToMavenCentral
