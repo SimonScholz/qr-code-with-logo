@@ -19,11 +19,14 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.zxing:core:3.5.2")
+    implementation(project(":qr-code"))
+
+    implementation("org.apache.xmlgraphics:batik-dom:1.17")
+    implementation("org.apache.xmlgraphics:batik-svggen:1.17")
+    implementation("org.apache.xmlgraphics:batik-codec:1.17")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.4")
 
-    testImplementation("com.google.zxing:javase:3.5.2")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.1")
