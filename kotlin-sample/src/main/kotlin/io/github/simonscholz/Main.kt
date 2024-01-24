@@ -260,6 +260,14 @@ private fun rainbowColor(
         ).outputStream(),
         QrCodeApi.FORMAT_BASE64,
     )
+    qrCodeApi.outputQrCode(
+        qrCodeConfig,
+        File(
+            qrCodeDir,
+            "/rainbow-color-output-kotlin.svg",
+        ).outputStream(),
+        "svg",
+    )
 }
 
 private fun notEnoughContrast(
