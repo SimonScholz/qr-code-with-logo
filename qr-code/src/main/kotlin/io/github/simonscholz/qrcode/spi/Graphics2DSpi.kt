@@ -5,7 +5,7 @@ import java.io.Writer
 /**
  * SPI to provide a Graphics2D instance for a given format, e.g., SVGGraphics2D from Apache Batik for svg.
  */
-interface Graphics2DQrCodeSpi {
+interface Graphics2DSpi {
     fun supportsFormat(format: String): Boolean
 
     /**

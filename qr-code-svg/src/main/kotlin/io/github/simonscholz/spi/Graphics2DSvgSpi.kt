@@ -1,14 +1,14 @@
-package io.github.simonscholz.qrcode
+package io.github.simonscholz.spi
 
 import io.github.simonscholz.qrcode.spi.Graphics2DDelegate
-import io.github.simonscholz.qrcode.spi.Graphics2DQrCodeSpi
+import io.github.simonscholz.qrcode.spi.Graphics2DSpi
 import org.apache.batik.dom.GenericDOMImplementation
 import org.apache.batik.svggen.SVGGeneratorContext
 import org.apache.batik.svggen.SVGGraphics2D
 import org.w3c.dom.DOMImplementation
 import java.io.Writer
 
-class Graphics2DQrCodeSvgSpi : Graphics2DQrCodeSpi {
+class Graphics2DSvgSpi : Graphics2DSpi {
     override fun supportsFormat(format: String): Boolean = format == "svg"
 
     override fun createQrCode(

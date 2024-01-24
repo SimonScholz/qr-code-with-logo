@@ -7,7 +7,7 @@ import io.github.simonscholz.qrcode.internal.border.BorderGraphics
 import io.github.simonscholz.qrcode.internal.logo.LogoGraphics
 import io.github.simonscholz.qrcode.internal.qr.QrCodeCreator
 import io.github.simonscholz.qrcode.spi.Graphics2DDelegate
-import io.github.simonscholz.qrcode.spi.Graphics2DQrCodeSpi
+import io.github.simonscholz.qrcode.spi.Graphics2DSpi
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
@@ -65,7 +65,7 @@ internal class QrCodeApiImpl : QrCodeApi {
         writer: Writer,
         format: String,
     ) {
-        ServiceLoader.load(Graphics2DQrCodeSpi::class.java).forEach {
+        ServiceLoader.load(Graphics2DSpi::class.java).forEach {
             if (it.supportsFormat(format)) {
                 it.createQrCode(
                     object : Graphics2DDelegate {
