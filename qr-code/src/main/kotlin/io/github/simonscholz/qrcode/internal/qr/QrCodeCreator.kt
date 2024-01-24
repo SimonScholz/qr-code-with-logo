@@ -30,47 +30,8 @@ import com.google.zxing.qrcode.encoder.QRCode
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.RenderingHints
-import java.awt.image.BufferedImage
 
 internal class QrCodeCreator {
-    fun createQrCodeWithPositionalsImage(
-        qrCodeText: String,
-        size: Int,
-        circularPositionals: Boolean,
-        relativePositionalsRound: Double,
-        fillColor: Color,
-        bgColor: Color,
-        outerBorderColor: Color,
-        outerSquareColor: Color,
-        innerSquareColor: Color,
-        centerColor: Color,
-        quietZone: Int,
-        borderWidth: Int,
-        relativeBorderRound: Double,
-        customDotStyler: ((x: Int, y: Int, size: Int, graphics: Graphics2D) -> Unit)? = null,
-    ): BufferedImage {
-        val image = BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR_PRE)
-        val graphics = image.graphics as Graphics2D
-        drawQrCodeWithPositionals(
-            graphics,
-            qrCodeText,
-            size,
-            circularPositionals,
-            relativePositionalsRound,
-            fillColor,
-            bgColor,
-            outerBorderColor,
-            outerSquareColor,
-            innerSquareColor,
-            centerColor,
-            quietZone,
-            borderWidth,
-            relativeBorderRound,
-            customDotStyler,
-        )
-        return image
-    }
-
     fun drawQrCodeWithPositionals(
         graphics: Graphics2D,
         qrCodeText: String,
@@ -91,60 +52,56 @@ internal class QrCodeCreator {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
         val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone)
 
-        return try {
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
-            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+        graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
 
-            graphics.color = bgColor
-            graphics.fillRoundRect(
-                borderWidth / 2,
-                borderWidth / 2,
-                size - borderWidth,
-                size - borderWidth,
-                ((size - borderWidth) * relativeBorderRound).toInt(),
-                ((size - borderWidth) * relativeBorderRound).toInt(),
-            )
+        graphics.color = bgColor
+        graphics.fillRoundRect(
+            borderWidth / 2,
+            borderWidth / 2,
+            size - borderWidth,
+            size - borderWidth,
+            ((size - borderWidth) * relativeBorderRound).toInt(),
+            ((size - borderWidth) * relativeBorderRound).toInt(),
+        )
 
-            // Data Squares
-            dataSquares.forEach { s ->
-                if (s.isFilled) {
-                    graphics.color = fillColor
-                    customDotStyler?.invoke(s.x, s.y, s.size, graphics)
-                        ?: graphics.fillRect(s.x, s.y, s.size, s.size)
-                } else {
-                    graphics.color = bgColor
-                    graphics.fillRect(s.x, s.y, s.size, s.size)
-                }
+        // Data Squares
+        dataSquares.forEach { s ->
+            if (s.isFilled) {
+                graphics.color = fillColor
+                customDotStyler?.invoke(s.x, s.y, s.size, graphics)
+                    ?: graphics.fillRect(s.x, s.y, s.size, s.size)
+            } else {
+                graphics.color = bgColor
+                graphics.fillRect(s.x, s.y, s.size, s.size)
             }
+        }
 
-            positionalSquares.forEach {
-                val r: Int = it.size
-                var cx: Int = it.left
-                var cy: Int = it.top
-                val wr: Int = r - 2 * it.fillColorBorderWidth
-                val ir: Int = r - 2 * it.fillColorBorderWidth - 2 * it.bgColorBorderWidth
+        positionalSquares.forEach {
+            val r: Int = it.size
+            var cx: Int = it.left
+            var cy: Int = it.top
+            val wr: Int = r - 2 * it.fillColorBorderWidth
+            val ir: Int = r - 2 * it.fillColorBorderWidth - 2 * it.bgColorBorderWidth
 
-                // White External Circle
-                graphics.color = outerBorderColor
-                drawPositionalSquare(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
+            // White External Circle
+            graphics.color = outerBorderColor
+            drawPositionalSquare(graphics, cx - 2, cy - 2, r + 4, r + 4, circularPositionals, relativePositionalsRound)
 
-                // Black External Circle
-                graphics.color = outerSquareColor
-                drawPositionalSquare(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
-                cx += it.fillColorBorderWidth
-                cy += it.fillColorBorderWidth
-                // White Internal Circle
-                graphics.color = innerSquareColor
-                drawPositionalSquare(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
-                cx += it.bgColorBorderWidth
-                cy += it.bgColorBorderWidth
-                // Black Internal Circle
-                graphics.color = centerColor
-                drawPositionalSquare(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
-            }
-        } finally {
-            graphics.dispose()
+            // Black External Circle
+            graphics.color = outerSquareColor
+            drawPositionalSquare(graphics, cx, cy, r, r, circularPositionals, relativePositionalsRound)
+            cx += it.fillColorBorderWidth
+            cy += it.fillColorBorderWidth
+            // White Internal Circle
+            graphics.color = innerSquareColor
+            drawPositionalSquare(graphics, cx, cy, wr, wr, circularPositionals, relativePositionalsRound)
+            cx += it.bgColorBorderWidth
+            cy += it.bgColorBorderWidth
+            // Black Internal Circle
+            graphics.color = centerColor
+            drawPositionalSquare(graphics, cx, cy, ir, ir, circularPositionals, relativePositionalsRound)
         }
     }
 
