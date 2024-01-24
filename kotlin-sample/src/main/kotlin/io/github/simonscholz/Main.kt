@@ -243,6 +243,23 @@ private fun rainbowColor(
             )
             .build()
     qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/rainbow-color-kotlin.png"))
+
+    qrCodeApi.outputQrCode(
+        qrCodeConfig,
+        File(
+            qrCodeDir,
+            "/rainbow-color-output-kotlin.png",
+        ).outputStream(),
+        QrCodeApi.FORMAT_BUFFERED_IMAGE,
+    )
+    qrCodeApi.outputQrCode(
+        qrCodeConfig,
+        File(
+            qrCodeDir,
+            "/rainbow-color-output-kotlin.txt",
+        ).outputStream(),
+        QrCodeApi.FORMAT_BASE64,
+    )
 }
 
 private fun notEnoughContrast(
