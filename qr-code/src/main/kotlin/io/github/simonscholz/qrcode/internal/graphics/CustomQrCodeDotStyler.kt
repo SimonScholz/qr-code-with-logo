@@ -1,5 +1,6 @@
 package io.github.simonscholz.qrcode.internal.graphics
 
+import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.Polygon
@@ -150,5 +151,41 @@ internal object CustomQrCodeDotStyler {
     ) {
         graphic.fillRect(x, y + size / 4, size, size / 2)
         graphic.fillRect(x + size / 4, y, size / 2, size)
+    }
+
+    fun drawSmiley(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphic: Graphics2D,
+    ) {
+        // Draw face
+        graphic.fillOval(x, y, size, size)
+
+        val originalColor = graphic.color
+        try {
+            val oneFith = size / 5
+            // Invert color for eyes and mouth
+            graphic.color = invertColor(originalColor)
+
+            // Draw eyes
+            val eyeSize = (size * 0.2).toInt()
+            graphic.fillOval(x + oneFith, y + oneFith, eyeSize, eyeSize)
+            graphic.fillOval(x + oneFith * 3, y + oneFith, eyeSize, eyeSize)
+
+            // Draw mouth
+            val mouthWidth = (size * 0.6).toInt()
+            val mouthHeight = (size * 0.3).toInt()
+            graphic.drawArc(x + oneFith, y + oneFith * 2, mouthWidth, mouthHeight, 0, -180)
+        } finally {
+            graphic.color = originalColor
+        }
+    }
+
+    private fun invertColor(color: Color): Color {
+        val red = 255 - color.red
+        val green = 255 - color.green
+        val blue = 255 - color.blue
+        return Color(red, green, blue)
     }
 }

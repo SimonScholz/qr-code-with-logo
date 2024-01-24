@@ -14,6 +14,9 @@ repositories {
 
 dependencies {
     implementation(project(":qr-code"))
+
+    // only needed during runtime so that the service loader in the qr-code module can find the implementation
+    runtimeOnly(project(":qr-code-svg"))
 }
 
 detekt {

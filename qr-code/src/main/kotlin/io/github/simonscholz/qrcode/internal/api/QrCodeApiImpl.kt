@@ -65,19 +65,15 @@ internal class QrCodeApiImpl : QrCodeApi {
         writer: Writer,
         format: String,
     ) {
-        ServiceLoader.load(Graphics2DSpi::class.java).forEach {
-            if (it.supportsFormat(format)) {
-                it.createQrCode(
-                    object : Graphics2DDelegate {
-                        override fun drawQrCode(graphics: Graphics2D) {
-                            drawQrCodeOnGraphics2D(qrCodeConfig, graphics)
-                        }
-                    },
-                    writer,
-                )
-            }
-        }
-        throw IllegalStateException("No QrCodeWritingSpi found for format: $format")
+        val graphics2DSpis = ServiceLoader.load(Graphics2DSpi::class.java)
+        graphics2DSpis.find { it.supportsFormat(format) }?.createQrCode(
+            object : Graphics2DDelegate {
+                override fun drawQrCode(graphics: Graphics2D) {
+                    drawQrCodeOnGraphics2D(qrCodeConfig, graphics)
+                }
+            },
+            writer,
+        ) ?: throw IllegalStateException("No QrCodeWritingSpi found for format: $format")
     }
 
     private fun drawQrCodeOnGraphics2D(

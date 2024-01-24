@@ -113,4 +113,14 @@ enum class QrCodeDotShape : QrCodeDotStyler {
             CustomQrCodeDotStyler.drawCross(x, y, dotSize, graphics)
         }
     },
+    SMILEY {
+        override fun createDot(
+            x: Int,
+            y: Int,
+            dotSize: Int,
+            graphics: Graphics2D,
+        ) {
+            CustomQrCodeDotStyler.drawSmiley(x, y, dotSize, graphics)
+        }
+    },
 }

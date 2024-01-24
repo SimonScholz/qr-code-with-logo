@@ -9,7 +9,7 @@ import org.w3c.dom.DOMImplementation
 import java.io.Writer
 
 class Graphics2DSvgSpi : Graphics2DSpi {
-    override fun supportsFormat(format: String): Boolean = format == "svg"
+    override fun supportsFormat(format: String): Boolean = format.lowercase() == "svg"
 
     override fun createQrCode(
         delegate: Graphics2DDelegate,

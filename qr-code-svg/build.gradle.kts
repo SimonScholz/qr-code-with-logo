@@ -23,7 +23,7 @@ dependencies {
 
     implementation("org.apache.xmlgraphics:batik-dom:1.17")
     implementation("org.apache.xmlgraphics:batik-svggen:1.17")
-    implementation("org.apache.xmlgraphics:batik-codec:1.17")
+    runtimeOnly("org.apache.xmlgraphics:batik-codec:1.17")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.4")
 
