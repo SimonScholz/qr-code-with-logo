@@ -45,9 +45,9 @@ private fun createDefaultQrCode(
     qrCodeApi: QrCodeApi,
     qrCodeDir: String,
 ) {
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE),
-        File(qrCodeDir, "/qr-with-defaults-kotlin.svg").writer(),
+        File(qrCodeDir, "/qr-with-defaults-kotlin.svg").outputStream(),
         "svg",
     )
 }
@@ -64,9 +64,9 @@ private fun createDefaultQrCodeWithLogo(
             DEFAULT_IMG_SIZE,
             QrLogoConfig(logo),
         )
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
-        File(qrCodeDir, "/qr-with-logo-kotlin.svg").writer(),
+        File(qrCodeDir, "/qr-with-logo-kotlin.svg").outputStream(),
         "svg",
     )
 }
@@ -82,9 +82,9 @@ private fun createDefaultQrCodeWithLogoAndBorder(
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .build()
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
-        File(qrCodeDir, "/qr-with-logo-and-border-kotlin.svg").writer(),
+        File(qrCodeDir, "/qr-with-logo-and-border-kotlin.svg").outputStream(),
         "svg",
     )
 }
@@ -105,12 +105,12 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
                     .build(),
             )
             .build()
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
         File(
             qrCodeDir,
             "/qr-with-logo-and-border-and-p-border-round-kotlin.svg",
-        ).writer(),
+        ).outputStream(),
         "svg",
     )
 }
@@ -127,12 +127,12 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(QrPositionalSquaresConfig(true))
             .build()
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
         File(
             qrCodeDir,
             "/qr-with-logo-and-border-and-p-border-circle-kotlin.svg",
-        ).writer(),
+        ).outputStream(),
         "svg",
     )
 }
@@ -155,9 +155,9 @@ private fun decentRedColor(
                 ),
             )
             .build()
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
-        File(qrCodeDir, "/decent-red-color-kotlin.svg").writer(),
+        File(qrCodeDir, "/decent-red-color-kotlin.svg").outputStream(),
         "svg",
     )
 }
@@ -185,9 +185,9 @@ private fun mineCraftCreeperColor(
             .qrCodeColorConfig(darkerGreen, brighterGreen)
             .qrPositionalSquaresConfig(positionalSquaresConfig)
             .build()
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
-        File(qrCodeDir, "/minecraft-creeper-color-kotlin.svg").writer(),
+        File(qrCodeDir, "/minecraft-creeper-color-kotlin.svg").outputStream(),
         "svg",
     )
 }
@@ -214,9 +214,9 @@ private fun rainbowColor(
                 ),
             )
             .build()
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
-        File(qrCodeDir, "/rainbow-color-kotlin.svg").writer(),
+        File(qrCodeDir, "/rainbow-color-kotlin.svg").outputStream(),
         "svg",
     )
 }
@@ -238,9 +238,9 @@ private fun notEnoughContrast(
             qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLET),
             qrPositionalSquaresConfig = positionalSquaresConfig,
         )
-    qrCodeApi.writeQrCode(
+    qrCodeApi.outputQrCode(
         qrCodeConfig,
-        File(qrCodeDir, "/not-enough-contrast-kotlin.svg").writer(),
+        File(qrCodeDir, "/not-enough-contrast-kotlin.svg").outputStream(),
         "svg",
     )
 }

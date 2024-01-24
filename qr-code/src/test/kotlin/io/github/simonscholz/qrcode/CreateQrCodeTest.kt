@@ -1,12 +1,20 @@
 package io.github.simonscholz.qrcode
 
+import assertk.assertThat
+import assertk.assertions.isNotEmpty
+import assertk.assertions.isTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.io.TempDir
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import java.awt.Color
+import java.io.ByteArrayOutputStream
 import java.nio.file.Path
 import java.util.Objects
 import javax.imageio.ImageIO
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 class CreateQrCodeTest {
     private val qrCodeApi = QrCodeFactory.createQrCodeApi()
@@ -54,6 +62,45 @@ class CreateQrCodeTest {
             val qrCodeImage = qrCodeApi.createQrCodeImage(qrCodeConfig)
             val qrCodeFile = tempDir.resolve("qr-code.png")
             ImageIO.write(qrCodeImage, "png", qrCodeFile.toFile())
+        }
+    }
+
+    @Test
+    fun `base64 qr code can be created without errors`() {
+        val base64QrCode =
+            assertDoesNotThrow {
+                val qrCodeConfig = QrCodeConfig.Builder("Testing").build()
+                qrCodeApi.createBase64QrCodeImage(qrCodeConfig)
+            }
+
+        assertThat(isBase64Encoded(base64QrCode)).isTrue()
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "BufferedImage",
+        "Base64",
+    )
+    fun `Diffrent qr code formats should be written without errors`(format: String) {
+        val writerOutput =
+            assertDoesNotThrow {
+                val qrCodeConfig = QrCodeConfig.Builder("Testing").build()
+                ByteArrayOutputStream().use { outputStream ->
+                    qrCodeApi.outputQrCode(qrCodeConfig, outputStream, format)
+                    outputStream.toString()
+                }
+            }
+
+        assertThat(writerOutput).isNotEmpty()
+    }
+
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun isBase64Encoded(input: String): Boolean {
+        return try {
+            Base64.decode(input)
+            true
+        } catch (e: IllegalArgumentException) {
+            false
         }
     }
 }

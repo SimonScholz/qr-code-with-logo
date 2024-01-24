@@ -6,6 +6,8 @@ import org.apache.batik.dom.GenericDOMImplementation
 import org.apache.batik.svggen.SVGGeneratorContext
 import org.apache.batik.svggen.SVGGraphics2D
 import org.w3c.dom.DOMImplementation
+import java.io.OutputStream
+import java.io.OutputStreamWriter
 import java.io.Writer
 
 class Graphics2DSvgSpi : Graphics2DSpi {
@@ -13,7 +15,7 @@ class Graphics2DSvgSpi : Graphics2DSpi {
 
     override fun createQrCode(
         delegate: Graphics2DDelegate,
-        writer: Writer,
+        outputStream: OutputStream,
     ) {
         val domImpl: DOMImplementation = GenericDOMImplementation.getDOMImplementation()
         val svgNS = "http://www.w3.org/2000/svg"
@@ -23,6 +25,7 @@ class Graphics2DSvgSpi : Graphics2DSpi {
         val svgGraphics = SVGGraphics2D(ctx, false)
         try {
             delegate.drawQrCode(svgGraphics)
+            val writer: Writer = OutputStreamWriter(outputStream)
             svgGraphics.stream(writer, true)
         } finally {
             svgGraphics.dispose()
