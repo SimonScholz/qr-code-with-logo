@@ -25,7 +25,7 @@ dependencies {
     implementation("org.apache.xmlgraphics:batik-svggen:1.17")
     runtimeOnly("org.apache.xmlgraphics:batik-codec:1.17")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.4")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.5")
 
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")

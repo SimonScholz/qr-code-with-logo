@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation("com.google.zxing:core:3.5.2")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.4")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.5")
 
     testImplementation("com.google.zxing:javase:3.5.2")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.0")
