@@ -26,7 +26,7 @@ dependencies {
     testImplementation("com.google.zxing:javase:3.5.2")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 }
