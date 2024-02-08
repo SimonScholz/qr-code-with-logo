@@ -3,6 +3,11 @@ package io.github.simonscholz.qrcode
 import io.github.simonscholz.qrcode.internal.graphics.CustomQrCodeDotStyler
 import java.awt.Graphics2D
 
+/**
+ * Funtional interface to apply a custom style for the QR code dots.
+ *
+ * @see QrCodeDotShape - for predefined shapes
+ */
 fun interface QrCodeDotStyler {
     fun createDot(
         x: Int,
@@ -12,6 +17,9 @@ fun interface QrCodeDotStyler {
     )
 }
 
+/**
+ * Predefined shapes for the QR code dots.
+ */
 enum class QrCodeDotShape : QrCodeDotStyler {
     SQUARE {
         override fun createDot(
