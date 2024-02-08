@@ -8,9 +8,9 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.ben.manes.versions)
 
-    id("org.graalvm.buildtools.native") version "0.9.28"
-    id("com.ryandens.jlink-application") version "0.4.0"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.graalvm)
+    alias(libs.plugins.jlink)
+    alias(libs.plugins.shadow)
 }
 
 repositories {
