@@ -25,6 +25,7 @@ class Graphics2DSvgSpi : Graphics2DSpi {
         val svgGraphics = SVGGraphics2D(ctx, false)
         try {
             delegate.drawQrCode(svgGraphics)
+            svgGraphics.root
             val writer: Writer = OutputStreamWriter(outputStream)
             svgGraphics.stream(writer, true)
         } finally {

@@ -1,6 +1,6 @@
 plugins {
-    id("java")
-    id("com.github.ben-manes.versions") version "0.50.0"
+    java
+    alias(libs.plugins.ben.manes.versions)
 }
 
 group = "com.github.simonscholz"
@@ -16,8 +16,9 @@ repositories {
 dependencies {
     implementation("io.github.simonscholz:qr-code-with-logo:0.4.0-SNAPSHOT")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
+    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 tasks.test {

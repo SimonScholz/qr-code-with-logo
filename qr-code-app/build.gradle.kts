@@ -1,12 +1,12 @@
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-    kotlin("jvm")
     application
+    alias(libs.plugins.kotlin.jvm)
 
-    id("io.gitlab.arturbosch.detekt")
-    id("org.jlleitschuh.gradle.ktlint")
-    id("com.github.ben-manes.versions")
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.ben.manes.versions)
 
     id("org.graalvm.buildtools.native") version "0.9.28"
     id("com.ryandens.jlink-application") version "0.4.0"
@@ -20,16 +20,14 @@ repositories {
 dependencies {
     implementation(project(":qr-code"))
 
-    implementation("com.miglayout:miglayout-swing:11.3")
-    implementation("org.eclipse.platform:org.eclipse.core.databinding:1.13.100") {
+    implementation(libs.miglayout)
+    implementation(libs.databinding) {
         exclude(group = "org.eclipse.platform", module = "org.eclipse.osgi")
     }
-    implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
-    implementation("org.swinglabs:swingx:1.6.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
-    implementation("com.squareup:kotlinpoet-javapoet:1.16.0")
-
-    // implementation("io.quarkus:quarkus-awt-deployment:3.5.0")
+    implementation(libs.datePicker)
+    implementation(libs.swingx)
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlinpoet.javapoet)
 
     // Just for comparison with JFace implementation
     // implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.15.100")
