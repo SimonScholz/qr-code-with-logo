@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.22"
 zxing = "3.5.3"
-junit = "5.10.1"
+junit = "5.10.2"
 
 [libraries]
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
