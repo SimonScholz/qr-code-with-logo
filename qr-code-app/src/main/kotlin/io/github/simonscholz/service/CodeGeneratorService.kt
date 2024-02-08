@@ -9,14 +9,13 @@ import com.squareup.kotlinpoet.TypeSpec
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.qrcode.LogoShape
 import io.github.simonscholz.qrcode.QrCodeConfig
+import io.github.simonscholz.qrcode.QrCodeDotShape
 import io.github.simonscholz.qrcode.QrCodeFactory
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import java.awt.Color
-import java.awt.Image
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
-import javax.imageio.ImageIO
 import javax.lang.model.element.Modifier
 import com.squareup.javapoet.ClassName as JavaClassName
 import com.squareup.javapoet.TypeSpec as JavaTypeSpec
@@ -25,38 +24,21 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
     fun generateKotlinCode(): String {
         val file = FileSpec.builder("io.github.simonscholz", "QrCodeGenerator")
 
-        file.addImport("io.github.simonscholz.qrcode", "LogoShape", "QrCodeConfig", "QrCodeFactory", "QrPositionalSquaresConfig")
+        file.addImport(
+            "io.github.simonscholz.qrcode",
+            "LogoShape",
+            "QrCodeConfig",
+            "QrCodeFactory",
+            "QrPositionalSquaresConfig",
+            "QrCodeDotShape",
+        )
         file.addImport("java.awt", "Color", "image.BufferedImage")
         file.addImport("java.io", "File")
         file.addImport("javax.imageio", "ImageIO")
 
-        file.addFunction(
-            FunSpec.builder("toFile")
-                .receiver(BufferedImage::class)
-                .addParameter("fileToSave", File::class)
-                .addStatement("ImageIO.write(this, \"png\", fileToSave)")
-                .build(),
-        )
-
-        file.addFunction(
-            FunSpec.builder("main")
-                .addStatement(
-                    """
-                |val logo = ImageIO.read(
-                |    QrCodeGenerator::class.java
-                |        .classLoader
-                |        .getResource("avatar-60x.png")
-                |)
-                    """.trimMargin(),
-                )
-                .addStatement("val qrCodeGenerator = %T()", ClassName("io.github.simonscholz", "QrCodeGenerator"))
-                .addStatement("%N.generateQrCode(logo).toFile(File(\"qr-code.png\"))", "qrCodeGenerator")
-                .build(),
-        )
-
         val generateQrCodeFunction =
             FunSpec.builder("generateQrCode")
-                .addParameter("logo", Image::class)
+                .addParameter("base64Logo", String::class)
                 .addStatement(
                     """
             |val qrPositionalSquaresConfig = %T.Builder()
@@ -83,7 +65,7 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             |        fillColor = ${colorInstanceStringKotlin(qrCodeConfigViewModel.foregroundColor.value)},
             |    )
             |    .qrLogoConfig(
-            |        logo = logo,
+            |        base64Logo = base64Logo,
             |        relativeSize = ${qrCodeConfigViewModel.logoRelativeSize.value},
             |        bgColor = ${colorInstanceStringKotlin(qrCodeConfigViewModel.logoBackgroundColor.value)},
             |        shape = %T.${qrCodeConfigViewModel.logoShape.value},
@@ -94,6 +76,7 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             |        relativeBorderRound = ${qrCodeConfigViewModel.borderRadius.value},
             |    )
             |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
+            |    .qrCodeDotStyler(QrCodeDotShape.${qrCodeConfigViewModel.dotShape.value.name})
             |    .build()
                     """.trimMargin(),
                     QrCodeConfig::class,
@@ -118,6 +101,38 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
                 .build(),
         )
 
+        file.addFunction(
+            FunSpec.builder("main")
+                .addStatement("val logo = \"${qrCodeConfigViewModel.logoBase64.value}\"")
+                .addStatement("val qrCodeGenerator = %T()", ClassName("io.github.simonscholz", "QrCodeGenerator"))
+                .addStatement("%N.generateQrCode(logo).toFile(File(\"qr-code.png\"))", "qrCodeGenerator")
+                .build(),
+        )
+
+        file.addFunction(
+            FunSpec.builder("toFile")
+                .receiver(BufferedImage::class)
+                .addParameter("fileToSave", File::class)
+                .addStatement("ImageIO.write(this, \"png\", fileToSave)")
+                .build(),
+        )
+
+        file.addFunction(
+            FunSpec.builder("toByteArray")
+                .receiver(BufferedImage::class)
+                .addStatement(
+                    """
+                |val byteArrayOutputStream = %T()
+                |%T.write(this, "png", byteArrayOutputStream)
+                |return byteArrayOutputStream.toByteArray()
+                    """.trimMargin(),
+                    ClassName("java.io", "ByteArrayOutputStream"),
+                    ClassName("javax.imageio", "ImageIO"),
+                )
+                .returns(ByteArray::class)
+                .build(),
+        )
+
         return StringBuilder().apply {
             file.build().writeTo(this)
         }.toString()
@@ -133,15 +148,8 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             .addParameter(Array<String>::class.java, "args", Modifier.FINAL)
             .addException(IOException::class.java)
             .addStatement("final var qrCodeGenerator = new $T()", JavaClassName.get("io.github.simonscholz", "QrCodeGenerator"))
-            .addStatement(
-                """
-                |final var qrCodeImage = qrCodeGenerator.generateQrCode(
-                |        $T.read(QrCodeGenerator.class.getClassLoader()
-                |       .getResource("your-logo.png"))
-                |)
-                """.trimMargin(),
-                ImageIO::class.java,
-            )
+            .addStatement("final var logo = \"${qrCodeConfigViewModel.logoBase64.value}\"")
+            .addStatement("final var qrCodeImage = qrCodeGenerator.generateQrCode(logo)")
             .addStatement(
                 "ImageIO.write(qrCodeImage, \"png\", new $T(\"qr-code.png\"))",
                 File::class.java,
@@ -153,7 +161,7 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
             MethodSpec.methodBuilder("generateQrCode")
                 .addModifiers(Modifier.PUBLIC)
                 .addException(IOException::class.java)
-                .addParameter(Image::class.java, "logo")
+                .addParameter(String::class.java, "base64Logo")
                 .addStatement(
                     """
                 |final var qrPositionalSquaresConfig = new $T.Builder()
@@ -178,13 +186,14 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
                 |    .qrCodeColorConfig(${colorInstanceStringJava(
                         qrCodeConfigViewModel.backgroundColor.value,
                     )}, ${colorInstanceStringJava(qrCodeConfigViewModel.foregroundColor.value)})
-                |    .qrLogoConfig(logo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(
+                |    .qrLogoConfig(base64Logo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(
                         qrCodeConfigViewModel.logoBackgroundColor.value,
                     )}, $T.${qrCodeConfigViewModel.logoShape.value})
                 |    .qrBorderConfig(${colorInstanceStringJava(
                         qrCodeConfigViewModel.borderColor.value,
                     )}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
                 |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
+                |    .qrCodeDotStyler($T.${qrCodeConfigViewModel.dotShape.value.name})
                 |    .build()
                     """.trimMargin(),
                     QrCodeConfig::class.java,
@@ -193,6 +202,7 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
                     Color::class.java,
                     LogoShape::class.java,
                     Color::class.java,
+                    QrCodeDotShape::class.java,
                 )
                 .addStatement(
                     "return $T.createQrCodeApi().createQrCodeImage(qrCodeConfig)",
@@ -202,6 +212,34 @@ class CodeGeneratorService(private val qrCodeConfigViewModel: QrCodeConfigViewMo
                 .build()
 
         qrCodeGenerator.addMethod(generateQrCodeMethod)
+
+        val createQrCodeByteArrayMethod =
+            MethodSpec.methodBuilder("createQrCodeByteArray")
+                .addModifiers(Modifier.PUBLIC)
+                .addException(IOException::class.java)
+                .addParameter(String::class.java, "base64Logo")
+                .addStatement(
+                    "final var qrCodeGenerator = new $T()",
+                    JavaClassName.get("io.github.simonscholz", "QrCodeGenerator"),
+                )
+                .addStatement(
+                    "final var qrCodeImage = qrCodeGenerator.generateQrCode(base64Logo)",
+                )
+                .addStatement(
+                    "final var byteArrayOutputStream = new $T()",
+                    JavaClassName.get("java.io", "ByteArrayOutputStream"),
+                )
+                .addStatement(
+                    "$T.write(qrCodeImage, \"png\", byteArrayOutputStream)",
+                    JavaClassName.get("javax.imageio", "ImageIO"),
+                )
+                .addStatement(
+                    "return byteArrayOutputStream.toByteArray()",
+                )
+                .returns(ByteArray::class.java)
+                .build()
+
+        qrCodeGenerator.addMethod(createQrCodeByteArrayMethod)
 
         return StringBuilder().apply {
             JavaFile.builder("io.github.simonscholz", qrCodeGenerator.build()).build().writeTo(this)
