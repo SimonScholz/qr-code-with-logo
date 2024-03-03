@@ -1,12 +1,13 @@
 package io.github.simonscholz
 
 import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
-import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeColorConfig
-import io.github.simonscholz.qrcode.QrCodeConfig
-import io.github.simonscholz.qrcode.QrCodeFactory.createQrCodeApi
-import io.github.simonscholz.qrcode.QrLogoConfig
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
+import io.github.simonscholz.svg.QrCodeSvgApi
+import io.github.simonscholz.svg.QrCodeSvgConfig
+import io.github.simonscholz.svg.QrCodeSvgFactory.createQrCodeApi
+import io.github.simonscholz.svg.QrSvgLogoConfig
+import org.w3c.dom.Document
 import java.awt.Color
 import java.io.File
 import java.net.URL
@@ -14,89 +15,115 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Objects
 import javax.imageio.ImageIO
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
+
+fun Document.toFile(file: File) {
+    val transformerFactory = TransformerFactory.newInstance()
+    val transformer = transformerFactory.newTransformer()
+    val source = DOMSource(this)
+    val result = StreamResult(file)
+    transformer.transform(source, result)
+}
 
 private const val RELATIVE_SQUARE_BORDER_ROUND = .5
 private val VIOLET = Color(0x0063, 0x000B, 0x00A5)
 
 fun main() {
-    val qrCodeApi = createQrCodeApi()
+    val qrCodeSvgApi = createQrCodeApi()
     val path = Paths.get(System.getProperty("user.home"), "qr-code-samples")
     Files.createDirectories(path)
     val qrCodeDir = path.toAbsolutePath().toString()
 
-    createDefaultQrCode(qrCodeApi, qrCodeDir)
+    createDefaultQrCode(qrCodeSvgApi, qrCodeDir)
 
     val resource = Main::class.java.getClassLoader().getResource("avatar-60x.png")
     resource?.let {
-        createDefaultQrCodeWithLogo(it, qrCodeApi, qrCodeDir)
-        createDefaultQrCodeWithLogoAndBorder(it, qrCodeApi, qrCodeDir)
-        createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(it, qrCodeApi, qrCodeDir)
-        createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(it, qrCodeApi, qrCodeDir)
-        decentRedColor(it, qrCodeApi, qrCodeDir)
-        mineCraftCreeperColor(it, qrCodeApi, qrCodeDir)
+        createDefaultQrCodeWithLogo(it, qrCodeSvgApi, qrCodeDir)
+        createDefaultQrCodeWithLogoAndBorder(it, qrCodeSvgApi, qrCodeDir)
+        createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(it, qrCodeSvgApi, qrCodeDir)
+        createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(it, qrCodeSvgApi, qrCodeDir)
+        decentRedColor(it, qrCodeSvgApi, qrCodeDir)
+        mineCraftCreeperColor(it, qrCodeSvgApi, qrCodeDir)
     }
 
-    rainbowColor(qrCodeApi, qrCodeDir)
+    svgLogo(qrCodeSvgApi, qrCodeDir)
 
-    notEnoughContrast(qrCodeApi, qrCodeDir)
+    rainbowColor(qrCodeSvgApi, qrCodeDir)
+
+    notEnoughContrast(qrCodeSvgApi, qrCodeDir)
+}
+
+fun svgLogo(
+    qrCodeSvgApi: QrCodeSvgApi,
+    qrCodeDir: String,
+) {
+    val factory = DocumentBuilderFactory.newInstance()
+    val builder = factory.newDocumentBuilder()
+    val logoDocument = builder.parse(Main::class.java.getClassLoader().getResourceAsStream("laptop_statistics_icon.svg"))
+    val qrCodeConfig =
+        QrCodeSvgConfig(
+            "https://simonscholz.github.io/",
+            DEFAULT_IMG_SIZE,
+            QrSvgLogoConfig(svgLogoDocument = logoDocument, bgColor = Color.YELLOW),
+        )
+    qrCodeSvgApi.createQrCodeSvg(
+        qrCodeConfig,
+    ).toFile(File(qrCodeDir, "/qr-with-svg-logo-kotlin.svg"))
 }
 
 private fun createDefaultQrCode(
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
-    qrCodeApi.outputQrCode(
-        QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE),
-        File(qrCodeDir, "/qr-with-defaults-kotlin.svg").outputStream(),
-        "svg",
-    )
+    qrCodeSvgApi.createQrCodeSvg(
+        QrCodeSvgConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE),
+    ).toFile(File(qrCodeDir, "/qr-with-defaults-kotlin.svg"))
 }
 
 private fun createDefaultQrCodeWithLogo(
     resource: URL,
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig(
+        QrCodeSvgConfig(
             "https://simonscholz.github.io/",
             DEFAULT_IMG_SIZE,
-            QrLogoConfig(logo),
+            QrSvgLogoConfig(logo),
         )
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(qrCodeDir, "/qr-with-logo-kotlin.svg").outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-kotlin.svg"))
 }
 
 private fun createDefaultQrCodeWithLogoAndBorder(
     resource: URL,
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .build()
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(qrCodeDir, "/qr-with-logo-and-border-kotlin.svg").outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-kotlin.svg"))
 }
 
 private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
     resource: URL,
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(
@@ -105,46 +132,36 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
                     .build(),
             )
             .build()
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(
-            qrCodeDir,
-            "/qr-with-logo-and-border-and-p-border-round-kotlin.svg",
-        ).outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-border-radius-kotlin.svg"))
 }
 
 private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(
     resource: URL,
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(QrPositionalSquaresConfig(true))
             .build()
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(
-            qrCodeDir,
-            "/qr-with-logo-and-border-and-p-border-circle-kotlin.svg",
-        ).outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-circle-kotlin.svg"))
 }
 
 private fun decentRedColor(
     resource: URL,
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(
@@ -155,16 +172,14 @@ private fun decentRedColor(
                 ),
             )
             .build()
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(qrCodeDir, "/decent-red-color-kotlin.svg").outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-circle-decent-red-kotlin.svg"))
 }
 
 private fun mineCraftCreeperColor(
     resource: URL,
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val logo = ImageIO.read(resource)
@@ -179,27 +194,25 @@ private fun mineCraftCreeperColor(
             .outerBorderColor(darkerGreen)
             .build()
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.WHITE)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(darkerGreen, brighterGreen)
             .qrPositionalSquaresConfig(positionalSquaresConfig)
             .build()
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(qrCodeDir, "/minecraft-creeper-color-kotlin.svg").outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-circle-minecraft-creeper-kotlin.svg"))
 }
 
 private fun rainbowColor(
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val resource = Objects.requireNonNull(Main::class.java.getClassLoader().getResource("rainbow.png"))
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
             .qrBorderConfig(Color.YELLOW)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(Color.BLUE, VIOLET)
@@ -214,15 +227,13 @@ private fun rainbowColor(
                 ),
             )
             .build()
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(qrCodeDir, "/rainbow-color-kotlin.svg").outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-circle-rainbow-kotlin.svg"))
 }
 
 private fun notEnoughContrast(
-    qrCodeApi: QrCodeApi,
+    qrCodeSvgApi: QrCodeSvgApi,
     qrCodeDir: String,
 ) {
     val positionalSquaresConfig =
@@ -233,14 +244,12 @@ private fun notEnoughContrast(
             outerBorderColor = VIOLET,
         )
     val qrCodeConfig =
-        QrCodeConfig(
+        QrCodeSvgConfig(
             qrCodeText = "https://simonscholz.github.io/",
             qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLET),
             qrPositionalSquaresConfig = positionalSquaresConfig,
         )
-    qrCodeApi.outputQrCode(
+    qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,
-        File(qrCodeDir, "/not-enough-contrast-kotlin.svg").outputStream(),
-        "svg",
-    )
+    ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-circle-not-enough-contrast-kotlin.svg"))
 }

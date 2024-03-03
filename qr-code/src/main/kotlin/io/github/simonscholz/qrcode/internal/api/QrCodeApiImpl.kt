@@ -6,18 +6,12 @@ import io.github.simonscholz.qrcode.imageFromBase64
 import io.github.simonscholz.qrcode.internal.border.BorderGraphics
 import io.github.simonscholz.qrcode.internal.logo.LogoGraphics
 import io.github.simonscholz.qrcode.internal.qr.QrCodeCreator
-import io.github.simonscholz.qrcode.spi.Graphics2DDelegate
-import io.github.simonscholz.qrcode.spi.Graphics2DSpi
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
-import java.io.OutputStream
-import java.io.OutputStreamWriter
-import java.util.ServiceLoader
-import javax.imageio.ImageIO
 import kotlin.math.floor
 
-internal class QrCodeApiImpl : QrCodeApi {
+internal class QrCodeApiImpl : QrCodeApi, InternalDrawQrCode {
     override fun createQrCodeImage(qrCodeConfig: QrCodeConfig): BufferedImage {
         val image = BufferedImage(qrCodeConfig.qrCodeSize, qrCodeConfig.qrCodeSize, BufferedImage.TYPE_4BYTE_ABGR)
         val graphics = image.graphics as Graphics2D
@@ -31,55 +25,7 @@ internal class QrCodeApiImpl : QrCodeApi {
         return image
     }
 
-    override fun outputQrCode(
-        qrCodeConfig: QrCodeConfig,
-        outputStream: OutputStream,
-        format: String,
-    ) {
-        when (format) {
-            QrCodeApi.FORMAT_BUFFERED_IMAGE -> writeQrCodeAsBufferedImage(qrCodeConfig, outputStream)
-            QrCodeApi.FORMAT_BASE64 -> writeQrCodeAsBase64(qrCodeConfig, outputStream)
-            else -> writeQrCodeUsingSpi(qrCodeConfig, outputStream, format)
-        }
-    }
-
-    private fun writeQrCodeAsBufferedImage(
-        qrCodeConfig: QrCodeConfig,
-        outputStream: OutputStream,
-    ) {
-        ImageIO.write(
-            createQrCodeImage(qrCodeConfig),
-            "png",
-            outputStream,
-        )
-    }
-
-    private fun writeQrCodeAsBase64(
-        qrCodeConfig: QrCodeConfig,
-        outputStream: OutputStream,
-    ) {
-        OutputStreamWriter(outputStream).use {
-            it.write(createBase64QrCodeImage(qrCodeConfig))
-        }
-    }
-
-    private fun writeQrCodeUsingSpi(
-        qrCodeConfig: QrCodeConfig,
-        outputStream: OutputStream,
-        format: String,
-    ) {
-        val graphics2DSpis = ServiceLoader.load(Graphics2DSpi::class.java)
-        graphics2DSpis.find { it.supportsFormat(format) }?.createQrCode(
-            object : Graphics2DDelegate {
-                override fun drawQrCode(graphics: Graphics2D) {
-                    drawQrCodeOnGraphics2D(qrCodeConfig, graphics)
-                }
-            },
-            outputStream,
-        ) ?: throw IllegalStateException("No QrCodeWritingSpi found for format: $format")
-    }
-
-    private fun drawQrCodeOnGraphics2D(
+    override fun drawQrCodeOnGraphics2D(
         qrCodeConfig: QrCodeConfig,
         graphics: Graphics2D,
     ) {

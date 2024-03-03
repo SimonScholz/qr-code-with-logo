@@ -1,15 +1,11 @@
 package io.github.simonscholz.qrcode
 
 import assertk.assertThat
-import assertk.assertions.isNotEmpty
 import assertk.assertions.isTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.io.TempDir
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import java.awt.Color
-import java.io.ByteArrayOutputStream
 import java.nio.file.Path
 import java.util.Objects
 import javax.imageio.ImageIO
@@ -74,24 +70,6 @@ class CreateQrCodeTest {
             }
 
         assertThat(isBase64Encoded(base64QrCode)).isTrue()
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        "BufferedImage",
-        "Base64",
-    )
-    fun `Diffrent qr code formats should be written without errors`(format: String) {
-        val writerOutput =
-            assertDoesNotThrow {
-                val qrCodeConfig = QrCodeConfig.Builder("Testing").build()
-                ByteArrayOutputStream().use { outputStream ->
-                    qrCodeApi.outputQrCode(qrCodeConfig, outputStream, format)
-                    outputStream.toString()
-                }
-            }
-
-        assertThat(writerOutput).isNotEmpty()
     }
 
     @OptIn(ExperimentalEncodingApi::class)
