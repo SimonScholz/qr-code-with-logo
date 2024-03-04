@@ -451,7 +451,7 @@ which consists of a `qr-code-app` and `qr-code-app.bat` file in the `/bin` folde
 - https://android.googlesource.com/platform/frameworks/opt/vcard/+/ics-mr1/java/com/android/vcard/VCardConstants.java[Android VCardConstants]
 - https://simonscholz.github.io/tutorials/publish-maven-central-gradle[How I published this library to Maven Central]
 
-== Kudos ❤️
+== Acknowledgements
 
 Thank you so much @lome for providing this awesome code at https://github.com/lome/niceqr,
 where I gained a lot of ideas and adopted some parts of the code.
@@ -459,3 +459,22 @@ where I gained a lot of ideas and adopted some parts of the code.
 == License
 
 This library is licensed under the Apache License, Version 2.0.
+
+== Contributing
+
+Thank you for considering contributing to this project! Whether it's reporting bugs, suggesting enhancements, or submitting code changes, your contributions are greatly appreciated.
+
+To get started, please follow these guidelines:
+
+. Fork the repository and clone it to your local machine.
+. Create a new branch for your feature or bug fix.
+. Run `./gradlew installKtlintGitPrePushHook` to ensure that ktlint does not have issues with your code.
+. Make your changes and ensure they adhere to the project's coding standards and guidelines.
+. Test your changes thoroughly.
+. Commit your changes with clear and descriptive messages.
+. Push your branch to your fork of the repository.
+. Submit a pull request, clearly describing the changes you've made.
+
+If you have any questions or need further assistance, feel free to open an issue or reach out to me.
+
+Again, thank you for your contributions!
