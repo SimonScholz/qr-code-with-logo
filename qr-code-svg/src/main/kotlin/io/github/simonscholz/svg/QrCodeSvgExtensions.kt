@@ -6,6 +6,9 @@ import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import java.awt.Color
 
+/**
+ * Gets the dimensions of the SVG image or null if the dimensions could not be determined.
+ */
 fun Document.getSVGDimensions(): Pair<Double, Double>? {
     val svgElements: NodeList = this.getElementsByTagName("svg")
     if (svgElements.length > 0) {
@@ -30,6 +33,9 @@ fun Document.getSVGDimensions(): Pair<Double, Double>? {
     return null
 }
 
+/**
+ * Applies the SVG graphics drawings to the document.
+ */
 fun Document.applySvgGraphics(svgGraphics: SVGGraphics2D) {
     val root = this.documentElement
     val svgContent = svgGraphics.root
@@ -40,4 +46,7 @@ fun Document.applySvgGraphics(svgGraphics: SVGGraphics2D) {
     }
 }
 
+/**
+ * Converts a [Color] to an RGB string, which can be used in a SVG image/document.
+ */
 fun Color.toRgbString(): String = "rgb(${this.red}, ${this.green}, ${this.blue})"

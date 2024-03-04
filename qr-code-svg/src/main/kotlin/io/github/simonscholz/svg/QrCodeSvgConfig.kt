@@ -11,6 +11,17 @@ import org.w3c.dom.Document
 import java.awt.Color
 import java.awt.Image
 
+/**
+ * Configuration for the qr code svg generation.
+ *
+ * @param qrCodeText - text to be encoded in the qr code
+ * @param qrCodeSize - size of the qr code, defaults to [DEFAULT_IMG_SIZE]
+ * @param qrLogoConfig - configuration for the logo in the qr code, defaults to null
+ * @param qrCodeColorConfig - configuration for the qr code colors, defaults to [QrCodeColorConfig]
+ * @param qrPositionalSquaresConfig - configuration for the positional squares, defaults to [QrPositionalSquaresConfig]
+ * @param qrCodeDotStyler - configuration for the qr code dot styler, defaults to [QrCodeDotShape.SQUARE]
+ * @param qrBorderConfig - configuration for the qr code border, defaults to null
+ */
 class QrCodeSvgConfig
     @JvmOverloads
     constructor(
@@ -123,11 +134,13 @@ class QrCodeSvgConfig
     }
 
 /**
- * Pass a logo as BufferedImage or base64 encoded image,
- * specify the relativeSize of the logo in the qr code and choose the logo shape.
+ * Pass a logo as BufferedImage or base64 encoded image or svg document to be rendered in the center of the qr code,
+ * Specify the relativeSize of the logo in the qr code and choose the logo shape.
+ * The svgLogoDocument takes precedence over the logo and base64Logo, when you'd like to create a svg document.
  *
  * @param logo - [Image] to be rendered as logo in the center of the qr code
  * @param base64Logo - base64 encoded image to be rendered as logo in the center of the qr code
+ * @param svgLogoDocument - svg document to be rendered as logo in the center of the qr code
  * @param relativeSize - relative size of the logo, defaults to 0.2
  * @param bgColor - specify the background color of the logo, defaults to null
  * @param shape - specify the shape of the logo, defaults to [LogoShape.CIRCLE]

@@ -58,10 +58,8 @@ internal class QrCodeSvgApiImpl : QrCodeSvgApi {
                     }
                 }
 
-                // Get the dimensions of the logo
                 val (logoWidth, logoHeight) = svgLogo.getSVGDimensions() ?: (logoMaxSize to logoMaxSize)
 
-                // Calculate the cropping area based on the aspect ratio of the logo
                 val aspectRatio = logoWidth / logoHeight
                 val croppedWidth: Int
                 val croppedHeight: Int
