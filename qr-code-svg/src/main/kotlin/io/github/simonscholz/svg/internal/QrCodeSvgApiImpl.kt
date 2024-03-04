@@ -37,39 +37,50 @@ internal class QrCodeSvgApiImpl : QrCodeSvgApi {
     ) {
         qrCodeConfig.qrLogoConfig?.let { logoConfig ->
             logoConfig.svgLogoDocument?.let { svgLogo ->
-                val mainWidth = qrCodeConfig.qrCodeSize.toDouble()
-                val mainHeight = qrCodeConfig.qrCodeSize.toDouble()
+                val qrCodeSize = qrCodeConfig.qrCodeSize.toDouble()
 
-                val (width, height) = svgLogo.getSVGDimensions() ?: (mainWidth to mainHeight)
-                val logoWidth = width * logoConfig.relativeSize
-                val logoHeight = height * logoConfig.relativeSize
-
-                val x = (mainWidth - logoWidth) / 2
-                val y = (mainHeight - logoHeight) / 2
+                val logoMaxSize = qrCodeSize * logoConfig.relativeSize
+                val x = (qrCodeSize - logoMaxSize) / 2
+                val y = (qrCodeSize - logoMaxSize) / 2
 
                 val root = document.documentElement
-                logoConfig.bgColor?.let {
-                    // Create a rectangle element to act as the background
-                    val backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-                    backgroundRect.setAttribute("x", x.toString())
-                    backgroundRect.setAttribute("y", y.toString())
-                    backgroundRect.setAttribute("width", logoWidth.toString())
-                    backgroundRect.setAttribute("height", logoHeight.toString())
-                    backgroundRect.setAttribute("fill", "rgb(${it.red}, ${it.green}, ${it.blue}")
-
-                    // Append the background rectangle to the main SVG document
-                    root.appendChild(backgroundRect)
+                logoConfig.bgColor?.let { bgColor ->
+                    BackgroundCreator.createBackground(
+                        document = document,
+                        bgColor = bgColor,
+                        logoShape = logoConfig.shape,
+                        x = x,
+                        y = y,
+                        logoMaxSize = logoMaxSize,
+                    ).let { backgroundRect ->
+                        // Append the background rectangle to the main SVG document
+                        root.appendChild(backgroundRect)
+                    }
                 }
 
-                // Set the position of the logo
-                val logoElement = svgLogo.documentElement
-                logoElement.setAttribute("x", x.toString())
-                logoElement.setAttribute("y", y.toString())
-                logoElement.setAttribute("width", logoWidth.toString())
-                logoElement.setAttribute("height", logoHeight.toString())
+                // Get the dimensions of the logo
+                val (logoWidth, logoHeight) = svgLogo.getSVGDimensions() ?: (logoMaxSize to logoMaxSize)
 
-                // Append the logo to the main SVG document
-                val importedLogo = document.importNode(logoElement, true)
+                // Calculate the cropping area based on the aspect ratio of the logo
+                val aspectRatio = logoWidth / logoHeight
+                val croppedWidth: Int
+                val croppedHeight: Int
+                if (aspectRatio >= 1) {
+                    // Landscape or square logo
+                    croppedWidth = logoMaxSize.toInt()
+                    croppedHeight = (croppedWidth / aspectRatio).toInt()
+                } else {
+                    // Portrait logo
+                    croppedHeight = logoMaxSize.toInt()
+                    croppedWidth = (croppedHeight * aspectRatio).toInt()
+                }
+
+                svgLogo.documentElement.setAttribute("x", x.toString())
+                svgLogo.documentElement.setAttribute("y", y.toString())
+                svgLogo.documentElement.setAttribute("width", croppedWidth.toString())
+                svgLogo.documentElement.setAttribute("height", croppedHeight.toString())
+
+                val importedLogo = document.importNode(svgLogo.documentElement, true)
                 root.appendChild(importedLogo)
             }
         }

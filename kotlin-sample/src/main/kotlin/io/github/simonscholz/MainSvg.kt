@@ -1,6 +1,7 @@
 package io.github.simonscholz
 
 import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
+import io.github.simonscholz.qrcode.LogoShape
 import io.github.simonscholz.qrcode.QrCodeColorConfig
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import io.github.simonscholz.svg.QrCodeSvgApi
@@ -67,7 +68,7 @@ fun svgLogo(
         QrCodeSvgConfig(
             "https://simonscholz.github.io/",
             DEFAULT_IMG_SIZE,
-            QrSvgLogoConfig(svgLogoDocument = logoDocument, bgColor = Color.YELLOW),
+            QrSvgLogoConfig(svgLogoDocument = logoDocument, bgColor = Color.YELLOW, shape = LogoShape.CIRCLE),
         )
     qrCodeSvgApi.createQrCodeSvg(
         qrCodeConfig,

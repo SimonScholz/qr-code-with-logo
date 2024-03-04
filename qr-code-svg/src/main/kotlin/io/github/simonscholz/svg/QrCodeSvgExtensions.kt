@@ -4,6 +4,7 @@ import org.apache.batik.svggen.SVGGraphics2D
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
+import java.awt.Color
 
 fun Document.getSVGDimensions(): Pair<Double, Double>? {
     val svgElements: NodeList = this.getElementsByTagName("svg")
@@ -38,3 +39,5 @@ fun Document.applySvgGraphics(svgGraphics: SVGGraphics2D) {
         root.appendChild(importedNode)
     }
 }
+
+fun Color.toRgbString(): String = "rgb(${this.red}, ${this.green}, ${this.blue})"

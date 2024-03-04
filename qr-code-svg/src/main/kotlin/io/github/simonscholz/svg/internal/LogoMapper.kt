@@ -20,6 +20,9 @@ internal object LogoMapper {
     private fun mapQrSvgLogoConfigToQrLogoConfig(qrSvgLogoConfig: QrSvgLogoConfig): QrLogoConfig? {
         if (qrSvgLogoConfig.logo == null && qrSvgLogoConfig.base64Logo == null) {
             return null
+        } else if (qrSvgLogoConfig.svgLogoDocument != null) {
+            // prefer svg logo over base64 and logo
+            return null
         }
 
         return QrLogoConfig(
