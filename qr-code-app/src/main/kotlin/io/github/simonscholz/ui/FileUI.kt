@@ -37,14 +37,28 @@ class FileUI(
     }
 
     fun copyJavaCodeToClipboard() {
-        val generateKotlinCode = codeGeneratorService.generateJavaCode()
+        val generateKotlinCode = codeGeneratorService.generateRasterImageJavaCode()
+        val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+        val copyString = StringSelection(generateKotlinCode)
+        clipboard.setContents(copyString, null)
+    }
+
+    fun copySvgJavaCodeToClipboard() {
+        val generateKotlinCode = codeGeneratorService.generateSvgImageJavaCode()
         val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
         val copyString = StringSelection(generateKotlinCode)
         clipboard.setContents(copyString, null)
     }
 
     fun copyKotlinCodeToClipboard() {
-        val generateKotlinCode = codeGeneratorService.generateKotlinCode()
+        val generateKotlinCode = codeGeneratorService.generateRasterImageKotlinCode()
+        val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+        val copyString = StringSelection(generateKotlinCode)
+        clipboard.setContents(copyString, null)
+    }
+
+    fun copySvgKotlinCodeToClipboard() {
+        val generateKotlinCode = codeGeneratorService.generateSvgImageKotlinCode()
         val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
         val copyString = StringSelection(generateKotlinCode)
         clipboard.setContents(copyString, null)

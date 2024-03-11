@@ -21,11 +21,11 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
-fun Document.toFile(file: File) {
+public fun Document.toFile(fileToSave: File) {
     val transformerFactory = TransformerFactory.newInstance()
     val transformer = transformerFactory.newTransformer()
     val source = DOMSource(this)
-    val result = StreamResult(file)
+    val result = StreamResult(fileToSave)
     transformer.transform(source, result)
 }
 

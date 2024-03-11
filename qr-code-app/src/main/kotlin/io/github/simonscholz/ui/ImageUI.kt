@@ -51,7 +51,9 @@ object ImageUI {
         contextMenu.add(copyQrCodeImageMenuItem(fileUI))
         contextMenu.add(copyBase64QrCodeImageMenuItem(fileUI))
         contextMenu.add(saveKotlinCodeMenuItem(fileUI))
+        contextMenu.add(saveSvgKotlinCodeMenuItem(fileUI))
         contextMenu.add(saveJavaCodeMenuItem(fileUI))
+        contextMenu.add(saveSvgJavaCodeMenuItem(fileUI))
 
         imagePanel.addMouseListener(
             object : MouseAdapter() {
@@ -112,12 +114,30 @@ object ImageUI {
         return saveImageMenuItem
     }
 
+    private fun saveSvgKotlinCodeMenuItem(fileUI: FileUI): JMenuItem {
+        val saveImageMenuItem = JMenuItem("Copy SVG Kotlin code to clipboard")
+        // Add the keybinding for Save (Ctrl + K)
+        saveImageMenuItem.addActionListener {
+            fileUI.copySvgKotlinCodeToClipboard()
+        }
+        return saveImageMenuItem
+    }
+
     private fun saveJavaCodeMenuItem(fileUI: FileUI): JMenuItem {
         val saveImageMenuItem = JMenuItem("Copy Java code to clipboard")
         // Add the keybinding for Save (Ctrl + J)
         saveImageMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.CTRL_DOWN_MASK)
         saveImageMenuItem.addActionListener {
             fileUI.copyJavaCodeToClipboard()
+        }
+        return saveImageMenuItem
+    }
+
+    private fun saveSvgJavaCodeMenuItem(fileUI: FileUI): JMenuItem {
+        val saveImageMenuItem = JMenuItem("Copy SVG Java code to clipboard")
+        // Add the keybinding for Save (Ctrl + J)
+        saveImageMenuItem.addActionListener {
+            fileUI.copySvgJavaCodeToClipboard()
         }
         return saveImageMenuItem
     }

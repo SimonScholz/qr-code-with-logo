@@ -57,6 +57,12 @@ object MainMenu {
                 }
             },
         )
+        copyJavaCodeMenuItem.addActionListener { fileUI.copyJavaCodeToClipboard() }
+        generateCodeMenu.add(copyJavaCodeMenuItem)
+
+        val copySvgJavaCodeMenuItem = JMenuItem("Copy SVG Java Code")
+        copySvgJavaCodeMenuItem.addActionListener { fileUI.copySvgJavaCodeToClipboard() }
+        generateCodeMenu.add(copySvgJavaCodeMenuItem)
 
         val copyKotlinCodeMenuItem = JMenuItem("Copy Kotlin Code")
         copyKotlinCodeMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK)
@@ -68,12 +74,12 @@ object MainMenu {
                 }
             },
         )
-
-        copyJavaCodeMenuItem.addActionListener { fileUI.copyJavaCodeToClipboard() }
         copyKotlinCodeMenuItem.addActionListener { fileUI.copyKotlinCodeToClipboard() }
-
-        generateCodeMenu.add(copyJavaCodeMenuItem)
         generateCodeMenu.add(copyKotlinCodeMenuItem)
+
+        val copySvgKotlinCodeMenuItem = JMenuItem("Copy SVG Kotlin Code")
+        copySvgKotlinCodeMenuItem.addActionListener { fileUI.copySvgKotlinCodeToClipboard() }
+        generateCodeMenu.add(copySvgKotlinCodeMenuItem)
     }
 
     private fun createFileMenu(

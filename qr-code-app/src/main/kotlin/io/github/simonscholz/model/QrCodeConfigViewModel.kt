@@ -13,6 +13,7 @@ class QrCodeConfigViewModel {
     val dotShape: WritableValue<DotShapes> = WritableValue(DotShapes.SQUARE, DotShapes::class.java)
 
     val logoBase64: WritableValue<String> = createLogoBase64WritableValue()
+    val svgLogoBase64: WritableValue<String> = WritableValue(null, String::class.java)
     val logoRelativeSize: WritableValue<Double> = WritableValue(.2, Double::class.java)
     val logoBackgroundColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
     val logoShape: WritableValue<LogoShape> = WritableValue(LogoShape.CIRCLE, LogoShape::class.java)

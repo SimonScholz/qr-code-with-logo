@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     implementation(project(":qr-code"))
+    implementation(project(":qr-code-svg"))
 
     implementation(libs.miglayout)
     implementation(libs.databinding) {
