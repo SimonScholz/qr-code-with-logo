@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 zxing = "3.5.3"
 junit = "5.10.2"
 
@@ -29,8 +29,8 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.5" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.0" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
-dokka = { id = "org.jetbrains.dokka", version = "1.9.10" }
+dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 vaniktech-publish = { id = "com.vanniktech.maven.publish", version = "0.27.0" }
-graalvm = { id = "org.graalvm.buildtools.native", version = "0.10.0" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.10.1" }
 jlink = { id = "com.ryandens.jlink-application", version = "0.4.0" }
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
