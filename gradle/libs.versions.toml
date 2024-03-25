@@ -14,10 +14,10 @@ junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform
 assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0.28.0" }
 
 miglayout = { group = "com.miglayout", name = "miglayout-swing", version = "11.3" }
-databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databinding", version = "1.13.100" }
+databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databinding", version = "1.13.200" }
 datePicker = { group = "com.github.lgooddatepicker", name = "LGoodDatePicker", version = "11.2.1" }
 swingx = { group = "org.swinglabs", name = "swingx", version = "1.6.1" }
-jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version = "2.16.1" }
+jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version = "2.17.0" }
 kotlinpoet-javapoet = { group = "com.squareup", name = "kotlinpoet-javapoet", version = "1.16.0" }
 
 batik-dom = { group = "org.apache.xmlgraphics", name = "batik-dom", version = "1.17" }
@@ -26,11 +26,11 @@ batik-codec = { group = "org.apache.xmlgraphics", name = "batik-codec", version 
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.5" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.6" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.0" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
-vaniktech-publish = { id = "com.vanniktech.maven.publish", version = "0.27.0" }
+vaniktech-publish = { id = "com.vanniktech.maven.publish", version = "0.28.0" }
 graalvm = { id = "org.graalvm.buildtools.native", version = "0.10.1" }
 jlink = { id = "com.ryandens.jlink-application", version = "0.4.0" }
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
