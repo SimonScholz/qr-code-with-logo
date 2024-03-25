@@ -15,6 +15,7 @@ import io.github.simonscholz.svg.QrCodeSvgConfig
 import io.github.simonscholz.svg.QrCodeSvgFactory
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
+import org.xml.sax.SAXException
 import java.awt.Color
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -22,6 +23,8 @@ import java.io.File
 import java.io.IOException
 import javax.lang.model.element.Modifier
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.transform.TransformerException
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
@@ -182,26 +185,43 @@ class SvgGraphicsCodeGenerator(
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addParameter(Array<String>::class.java, "args", Modifier.FINAL)
             .addException(IOException::class.java)
+            .addException(TransformerException::class.java)
+            .addException(ParserConfigurationException::class.java)
+            .addException(SAXException::class.java)
             .addStatement(
                 "final var qrCodeGenerator = new $T()",
                 com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
             )
-            .addStatement("final var logo = \"${qrCodeConfigViewModel.logoBase64.value}\"")
+            .addStatement("final var logo = parseBase64EncodedStringToDocument(\"${qrCodeConfigViewModel.logoBase64.value}\")")
             .addStatement("final var qrCodeImage = qrCodeGenerator.generateQrCode(logo)")
-            .addStatement(
-                "ImageIO.write(qrCodeImage, \"png\", new $T(\"qr-code.png\"))",
-                File::class.java,
-            )
+            .addStatement("final var transformerFactory = $T.newInstance()", TransformerFactory::class.java)
+            .addStatement("final var transformer = transformerFactory.newTransformer()")
+            .addStatement("final var source = new $T(qrCodeImage)", DOMSource::class.java)
+            .addStatement("final var result = new $T(new $T(\"qr-code.svg\"))", StreamResult::class.java, File::class.java)
+            .addStatement("transformer.transform(source, result)")
             .build()
             .let(qrCodeGenerator::addMethod)
 
-        val generateQrCodeMethod =
-            MethodSpec.methodBuilder("generateQrCode")
-                .addModifiers(Modifier.PUBLIC)
-                .addException(IOException::class.java)
-                .addParameter(Document::class.java, "svgLogo")
-                .addStatement(
-                    """
+        MethodSpec.methodBuilder("parseBase64EncodedStringToDocument")
+            .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+            .addException(IOException::class.java)
+            .addException(ParserConfigurationException::class.java)
+            .addException(SAXException::class.java)
+            .addParameter(String::class.java, "base64String", Modifier.FINAL)
+            .addStatement("final var xmlString = $T.getDecoder().decode(base64String)", java.util.Base64::class.java)
+            .addStatement("final var factory = $T.newInstance()", DocumentBuilderFactory::class.java)
+            .addStatement("final var builder = factory.newDocumentBuilder()")
+            .addStatement("final var inputSource = new $T(new $T(xmlString))", InputSource::class.java, ByteArrayInputStream::class.java)
+            .addStatement("return builder.parse(inputSource)")
+            .returns(Document::class.java)
+            .build()
+            .let(qrCodeGenerator::addMethod)
+
+        MethodSpec.methodBuilder("generateQrCode")
+            .addModifiers(Modifier.PUBLIC)
+            .addParameter(Document::class.java, "svgLogo")
+            .addStatement(
+                """
                 |final var qrPositionalSquaresConfig = new $T.Builder()
                 |    .circleShaped(${qrCodeConfigViewModel.positionalSquareIsCircleShaped.value})
                 |    .relativeSquareBorderRound(${qrCodeConfigViewModel.positionalSquareRelativeBorderRound.value})
@@ -210,79 +230,77 @@ class SvgGraphicsCodeGenerator(
                 |    .outerSquareColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareOuterSquareColor.value)})
                 |    .outerBorderColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareOuterBorderColor.value)})
                 |    .build()
-                    """.trimMargin(),
-                    QrPositionalSquaresConfig::class.java,
-                    Color::class.java,
-                    Color::class.java,
-                    Color::class.java,
-                    Color::class.java,
-                )
-                .addStatement(
-                    """
+                """.trimMargin(),
+                QrPositionalSquaresConfig::class.java,
+                Color::class.java,
+                Color::class.java,
+                Color::class.java,
+                Color::class.java,
+            )
+            .addStatement(
+                """
                 |final var qrCodeConfig = new $T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}}")
                 |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
                 |    .qrCodeColorConfig(${colorInstanceStringJava(
-                        qrCodeConfigViewModel.backgroundColor.value,
-                    )}, ${colorInstanceStringJava(qrCodeConfigViewModel.foregroundColor.value)})
+                    qrCodeConfigViewModel.backgroundColor.value,
+                )}, ${colorInstanceStringJava(qrCodeConfigViewModel.foregroundColor.value)})
                 |    .qrLogoConfig(svgLogo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(
-                        qrCodeConfigViewModel.logoBackgroundColor.value,
-                    )}, $T.${qrCodeConfigViewModel.logoShape.value})
+                    qrCodeConfigViewModel.logoBackgroundColor.value,
+                )}, $T.${qrCodeConfigViewModel.logoShape.value})
                 |    .qrBorderConfig(${colorInstanceStringJava(
-                        qrCodeConfigViewModel.borderColor.value,
-                    )}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
+                    qrCodeConfigViewModel.borderColor.value,
+                )}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
                 |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
                 |    .qrCodeDotStyler($T.${qrCodeConfigViewModel.dotShape.value.name})
                 |    .build()
-                    """.trimMargin(),
-                    QrCodeSvgConfig::class.java,
-                    Color::class.java,
-                    Color::class.java,
-                    Color::class.java,
-                    LogoShape::class.java,
-                    Color::class.java,
-                    QrCodeDotShape::class.java,
-                )
-                .addStatement(
-                    "return $T.createQrCodeApi().createQrCodeSvg(qrCodeConfig)",
-                    QrCodeSvgFactory::class.java,
-                )
-                .returns(Document::class.java)
-                .build()
+                """.trimMargin(),
+                QrCodeSvgConfig::class.java,
+                Color::class.java,
+                Color::class.java,
+                Color::class.java,
+                LogoShape::class.java,
+                Color::class.java,
+                QrCodeDotShape::class.java,
+            )
+            .addStatement(
+                "return $T.createQrCodeApi().createQrCodeSvg(qrCodeConfig)",
+                QrCodeSvgFactory::class.java,
+            )
+            .returns(Document::class.java)
+            .build()
+            .let(qrCodeGenerator::addMethod)
 
-        qrCodeGenerator.addMethod(generateQrCodeMethod)
-
-        val createQrCodeByteArrayMethod =
-            MethodSpec.methodBuilder("createQrCodeByteArray")
-                .addModifiers(Modifier.PUBLIC)
-                .addException(IOException::class.java)
-                .addParameter(Document::class.java, "svgLogo")
-                .addStatement(
-                    "final var qrCodeGenerator = new $T()",
-                    com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
-                )
-                .addStatement(
-                    "final var qrCodeImage = qrCodeGenerator.generateQrCode(svgLogo)",
-                )
-                .addStatement(
-                    "final var byteArrayOutputStream = new $T()",
-                    com.squareup.javapoet.ClassName.get("java.io", "ByteArrayOutputStream"),
-                )
-                .addStatement(
-                    "val transformer = $T.newInstance().newTransformer()",
-                    TransformerFactory::class,
-                )
-                .addStatement(
-                    "transformer.transform($T(document), $T(byteArrayOutputStream))",
-                    DOMSource::class,
-                    StreamResult::class,
-                )
-                .addStatement(
-                    "return byteArrayOutputStream.toByteArray()",
-                )
-                .returns(ByteArray::class.java)
-                .build()
-
-        qrCodeGenerator.addMethod(createQrCodeByteArrayMethod)
+        MethodSpec.methodBuilder("createQrCodeByteArray")
+            .addModifiers(Modifier.PUBLIC)
+            .addException(IOException::class.java)
+            .addException(TransformerException::class.java)
+            .addParameter(Document::class.java, "svgLogo")
+            .addStatement(
+                "final var qrCodeGenerator = new $T()",
+                com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
+            )
+            .addStatement(
+                "final var qrCodeImage = qrCodeGenerator.generateQrCode(svgLogo)",
+            )
+            .addStatement(
+                "final var byteArrayOutputStream = new $T()",
+                com.squareup.javapoet.ClassName.get("java.io", "ByteArrayOutputStream"),
+            )
+            .addStatement(
+                "final var transformer = $T.newInstance().newTransformer()",
+                TransformerFactory::class.java,
+            )
+            .addStatement(
+                "transformer.transform(new $T(qrCodeImage), new $T(byteArrayOutputStream))",
+                DOMSource::class.java,
+                StreamResult::class.java,
+            )
+            .addStatement(
+                "return byteArrayOutputStream.toByteArray()",
+            )
+            .returns(ByteArray::class.java)
+            .build()
+            .let(qrCodeGenerator::addMethod)
 
         return StringBuilder().apply {
             JavaFile.builder("io.github.simonscholz", qrCodeGenerator.build()).build().writeTo(this)
