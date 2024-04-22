@@ -11,7 +11,7 @@ kotlin-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5", ve
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version = "1.10.2" }
-assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0.28.0" }
+assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0.28.1" }
 
 miglayout = { group = "com.miglayout", name = "miglayout-swing", version = "11.3" }
 databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databinding", version = "1.13.200" }
