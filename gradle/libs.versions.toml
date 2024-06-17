@@ -14,7 +14,7 @@ junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform
 assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0.28.0" }
 
 miglayout = { group = "com.miglayout", name = "miglayout-swing", version = "11.3" }
-databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databinding", version = "1.13.200" }
+databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databinding", version = "1.13.300" }
 datePicker = { group = "com.github.lgooddatepicker", name = "LGoodDatePicker", version = "11.2.1" }
 swingx = { group = "org.swinglabs", name = "swingx", version = "1.6.1" }
 jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version = "2.17.0" }
