@@ -18,7 +18,7 @@ databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databin
 datePicker = { group = "com.github.lgooddatepicker", name = "LGoodDatePicker", version = "11.2.1" }
 swingx = { group = "org.swinglabs", name = "swingx", version = "1.6.1" }
 jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version = "2.17.0" }
-kotlinpoet-javapoet = { group = "com.squareup", name = "kotlinpoet-javapoet", version = "1.16.0" }
+kotlinpoet-javapoet = { group = "com.squareup", name = "kotlinpoet-javapoet", version = "1.18.0" }
 
 batik-dom = { group = "org.apache.xmlgraphics", name = "batik-dom", version = "1.17" }
 batik-svggen = { group = "org.apache.xmlgraphics", name = "batik-svggen", version = "1.17" }
