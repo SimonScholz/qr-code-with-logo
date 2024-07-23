@@ -14,9 +14,9 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 20
+          java-version: 21
 
-      - uses: gradle/gradle-build-action@v3.2.1
+      - uses: gradle/gradle-build-action@v3.5.0
 
       - name: Publish Artifacts
         run: ./gradlew publishAllPublicationsToMavenCentral --no-configuration-cache
