@@ -48,7 +48,7 @@ object PropertiesUI {
         baseTaskPane.add(JLabel("QR Code Content:"))
         val contentTextArea = JTextArea()
         contentTextArea.autoscrolls = true
-        contentTextArea.text = "https://simonscholz.github.io/"
+        contentTextArea.text = "https://simonscholz.dev/"
         baseTaskPane.add(JScrollPane(contentTextArea), "wrap, grow, width 300:300:300, height 200:200:300")
         dataBindingContext.bindValue(contentTextArea.toObservable(), qrCodeConfigViewModel.qrCodeContent)
 

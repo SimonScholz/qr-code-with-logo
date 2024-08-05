@@ -15,7 +15,7 @@ fun main() {
     Files.createDirectories(path)
     val qrCodeDir = path.toAbsolutePath().toString()
     val qrCodeApi = QrCodeSvgFactory.createQrCodeApi()
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.CIRCLE)
         .qrCodeSize(800)
         .build()
@@ -23,7 +23,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-CIRCLE-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.ROUNDED_SQUARE)
         .qrCodeSize(800)
         .build()
@@ -31,7 +31,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-ROUNDED-SQUARE-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.HEXAGON)
         .qrCodeSize(800)
         .build()
@@ -39,7 +39,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-HEXAGON-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.TRIANGLE)
         .qrCodeSize(800)
         .build()
@@ -47,7 +47,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-TRIANGLE-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.HEART)
         .qrCodeSize(800)
         .build()
@@ -55,7 +55,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-HEART-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.HOUSE)
         .qrCodeSize(800)
         .build()
@@ -63,7 +63,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-HOUSE-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.STAR)
         .qrCodeSize(800)
         .build()
@@ -71,7 +71,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-STAR-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.DIAMOND)
         .qrCodeSize(800)
         .build()
@@ -79,7 +79,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-DIAMOND-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.CROSS)
         .qrCodeSize(800)
         .build()
@@ -87,7 +87,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-CROSS-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.SMILEY)
         .qrCodeSize(800)
         .build()
@@ -95,7 +95,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-SMILEY-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawColorfulHouseWithDoorAndWindow)
         .qrCodeSize(800)
         .build()
@@ -103,7 +103,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-COLORFUL-HOUSE-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawSmiley)
         .qrCodeSize(800)
         .build()
@@ -111,7 +111,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-SMILEY-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawSkull)
         .qrCodeSize(800)
         .build()
@@ -119,7 +119,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-SKULL-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawPumpkin)
         .qrCodeSize(800)
         .build()
@@ -127,7 +127,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-PUMPKIN-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawEvilPumpkin)
         .qrCodeSize(800)
         .build()
@@ -135,7 +135,7 @@ fun main() {
             qrCodeApi.createQrCodeSvg(this).toFile(File(qrCodeDir, "/qr-with-EVIL-PUMPKIN-dots-kotlin.svg"))
         }
 
-    QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+    QrCodeSvgConfig.Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawChristmasTree)
         .qrCodeSize(800)
         .build()

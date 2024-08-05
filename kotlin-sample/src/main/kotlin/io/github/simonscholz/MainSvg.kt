@@ -21,13 +21,6 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
-public fun Document.toFile(fileToSave: File) {
-    val transformerFactory = TransformerFactory.newInstance()
-    val transformer = transformerFactory.newTransformer()
-    val source = DOMSource(this)
-    val result = StreamResult(fileToSave)
-    transformer.transform(source, result)
-}
 
 private const val RELATIVE_SQUARE_BORDER_ROUND = .5
 private val VIOLET = Color(0x0063, 0x000B, 0x00A5)
@@ -66,7 +59,7 @@ fun svgLogo(
     val logoDocument = builder.parse(Main::class.java.getClassLoader().getResourceAsStream("laptop_statistics_icon.svg"))
     val qrCodeConfig =
         QrCodeSvgConfig(
-            "https://simonscholz.github.io/",
+            "https://simonscholz.dev/",
             DEFAULT_IMG_SIZE,
             QrSvgLogoConfig(svgLogoDocument = logoDocument, bgColor = Color.YELLOW, shape = LogoShape.CIRCLE),
         )
@@ -80,7 +73,7 @@ private fun createDefaultQrCode(
     qrCodeDir: String,
 ) {
     qrCodeSvgApi.createQrCodeSvg(
-        QrCodeSvgConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE),
+        QrCodeSvgConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE),
     ).toFile(File(qrCodeDir, "/qr-with-defaults-kotlin.svg"))
 }
 
@@ -92,7 +85,7 @@ private fun createDefaultQrCodeWithLogo(
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
         QrCodeSvgConfig(
-            "https://simonscholz.github.io/",
+            "https://simonscholz.dev/",
             DEFAULT_IMG_SIZE,
             QrSvgLogoConfig(logo),
         )
@@ -108,7 +101,7 @@ private fun createDefaultQrCodeWithLogoAndBorder(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .build()
@@ -124,7 +117,7 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(
@@ -145,7 +138,7 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(QrPositionalSquaresConfig(true))
@@ -162,7 +155,7 @@ private fun decentRedColor(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(
@@ -195,7 +188,7 @@ private fun mineCraftCreeperColor(
             .outerBorderColor(darkerGreen)
             .build()
     val qrCodeConfig =
-        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.WHITE)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(darkerGreen, brighterGreen)
@@ -213,7 +206,7 @@ private fun rainbowColor(
     val resource = Objects.requireNonNull(Main::class.java.getClassLoader().getResource("rainbow.png"))
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeSvgConfig.Builder("https://simonscholz.github.io/")
+        QrCodeSvgConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.YELLOW)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(Color.BLUE, VIOLET)
@@ -246,7 +239,7 @@ private fun notEnoughContrast(
         )
     val qrCodeConfig =
         QrCodeSvgConfig(
-            qrCodeText = "https://simonscholz.github.io/",
+            qrCodeText = "https://simonscholz.dev/",
             qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLET),
             qrPositionalSquaresConfig = positionalSquaresConfig,
         )

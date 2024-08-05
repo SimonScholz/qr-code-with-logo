@@ -53,7 +53,7 @@ private fun createDefaultQrCode(
     qrCodeApi: QrCodeApi,
     qrCodeDir: String,
 ) {
-    qrCodeApi.createQrCodeImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE))
+    qrCodeApi.createQrCodeImage(QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE))
         .toFile(File(qrCodeDir, "/qr-with-defaults-kotlin.png"))
 }
 
@@ -65,7 +65,7 @@ private fun createDefaultQrCodeWithLogo(
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
         QrCodeConfig(
-            "https://simonscholz.github.io/",
+            "https://simonscholz.dev/",
             DEFAULT_IMG_SIZE,
             QrLogoConfig(logo),
         )
@@ -79,7 +79,7 @@ private fun createDefaultQrCodeWithLogoAndBorder(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .build()
@@ -93,7 +93,7 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(
@@ -117,7 +117,7 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(QrPositionalSquaresConfig(true))
@@ -137,7 +137,7 @@ private fun decentRedColor(
 ) {
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
             .qrPositionalSquaresConfig(
@@ -168,7 +168,7 @@ private fun mineCraftCreeperColor(
             .outerBorderColor(darkerGreen)
             .build()
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.WHITE)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(darkerGreen, brighterGreen)
@@ -194,7 +194,7 @@ private fun createTransparentQrCode(
         )
     val qrCodeConfig =
         QrCodeConfig(
-            qrCodeText = "https://simonscholz.github.io/",
+            qrCodeText = "https://simonscholz.dev/",
             qrCodeSize = 150,
             qrPositionalSquaresConfig = positionalSquaresConfig,
             qrLogoConfig = QrLogoConfig(logo),
@@ -227,7 +227,7 @@ private fun rainbowColor(
     val resource = Objects.requireNonNull(Main::class.java.getClassLoader().getResource("rainbow.png"))
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
-        QrCodeConfig.Builder("https://simonscholz.github.io/")
+        QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrBorderConfig(Color.YELLOW)
             .qrLogoConfig(logo)
             .qrCodeColorConfig(Color.BLUE, VIOLET)
@@ -258,7 +258,7 @@ private fun notEnoughContrast(
         )
     val qrCodeConfig =
         QrCodeConfig(
-            qrCodeText = "https://simonscholz.github.io/",
+            qrCodeText = "https://simonscholz.dev/",
             qrCodeColorConfig = QrCodeColorConfig(Color.BLUE, VIOLET),
             qrPositionalSquaresConfig = positionalSquaresConfig,
         )

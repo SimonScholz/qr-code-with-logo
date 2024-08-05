@@ -39,7 +39,7 @@ private fun createWithUrl(
     qrCodeApi: QrCodeApi,
     qrCodeDir: String,
 ) {
-    val url = url("https://simonscholz.github.io/")
+    val url = url("https://simonscholz.dev/")
     createDefaultQrCode(qrCodeApi, url, File(qrCodeDir, "simple-url.png"))
 }
 
@@ -104,7 +104,7 @@ private fun createWithVCard(
             .address("Main Street 1", "Hamburg", "22855")
             .organization("Self Employed")
             .phoneNumber("+49 176 12345678")
-            .website("https://simonscholz.github.io/")
+            .website("https://simonscholz.dev/")
             .toVCardQrCodeText()
     createDefaultQrCode(qrCodeApi, vCardQrCodeText, File(qrCodeDir, "vCard.png"))
 }

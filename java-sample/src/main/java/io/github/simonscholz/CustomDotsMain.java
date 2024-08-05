@@ -45,7 +45,7 @@ public class CustomDotsMain {
     }
 
     private static void createQrCodeWithDotStyle(final QrCodeDotShape dotStyle, final String qrCodeDir, final QrCodeApi qrCodeApi, final String filename) throws IOException {
-        final QrCodeConfig qrCodeConfig = new Builder("https://simonscholz.github.io/").qrCodeDotStyler(dotStyle)
+        final QrCodeConfig qrCodeConfig = new Builder("https://simonscholz.dev/").qrCodeDotStyler(dotStyle)
                                                                                        .qrCodeSize(800)
                                                                                        .build();
         final BufferedImage qrCodeImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
@@ -53,7 +53,7 @@ public class CustomDotsMain {
     }
 
     private static void createQrCodeWithDotStyler(final QrCodeDotStyler dotStyler, final String qrCodeDir, final QrCodeApi qrCodeApi, final String filename) throws IOException {
-        final QrCodeConfig qrCodeConfig = new Builder("https://simonscholz.github.io/").qrCodeDotStyler(dotStyler)
+        final QrCodeConfig qrCodeConfig = new Builder("https://simonscholz.dev/").qrCodeDotStyler(dotStyler)
                                                                                        .qrCodeSize(800)
                                                                                        .build();
         final BufferedImage qrCodeImage = qrCodeApi.createQrCodeImage(qrCodeConfig);

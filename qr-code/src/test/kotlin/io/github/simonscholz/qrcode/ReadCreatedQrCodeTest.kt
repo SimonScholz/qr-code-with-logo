@@ -36,7 +36,7 @@ class ReadCreatedQrCodeTest {
 
     @Test
     fun `Creating qr code with logo, circle positional squares and border should still be readable`() {
-        val qrCodeText = SimpleTypes.url("https://simonscholz.github.io/")
+        val qrCodeText = SimpleTypes.url("https://simonscholz.dev/")
 
         val resource = logoUrl()
         val qrCodeImage = logoAndCirclePositionalSquares(resource, qrCodeApi)
@@ -48,7 +48,7 @@ class ReadCreatedQrCodeTest {
     @Test
     @Disabled("It seems that the zxing reader cannot deal with colors :-(")
     fun `Creating colorful qr code with logo and different shapes should still be readable`() {
-        val qrCodeText = SimpleTypes.url("https://simonscholz.github.io/")
+        val qrCodeText = SimpleTypes.url("https://simonscholz.dev/")
 
         val resource = logoUrl()
 
@@ -74,7 +74,7 @@ class ReadCreatedQrCodeTest {
                 .circleShaped(true)
                 .build()
         val qrCodeConfig =
-            QrCodeConfig.Builder("https://simonscholz.github.io/")
+            QrCodeConfig.Builder("https://simonscholz.dev/")
                 .qrBorderConfig(Color.RED)
                 .qrLogoConfig(logo)
                 .qrPositionalSquaresConfig(positionalSquaresConfig)
@@ -98,7 +98,7 @@ class ReadCreatedQrCodeTest {
                 .outerBorderColor(bgColor)
                 .build()
         val qrCodeConfig =
-            QrCodeConfig.Builder("https://simonscholz.github.io/")
+            QrCodeConfig.Builder("https://simonscholz.dev/")
                 .qrBorderConfig(Color.WHITE)
                 .qrLogoConfig(logo)
                 .qrCodeColorConfig(bgColor, fillColor)
@@ -126,7 +126,7 @@ class ReadCreatedQrCodeTest {
     companion object {
         @JvmStatic
         fun provideDifferentQrCodeTypeTexts(): List<Arguments> {
-            val url = SimpleTypes.url("https://simonscholz.github.io/")
+            val url = SimpleTypes.url("https://simonscholz.dev/")
             val geolocation = SimpleTypes.geolocation(53.59659752940634, 10.006589989354053)
             val email = SimpleTypes.email("simon@example.com")
             val phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678")
@@ -148,7 +148,7 @@ class ReadCreatedQrCodeTest {
                     .email("simon@example.com")
                     .organization("Self Employed")
                     .phoneNumber("+49 176 12345678")
-                    .website("https://simonscholz.github.io/")
+                    .website("https://simonscholz.dev/")
                     .toVCardQrCodeText()
             return listOf(
                 Arguments.of(url),

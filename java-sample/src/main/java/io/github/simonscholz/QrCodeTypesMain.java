@@ -43,7 +43,7 @@ public class QrCodeTypesMain {
     }
 
     private static void createWithUrl(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final String url = SimpleTypes.url("https://simonscholz.github.io/");
+        final String url = SimpleTypes.url("https://simonscholz.dev/");
         createDefaultQrCode(qrCodeApi, url, new File(qrCodeDir, "simple-url.png"));
     }
 
@@ -87,7 +87,7 @@ public class QrCodeTypesMain {
             .address("Main Street 1", "Hamburg", "22855")
             .organization("Self Employed")
             .phoneNumber("+49 176 12345678")
-            .website("https://simonscholz.github.io/").toVCardQrCodeText();
+            .website("https://simonscholz.dev/").toVCardQrCodeText();
         createDefaultQrCode(qrCodeApi, vCardQrCodeText, new File(qrCodeDir, "vCard.png"));
     }
 

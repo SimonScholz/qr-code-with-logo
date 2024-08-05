@@ -12,7 +12,7 @@ public class Base64Main {
 
     public static void main(final String[] args) {
         final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
-        final QrCodeConfig qrCodeConfig = new Builder("https://simonscholz.github.io/").build();
+        final QrCodeConfig qrCodeConfig = new Builder("https://simonscholz.dev/").build();
         // using createBase64QrCodeImage
         final String base64Image = qrCodeApi.createBase64QrCodeImage(qrCodeConfig);
         System.out.println(base64Image);

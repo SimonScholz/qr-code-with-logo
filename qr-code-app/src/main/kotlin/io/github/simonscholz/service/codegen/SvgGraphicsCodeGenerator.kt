@@ -113,7 +113,7 @@ class SvgGraphicsCodeGenerator(
 
         file.addFunction(
             FunSpec.builder("main")
-                .addStatement("val logo = parseBase64EncodedStringToDocument(\"${qrCodeConfigViewModel.svgLogoBase64.value}\")")
+                .addStatement("val logo = parseBase64EncodedStringToDocument(\"Replace-by-Base64-encoded-SVGImage\")")
                 .addStatement("val qrCodeGenerator = %T()", ClassName("io.github.simonscholz", "QrCodeGenerator"))
                 .addStatement("%N.generateQrCode(logo).toFile(File(\"qr-code.svg\"))", "qrCodeGenerator")
                 .build(),
@@ -192,7 +192,7 @@ class SvgGraphicsCodeGenerator(
                 "final var qrCodeGenerator = new $T()",
                 com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
             )
-            .addStatement("final var logo = parseBase64EncodedStringToDocument(\"${qrCodeConfigViewModel.logoBase64.value}\")")
+            .addStatement("final var logo = parseBase64EncodedStringToDocument(\"Replace-by-Base64-encoded-SVGImage\")")
             .addStatement("final var qrCodeImage = qrCodeGenerator.generateQrCode(logo)")
             .addStatement("final var transformerFactory = $T.newInstance()", TransformerFactory::class.java)
             .addStatement("final var transformer = transformerFactory.newTransformer()")

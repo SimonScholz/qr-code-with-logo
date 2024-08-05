@@ -11,7 +11,7 @@ import io.github.simonscholz.qrcode.toBase64
  */
 fun main() {
     val createQrCodeApi = QrCodeFactory.createQrCodeApi()
-    QrCodeConfig.Builder("https://simonscholz.github.io/").build().run {
+    QrCodeConfig.Builder("https://simonscholz.dev/").build().run {
         val base64QrCodeImage = createQrCodeApi.createBase64QrCodeImage(this)
         println(base64QrCodeImage)
 
