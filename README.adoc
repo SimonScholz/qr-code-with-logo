@@ -36,7 +36,9 @@ Getting a released version:
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.3.0")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0")
+    // Optional if you´d want to create QR code SVG images
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0")
 }
 ----
 
@@ -53,6 +55,8 @@ repositories {
 
 dependencies {
     implementation("io.github.simonscholz:qr-code-with-logo:0.4.0-SNAPSHOT")
+    // Optional if you´d want to create QR code SVG images
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0-SNAPSHOT")
 }
 ----
 
@@ -63,7 +67,14 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
+</dependency>
+
+<!-- Optional if you´d want to create QR code SVG images -->
+<dependency>
+    <groupId>io.github.simonscholz</groupId>
+    <artifactId>qr-code-with-logo-svg</artifactId>
+    <version>0.4.0</version>
 </dependency>
 ----
 
@@ -116,7 +127,7 @@ This project has a new module called `qr-code-svg`, which will be available begi
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0")
 }
 ----
 
@@ -124,8 +135,8 @@ dependencies {
 ----
 <dependency>
     <groupId>io.github.simonscholz</groupId>
-    <artifactId>qr-code-with-logo</artifactId>
-    <version>0.3.0</version>
+    <artifactId>qr-code-with-logo-svg</artifactId>
+    <version>0.4.0</version>
 </dependency>
 ----
 
