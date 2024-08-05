@@ -84,7 +84,7 @@ fun BufferedImage.toFile(file: File) {
 }
 
 val qrCodeApi = createQrCodeApi()
-qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE))
+qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE))
     .toFile(File("qr-with-defaults-kotlin.png"))
 ----
 
@@ -103,11 +103,105 @@ import java.io.File;
 import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
 
 final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
-final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.github.io/", DEFAULT_IMG_SIZE));
+final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE));
 ImageIO.write(qrCode, "png", new File("qr-with-defaults-java.png"));
 ----
 
 For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample` module].
+
+== SVG QR codes
+
+This project has a new module called `qr-code-svg`, which will be available beginning with version 0.4.0.
+
+[source, kotlin]
+----
+dependencies {
+    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0")
+}
+----
+
+[source, xml]
+----
+<dependency>
+    <groupId>io.github.simonscholz</groupId>
+    <artifactId>qr-code-with-logo</artifactId>
+    <version>0.3.0</version>
+</dependency>
+----
+
+Under the hood https://xmlgraphics.apache.org/batik/[Apache Batik] is being used to create SVG files.
+
+The API is pretty similar to what you already know from the regular examples.
+The only difference is the `QrSvgLogoConfig` class for configuring the logo,
+because it adds the opportunity to make use of a SVG image as logo besides using an `java.awt.Image` or base64 encoded image.
+
+=== SVG code examples
+
+Java:
+
+[source, java]
+----
+import io.github.simonscholz.svg.QrCodeSvgConfig;
+import io.github.simonscholz.svg.QrCodeSvgFactory;
+
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+
+public class SVGSamples {
+    public static void main(final String[] args) throws TransformerException {
+        var qrCodeConfig = new QrCodeSvgConfig.Builder("https://simonscholz.dev/}").build();
+        var qrCodeDocument = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(qrCodeConfig);
+        var transformerFactory = TransformerFactory.newInstance();
+        var transformer = transformerFactory.newTransformer();
+        var source = new DOMSource(qrCodeDocument);
+        var result = new StreamResult(new File("qr-code.svg"));
+        transformer.transform(source, result);
+    }
+}
+----
+
+Kotlin:
+
+[source, kotlin]
+----
+import io.github.simonscholz.svg.QrCodeSvgConfig
+import io.github.simonscholz.svg.QrCodeSvgFactory
+import org.w3c.dom.Document
+import java.io.File
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
+
+fun main() {
+    val svgConfig = QrCodeSvgConfig.Builder("https://simonscholz.dev/").build()
+    val qrCodeSvg = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(svgConfig)
+    qrCodeSvg.toFile(File("svg-qr-code.svg"))
+}
+
+fun Document.toFile(fileToSave: File) {
+    val transformerFactory = TransformerFactory.newInstance()
+    val transformer = transformerFactory.newTransformer()
+    val source = DOMSource(this)
+    val result = StreamResult(fileToSave)
+    transformer.transform(source, result)
+}
+----
+
+=== Generate SVG code
+
+The really neat thing here again is that you can simply launch the qr-code-app application
+and generate respective Java or Kotlin code for SVG image creation.
+
+=== Caveats with svg
+
+As mentioned earlier for SVG images you can use a `org.w3c.dom.Document` besides an `java.awt.Image` or base64 encoded `String`.
+But all options come with downsides. When using a `org.w3c.dom.Document` svg logo image the shape cannot be adjusted
+and the logo SVG is pasted in the center as is.
+Whereas the java.awt.Image` or base64 encoded `String` remain raster images, which won´t look good when scaling the SVG image,
+which is one of the main benefits of using SVG images.
 
 == Example QR codes
 
@@ -171,6 +265,7 @@ Predefined dot shapes of the library:
 - `QrCodeDotShape.STAR`
 - `QrCodeDotShape.DIAMOND`
 - `QrCodeDotShape.CROSS`
+- `QrCodeDotShape.SMILEY`
 
 The app and samples show how to use these predefined dot shapes or create your own dot shapes.
 
@@ -200,7 +295,7 @@ fun main() {
   val qrCodeDir = path.toAbsolutePath().toString()
   val qrCodeApi = QrCodeFactory.createQrCodeApi()
 
-  QrCodeConfig.Builder("https://simonscholz.github.io/")
+  QrCodeConfig.Builder("https://simonscholz.dev/")
       .qrCodeDotStyler(QrCodeDotShape.STAR)
       .qrCodeSize(800)
       .build()
@@ -230,7 +325,7 @@ fun main() {
   Files.createDirectories(path)
   val qrCodeDir = path.toAbsolutePath().toString()
   val qrCodeApi = QrCodeFactory.createQrCodeApi()
-  QrCodeConfig.Builder("https://simonscholz.github.io/")
+  QrCodeConfig.Builder("https://simonscholz.dev/")
       .qrCodeDotStyler(::drawSmiley)
       .qrCodeSize(800)
       .build()
@@ -266,7 +361,7 @@ Please see https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sam
 ==== Simple types
 
 ```java
-String url = SimpleTypes.url("https://simonscholz.github.io/");
+String url = SimpleTypes.url("https://simonscholz.dev/");
 
 String geolocation = SimpleTypes.geolocation(53.59659752940634, 10.006589989354053);
 
@@ -334,7 +429,7 @@ VCard vCard = new VCard.Builder("Simon Scholz")
                 .address("Main Street 1", "Hamburg", "22855")
                 .organization("Self Employed")
                 .phoneNumber("+49 176 12345678")
-                .website("https://simonscholz.github.io/")
+                .website("https://simonscholz.dev/")
                 .build();
 String vCardQrCodeText = vCard.toVCardQrCodeText();
 ```
@@ -449,7 +544,7 @@ which consists of a `qr-code-app` and `qr-code-app.bat` file in the `/bin` folde
 - https://zxing.org/w/decode.jspx[Decoding qr codes using zxing]
 - https://www.qrcode.com/en/about/version.html[QR Code Versions]
 - https://android.googlesource.com/platform/frameworks/opt/vcard/+/ics-mr1/java/com/android/vcard/VCardConstants.java[Android VCardConstants]
-- https://simonscholz.github.io/tutorials/publish-maven-central-gradle[How I published this library to Maven Central]
+- https://simonscholz.dev/tutorials/publish-maven-central-gradle[How I published this library to Maven Central]
 
 == Acknowledgements
 
