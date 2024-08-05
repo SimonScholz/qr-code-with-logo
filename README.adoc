@@ -148,7 +148,7 @@ because it adds the opportunity to make use of a SVG image as logo besides using
 
 === SVG code examples
 
-Java:
+==== Java
 
 [source, java]
 ----
@@ -174,7 +174,7 @@ public class SVGSamples {
 }
 ----
 
-Kotlin:
+==== Kotlin
 
 [source, kotlin]
 ----
@@ -206,7 +206,7 @@ fun Document.toFile(fileToSave: File) {
 The really neat thing here again is that you can simply launch the qr-code-app application
 and generate respective Java or Kotlin code for SVG image creation.
 
-=== Caveats with svg
+=== Caveats with logos for the SVG QR code
 
 As mentioned earlier for SVG images you can use a `org.w3c.dom.Document` besides an `java.awt.Image` or base64 encoded `String`.
 But all options come with downsides. When using a `org.w3c.dom.Document` svg logo image the shape cannot be adjusted
