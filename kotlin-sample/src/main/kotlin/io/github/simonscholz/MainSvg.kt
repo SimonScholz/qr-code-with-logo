@@ -8,7 +8,6 @@ import io.github.simonscholz.svg.QrCodeSvgApi
 import io.github.simonscholz.svg.QrCodeSvgConfig
 import io.github.simonscholz.svg.QrCodeSvgFactory.createQrCodeApi
 import io.github.simonscholz.svg.QrSvgLogoConfig
-import org.w3c.dom.Document
 import java.awt.Color
 import java.io.File
 import java.net.URL
@@ -17,10 +16,6 @@ import java.nio.file.Paths
 import java.util.Objects
 import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
-
 
 private const val RELATIVE_SQUARE_BORDER_ROUND = .5
 private val VIOLET = Color(0x0063, 0x000B, 0x00A5)
