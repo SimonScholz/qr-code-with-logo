@@ -307,6 +307,20 @@ object MainMenu {
             }
         }
         specialContentMenu.add(urlMenuItem)
+
+        val wifiMenuItem = JMenuItem("WIFI")
+        wifiMenuItem.addActionListener {
+            InputDialogs.showThreeValueInputDialog(
+                title = "WIFI",
+                firstLabel = "SSID",
+                secondLabel = "Password",
+                thirdLabel = "Encryption type (e.g., WPA)",
+            )?.let { (ssid, password, encryptionType) ->
+                val qrCodeText = SimpleTypes.wifi(ssid, password, encryptionType)
+                qrCodeContentObservable.value = qrCodeText
+            }
+        }
+        specialContentMenu.add(wifiMenuItem)
     }
 
     private fun createHelpMenu(

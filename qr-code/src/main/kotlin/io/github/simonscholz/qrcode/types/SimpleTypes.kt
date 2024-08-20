@@ -61,4 +61,31 @@ object SimpleTypes {
      */
     @JvmStatic
     fun url(url: String) = url
+
+    /**
+     * Generates a WiFi connection string in the format required for QR code generation.
+     *
+     * This string can be used to create a QR code that allows devices to connect to the specified WiFi network
+     * without needing to manually enter the network details.
+     *
+     * @param ssid The SSID (name) of the WiFi network.
+     * @param password The password for the WiFi network.
+     * @param encryptionType The type of encryption used by the WiFi network. Defaults to "WPA".
+     *        Valid values include "WPA", "WEP", or other encryption types supported by your network.
+     *
+     * @return A formatted string containing the WiFi connection details, which can be used for generating a QR code.
+     *
+     * @example Usage example:
+     * ```kotlin
+     * val wifiString = wifi("MyNetwork", "password123")
+     * // Returns: "WIFI:T:WPA;S:MyNetwork;P:password123;;"
+     * ```
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun wifi(
+        ssid: String,
+        password: String,
+        encryptionType: String = "WPA",
+    ) = "WIFI:T:$encryptionType;S:$ssid;P:$password;;"
 }

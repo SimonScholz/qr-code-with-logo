@@ -28,7 +28,7 @@ fun main() {
 //    }
 
     SwingUtilities.invokeLater {
-        val frame = JFrame("QR Code AWT/Swing UI")
+        val frame = JFrame("QR code with logo by Simon Scholz")
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         val dataBindingContext = DataBindingContext(SwingRealm())
         val qrCodeConfigViewModel = QrCodeConfigViewModel()

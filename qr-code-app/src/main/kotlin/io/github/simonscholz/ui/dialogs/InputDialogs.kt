@@ -48,6 +48,43 @@ object InputDialogs {
         return null
     }
 
+    fun showThreeValueInputDialog(
+        title: String,
+        firstLabel: String,
+        secondLabel: String,
+        thirdLabel: String,
+    ): Triple<String, String, String>? {
+        val panel = JPanel()
+        panel.layout = GridLayout(3, 2)
+
+        val label1 = JLabel(firstLabel)
+        val textField1 = JTextField(20)
+
+        val label2 = JLabel(secondLabel)
+        val textField2 = JTextField(20)
+
+        val label3 = JLabel(thirdLabel)
+        val textField3 = JTextField(20)
+
+        panel.add(label1)
+        panel.add(textField1)
+        panel.add(label2)
+        panel.add(textField2)
+        panel.add(label3)
+        panel.add(textField3)
+
+        val result = JOptionPane.showConfirmDialog(null, panel, title, JOptionPane.OK_CANCEL_OPTION)
+
+        if (result == JOptionPane.OK_OPTION) {
+            val value1 = textField1.text
+            val value2 = textField2.text
+            val value3 = textField3.text
+
+            return Triple(value1, value2, value3)
+        }
+        return null
+    }
+
     fun showEmailInputDialog(): Triple<String, String, String>? {
         val panel = JPanel(MigLayout())
 
