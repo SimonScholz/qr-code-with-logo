@@ -550,11 +550,29 @@ The https://github.com/SimonScholz/qr-code-with-logo/releases[releases section] 
 which consists of a `qr-code-app` and `qr-code-app.bat` file in the `/bin` folder, which can be executed directly.
 (does **not** require Java to be installed on your system)
 
+== Support for other image formats
+
+You can make use of the following project to also create different image formats: https://github.com/haraldk/TwelveMonkeys
+This works because image io is highly extensible via SPI implementations.
+
+Therefore you can also pass an `imageFormatName` to the creation of a base64 image:
+
+[source, kotlin]
+----
+val base64QrCodeImage = QrCodeFactory.createQrCodeApi()
+    .createBase64QrCodeImage(
+        qrCodeConfig = qrCodeConfig,
+        imageFormatName = "png",
+    )
+println(base64QrCodeImage)
+----
+
 == Useful sources
 
 - https://zxing.org/w/decode.jspx[Decoding qr codes using zxing]
 - https://www.qrcode.com/en/about/version.html[QR Code Versions]
 - https://android.googlesource.com/platform/frameworks/opt/vcard/+/ics-mr1/java/com/android/vcard/VCardConstants.java[Android VCardConstants]
+- https://github.com/haraldk/TwelveMonkeys
 - https://simonscholz.dev/tutorials/publish-maven-central-gradle[How I published this library to Maven Central]
 
 == Acknowledgements
