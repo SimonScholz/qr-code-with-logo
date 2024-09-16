@@ -31,6 +31,6 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.1" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 vaniktech-publish = { id = "com.vanniktech.maven.publish", version = "0.29.0" }
-graalvm = { id = "org.graalvm.buildtools.native", version = "0.10.2" }
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.10.3" }
 jlink = { id = "com.ryandens.jlink-application", version = "0.4.0" }
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
