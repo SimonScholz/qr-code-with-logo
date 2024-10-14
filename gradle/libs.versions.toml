@@ -21,7 +21,7 @@ jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-modul
 kotlinpoet-javapoet = { group = "com.squareup", name = "kotlinpoet-javapoet", version = "1.18.1" }
 
 batik-dom = { group = "org.apache.xmlgraphics", name = "batik-dom", version = "1.17" }
-batik-svggen = { group = "org.apache.xmlgraphics", name = "batik-svggen", version = "1.17" }
+batik-svggen = { group = "org.apache.xmlgraphics", name = "batik-svggen", version = "1.18" }
 batik-codec = { group = "org.apache.xmlgraphics", name = "batik-codec", version = "1.17" }
 
 [plugins]
