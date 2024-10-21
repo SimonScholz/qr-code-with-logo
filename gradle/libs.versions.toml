@@ -10,7 +10,7 @@ zxing-se = { group = "com.google.zxing", name = "javase", version.ref = "zxing" 
 kotlin-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5", version.ref = "kotlin" }
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit" }
-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version = "1.11.0" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version = "1.11.3" }
 assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0.28.1" }
 
 miglayout = { group = "com.miglayout", name = "miglayout-swing", version = "11.4" }
