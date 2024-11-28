@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.0.20"
+kotlin = "2.1.0"
 zxing = "3.5.3"
 junit = "5.11.3"
 assertk = "0.28.1"
