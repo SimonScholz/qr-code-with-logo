@@ -19,7 +19,7 @@ public class Base64Main {
 
         // using createBase64QrCodeImageWithSize
         final BufferedImage qrCodeImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
-        final String base64Image2 = QrCodeExtensionsKt.toBase64(qrCodeImage);
+        final String base64Image2 = QrCodeExtensionsKt.toBase64(qrCodeImage, "png");
         System.out.println(base64Image2);
     }
 }
