@@ -21,7 +21,7 @@ miglayout = { group = "com.miglayout", name = "miglayout-swing", version.ref = "
 databinding = { group = "org.eclipse.platform", name = "org.eclipse.core.databinding", version = "1.13.300" }
 datePicker = { group = "com.github.lgooddatepicker", name = "LGoodDatePicker", version = "11.2.1" }
 swingx = { group = "org.swinglabs", name = "swingx", version = "1.6.1" }
-jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version = "2.18.1" }
+jackson-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version = "2.18.2" }
 kotlinpoet-javapoet = { group = "com.squareup", name = "kotlinpoet-javapoet", version = "2.0.0" }
 
 batik-dom = { group = "org.apache.xmlgraphics", name = "batik-dom", version.ref = "batik" }
