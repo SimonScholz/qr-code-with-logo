@@ -30,7 +30,7 @@ batik-codec = { group = "org.apache.xmlgraphics", name = "batik-codec", version.
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.7" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.8" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
