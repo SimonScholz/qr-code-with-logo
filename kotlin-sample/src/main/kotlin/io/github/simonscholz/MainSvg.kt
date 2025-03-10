@@ -51,7 +51,7 @@ fun svgLogo(
 ) {
     val factory = DocumentBuilderFactory.newInstance()
     val builder = factory.newDocumentBuilder()
-    val logoDocument = builder.parse(Main::class.java.getClassLoader().getResourceAsStream("laptop_statistics_icon.svg"))
+    val logoDocument = builder.parse(Main::class.java.getClassLoader().getResourceAsStream("avatar.svg"))
     val qrCodeConfig =
         QrCodeSvgConfig(
             "https://simonscholz.dev/",
