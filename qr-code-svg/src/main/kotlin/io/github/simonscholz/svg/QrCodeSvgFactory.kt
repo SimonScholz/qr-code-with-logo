@@ -12,7 +12,5 @@ object QrCodeSvgFactory {
      * @return an instance of the QrCodeSvgApi to generate SVG qr codes as a Document.
      */
     @JvmStatic
-    fun createQrCodeApi(): QrCodeSvgApi {
-        return QrCodeSvgApiImpl()
-    }
+    fun createQrCodeApi(): QrCodeSvgApi = QrCodeSvgApiImpl()
 }

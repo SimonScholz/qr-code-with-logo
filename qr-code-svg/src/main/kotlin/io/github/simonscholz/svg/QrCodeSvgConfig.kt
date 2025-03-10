@@ -38,7 +38,9 @@ class QrCodeSvgConfig
             require(qrCodeSize > 0) { "qrCodeSize must be greater than 0." }
         }
 
-        class Builder(private val qrCodeText: String) {
+        class Builder(
+            private val qrCodeText: String,
+        ) {
             private var qrCodeSize: Int = DEFAULT_IMG_SIZE
             private var qrLogoConfig: QrSvgLogoConfig? = null
             private var qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig()
