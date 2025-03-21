@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.ben.manes.versions)
 
-    alias(libs.plugins.graalvm)
     alias(libs.plugins.jlink)
     alias(libs.plugins.shadow)
 }
@@ -53,30 +52,6 @@ java {
 jlinkJre {
     // defaults to only java.base
     modules.set(setOf("java.desktop", "jdk.charsets", "java.compiler"))
-}
-
-graalvmNative {
-    binaries {
-        named("main") {
-            imageName.set("qr-code-app")
-            mainClass.set("io.github.simonscholz.MainKt")
-            fallback.set(false)
-        }
-    }
-    binaries.all {
-        buildArgs.add("-Djava.awt.headless=false")
-        buildArgs.add("--verbose")
-        buildArgs.add("--no-fallback")
-        // https://www.graalvm.org/latest/reference-manual/native-image/dynamic-features/Resources/
-        buildArgs.add("-H:IncludeResources=.*png\$")
-        buildArgs.add("-H:ResourceConfigurationFiles=${layout.projectDirectory}/resource-config.json")
-        buildArgs.add("-H:ReflectionConfigurationFiles=${layout.projectDirectory}/reflection-config.json")
-        buildArgs.add("-H:EnableURLProtocols=http,https")
-        buildArgs.add("-H:+AddAllCharsets")
-
-        resources { autodetect() }
-    }
-    toolchainDetection = false
 }
 
 tasks.register("nativeDist") {
