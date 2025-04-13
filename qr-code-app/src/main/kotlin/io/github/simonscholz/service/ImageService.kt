@@ -12,22 +12,23 @@ import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
-class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
+class ImageService(
+    private val qrCodeConfigViewModel: QrCodeConfigViewModel,
+) {
     fun renderImage(): BufferedImage {
         val builder =
-            QrCodeConfig.Builder(qrCodeConfigViewModel.qrCodeContent.value)
+            QrCodeConfig
+                .Builder(qrCodeConfigViewModel.qrCodeContent.value)
                 .qrCodeSize(qrCodeConfigViewModel.size.value)
                 .qrCodeColorConfig(
                     bgColor = qrCodeConfigViewModel.backgroundColor.value,
                     fillColor = qrCodeConfigViewModel.foregroundColor.value,
-                )
-                .qrCodeDotStyler(mapCustomDotStyler(qrCodeConfigViewModel.dotShape.value))
+                ).qrCodeDotStyler(mapCustomDotStyler(qrCodeConfigViewModel.dotShape.value))
                 .qrBorderConfig(
                     color = qrCodeConfigViewModel.borderColor.value,
                     relativeSize = qrCodeConfigViewModel.relativeBorderSize.value,
                     relativeBorderRound = qrCodeConfigViewModel.borderRadius.value,
-                )
-                .qrPositionalSquaresConfig(
+                ).qrPositionalSquaresConfig(
                     qrPositionalSquaresConfig =
                         QrPositionalSquaresConfig(
                             isCircleShaped = qrCodeConfigViewModel.positionalSquareIsCircleShaped.value,
@@ -62,6 +63,9 @@ class ImageService(private val qrCodeConfigViewModel: QrCodeConfigViewModel) {
             DotShapes.STAR -> QrCodeDotShape.STAR
             DotShapes.DIAMOND -> QrCodeDotShape.DIAMOND
             DotShapes.CROSS -> QrCodeDotShape.CROSS
+            DotShapes.FLOWER -> QrCodeDotShape.FLOWER
+            DotShapes.FLOWER_2 -> QrCodeDotShape.FLOWER_2
+            DotShapes.FLOWER_3 -> QrCodeDotShape.FLOWER_3
             DotShapes.HOUSE_WITH_DOOR_AND_WINDOW ->
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawColorfulHouseWithDoorAndWindow(x, y, size, graphic)

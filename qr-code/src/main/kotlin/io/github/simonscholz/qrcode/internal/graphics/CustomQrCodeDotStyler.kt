@@ -4,6 +4,9 @@ import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.Polygon
+import java.awt.geom.AffineTransform
+import java.awt.geom.Ellipse2D
+import java.awt.geom.Path2D
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -179,6 +182,59 @@ internal object CustomQrCodeDotStyler {
             graphic.drawArc(x + oneFith, y + oneFith * 2, mouthWidth, mouthHeight, 0, -180)
         } finally {
             graphic.color = originalColor
+        }
+    }
+
+    fun drawFlower(
+        x: Int,
+        y: Int,
+        size: Int,
+        graphics: Graphics2D,
+        petalCount: Int = 8,
+        petalLength: Double = size * 0.7,
+        petalWidth: Double = size * 0.25,
+        centerDotSize: Double = size * 0.3,
+    ) {
+        val centerX = x + size / 2.0
+        val centerY = y + size / 2.0
+        val angleStep = (2 * Math.PI) / petalCount
+
+        val petalShape = Path2D.Double()
+
+        for (i in 0 until petalCount) {
+            val angle = i * angleStep
+            val rotation = AffineTransform.getRotateInstance(angle, centerX, centerY)
+
+            // Create a single petal shape (like an almond or oval wedge)
+            petalShape.reset()
+            petalShape.moveTo(centerX, centerY - petalWidth / 2)
+            petalShape.curveTo(
+                centerX + petalLength * 0.8,
+                centerY - petalWidth / 2,
+                centerX + petalLength * 0.8,
+                centerY + petalWidth / 2,
+                centerX,
+                centerY + petalWidth / 2,
+            )
+            petalShape.closePath()
+
+            val transformed = rotation.createTransformedShape(petalShape)
+            graphics.fill(transformed)
+        }
+
+        val originalColor = graphics.color
+        try {
+            graphics.color = invertColor(originalColor)
+            graphics.fill(
+                Ellipse2D.Double(
+                    centerX - centerDotSize / 2,
+                    centerY - centerDotSize / 2,
+                    centerDotSize,
+                    centerDotSize,
+                ),
+            )
+        } finally {
+            graphics.color = originalColor
         }
     }
 

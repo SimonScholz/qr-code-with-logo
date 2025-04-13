@@ -131,4 +131,50 @@ enum class QrCodeDotShape : QrCodeDotStyler {
             CustomQrCodeDotStyler.drawSmiley(x, y, dotSize, graphics)
         }
     },
+    FLOWER {
+        override fun createDot(
+            x: Int,
+            y: Int,
+            dotSize: Int,
+            graphics: Graphics2D,
+        ) {
+            CustomQrCodeDotStyler.drawFlower(x, y, dotSize, graphics)
+        }
+    },
+    FLOWER_2 {
+        override fun createDot(
+            x: Int,
+            y: Int,
+            dotSize: Int,
+            graphics: Graphics2D,
+        ) {
+            CustomQrCodeDotStyler.drawFlower(
+                x = x,
+                y = y,
+                size = dotSize,
+                graphics = graphics,
+                petalLength = dotSize * 0.65,
+                petalWidth = dotSize * 0.3,
+                centerDotSize = dotSize * 0.25,
+            )
+        }
+    },
+    FLOWER_3 {
+        override fun createDot(
+            x: Int,
+            y: Int,
+            dotSize: Int,
+            graphics: Graphics2D,
+        ) {
+            CustomQrCodeDotStyler.drawFlower(
+                x = x,
+                y = y,
+                size = dotSize,
+                graphics = graphics,
+                petalLength = dotSize * 0.65,
+                petalWidth = dotSize * 0.3,
+                centerDotSize = dotSize * 0.35,
+            )
+        }
+    },
 }

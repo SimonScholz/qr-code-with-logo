@@ -16,4 +16,7 @@ enum class DotShapes {
     PUMPKIN,
     CHRISTMAS_TREE,
     CAR,
+    FLOWER,
+    FLOWER_2,
+    FLOWER_3,
 }
