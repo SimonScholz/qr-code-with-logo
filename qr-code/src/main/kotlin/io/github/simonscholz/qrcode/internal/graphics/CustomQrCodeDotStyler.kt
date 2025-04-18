@@ -1,5 +1,6 @@
 package io.github.simonscholz.qrcode.internal.graphics
 
+import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Point
@@ -7,6 +8,7 @@ import java.awt.Polygon
 import java.awt.geom.AffineTransform
 import java.awt.geom.Ellipse2D
 import java.awt.geom.Path2D
+import java.awt.geom.Rectangle2D
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -233,6 +235,63 @@ internal object CustomQrCodeDotStyler {
                     centerDotSize,
                 ),
             )
+        } finally {
+            graphics.color = originalColor
+        }
+    }
+
+    fun drawEasterEgg(
+        x: Int,
+        y: Int,
+        dotSize: Int,
+        graphics: Graphics2D,
+    ) {
+        val centerX = x + dotSize / 2.0
+        val centerY = y + dotSize / 2.0
+        val eggWidth = dotSize * 0.9
+        val eggHeight = dotSize.toDouble()
+
+        // Draw the egg shape
+        graphics.fill(
+            Ellipse2D.Double(
+                centerX - eggWidth / 2,
+                centerY - eggHeight / 2,
+                eggWidth,
+                eggHeight,
+            ),
+        )
+
+        // Draw zigzag pattern
+        val zigzagPath = Path2D.Double()
+        val zigzagCount = 5
+        val zigzagTop = centerY - dotSize * 0.1
+        val zigzagBottom = centerY + dotSize * 0.1
+        val step = eggWidth / zigzagCount
+
+        zigzagPath.moveTo(centerX - eggWidth / 2, zigzagBottom)
+        for (i in 0 until zigzagCount) {
+            val nextX = centerX - eggWidth / 2 + (i + 0.5) * step
+            val nextY = if (i % 2 == 0) zigzagTop else zigzagBottom
+            zigzagPath.lineTo(nextX, nextY)
+        }
+        zigzagPath.lineTo(centerX + eggWidth / 2, zigzagBottom)
+        val originalColor = graphics.color
+        try {
+            graphics.color = Color.WHITE
+            graphics.stroke = BasicStroke((dotSize * 0.03).toFloat())
+            graphics.draw(zigzagPath)
+
+            // Dashed lines (top and bottom bands)
+            val dashYOffsets = listOf(-dotSize * 0.25, dotSize * 0.25)
+            for (dy in dashYOffsets) {
+                val yLine = centerY + dy
+                val dashes = 6
+                val dashSpacing = eggWidth / (dashes * 2)
+                for (i in 0 until dashes) {
+                    val dashX = centerX - eggWidth / 2 + i * 2 * dashSpacing
+                    graphics.fill(Rectangle2D.Double(dashX, yLine - 1, dashSpacing, 2.0))
+                }
+            }
         } finally {
             graphics.color = originalColor
         }

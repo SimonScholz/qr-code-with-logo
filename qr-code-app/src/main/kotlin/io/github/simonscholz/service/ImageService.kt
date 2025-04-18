@@ -66,6 +66,7 @@ class ImageService(
             DotShapes.FLOWER -> QrCodeDotShape.FLOWER
             DotShapes.FLOWER_2 -> QrCodeDotShape.FLOWER_2
             DotShapes.FLOWER_3 -> QrCodeDotShape.FLOWER_3
+            DotShapes.EASTER_EGG -> QrCodeDotShape.EASTER_EGG
             DotShapes.HOUSE_WITH_DOOR_AND_WINDOW ->
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawColorfulHouseWithDoorAndWindow(x, y, size, graphic)

@@ -177,4 +177,14 @@ enum class QrCodeDotShape : QrCodeDotStyler {
             )
         }
     },
+    EASTER_EGG {
+        override fun createDot(
+            x: Int,
+            y: Int,
+            dotSize: Int,
+            graphics: Graphics2D,
+        ) {
+            CustomQrCodeDotStyler.drawEasterEgg(x, y, dotSize, graphics)
+        }
+    },
 }

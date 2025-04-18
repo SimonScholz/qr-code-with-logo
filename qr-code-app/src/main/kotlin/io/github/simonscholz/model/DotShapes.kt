@@ -19,4 +19,5 @@ enum class DotShapes {
     FLOWER,
     FLOWER_2,
     FLOWER_3,
+    EASTER_EGG,
 }
