@@ -79,7 +79,7 @@ tasks.register("nativeDist") {
 }
 
 detekt {
-    toolVersion = "1.23.1"
+    // Using the latest detekt version (1.23.8) from libs.versions.toml
     config.setFrom(file("${project.rootDir}/config/detekt/detekt.yml"))
     buildUponDefaultConfig = true
 }
