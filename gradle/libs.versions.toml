@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.1.20"
-jackson-kotlin = "2.18.3"
+jackson-kotlin = "2.19.0"
 zxing = "3.5.3"
 databinding = "1.13.400"
 kotlinpoet-javapoet = "2.1.0"
