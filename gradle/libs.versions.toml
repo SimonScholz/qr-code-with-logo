@@ -1,19 +1,19 @@
 [versions]
-kotlin = "2.1.20"
-jackson-kotlin = "2.18.3"
+kotlin = "2.1.21"
+jackson-kotlin = "2.19.0"
 zxing = "3.5.3"
 databinding = "1.13.400"
-kotlinpoet-javapoet = "2.1.0"
+kotlinpoet-javapoet = "2.2.0"
 junit = "5.12.2"
 junit-platform-launcher = "1.12.2"
 assertk = "0.28.1"
 miglayout = "11.4.2"
-batik = "1.18"
-ktlint = "12.2.0"
+batik = "1.19"
+ktlint = "12.3.0"
 detekt = "1.23.8"
 ben-manes-versions = "0.52.0"
 dokka = "2.0.0"
-vaniktech-publish = "0.31.0"
+vaniktech-publish = "0.32.0"
 
 [libraries]
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
