@@ -9,9 +9,9 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.github.simonscholz.model.QrCodeConfigViewModel
 import io.github.simonscholz.qrcode.LogoShape
+import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrCodeDotShape
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
-import io.github.simonscholz.svg.QrCodeSvgConfig
 import io.github.simonscholz.svg.QrCodeSvgFactory
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
@@ -47,7 +47,8 @@ class SvgGraphicsCodeGenerator(
         file.addImport("java.io", "File")
 
         val generateQrCodeFunction =
-            FunSpec.builder("generateQrCode")
+            FunSpec
+                .builder("generateQrCode")
                 .addParameter("svgLogo", Document::class)
                 .addStatement(
                     """
@@ -65,8 +66,7 @@ class SvgGraphicsCodeGenerator(
                     Color::class,
                     Color::class,
                     Color::class,
-                )
-                .addStatement(
+                ).addStatement(
                     """
             |val qrCodeConfig = %T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}")
             |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
@@ -89,30 +89,30 @@ class SvgGraphicsCodeGenerator(
             |    .qrCodeDotStyler(QrCodeDotShape.${qrCodeConfigViewModel.dotShape.value.name})
             |    .build()
                     """.trimMargin(),
-                    QrCodeSvgConfig::class,
+                    QrCodeConfig::class,
                     Color::class,
                     Color::class,
                     Color::class,
                     LogoShape::class,
                     Color::class,
-                )
-                .addStatement(
+                ).addStatement(
                     """
             |return %T.createQrCodeApi().createQrCodeSvg(qrCodeConfig)
                     """.trimMargin(),
                     QrCodeSvgFactory::class,
-                )
-                .returns(Document::class)
+                ).returns(Document::class)
                 .build()
 
         file.addType(
-            TypeSpec.classBuilder("QrCodeGenerator")
+            TypeSpec
+                .classBuilder("QrCodeGenerator")
                 .addFunction(generateQrCodeFunction)
                 .build(),
         )
 
         file.addFunction(
-            FunSpec.builder("main")
+            FunSpec
+                .builder("main")
                 .addStatement("val logo = parseBase64EncodedStringToDocument(\"Replace-by-Base64-encoded-SVGImage\")")
                 .addStatement("val qrCodeGenerator = %T()", ClassName("io.github.simonscholz", "QrCodeGenerator"))
                 .addStatement("%N.generateQrCode(logo).toFile(File(\"qr-code.svg\"))", "qrCodeGenerator")
@@ -120,13 +120,14 @@ class SvgGraphicsCodeGenerator(
         )
 
         file.addFunction(
-            FunSpec.builder("parseBase64EncodedStringToDocument")
+            FunSpec
+                .builder("parseBase64EncodedStringToDocument")
                 .addAnnotation(
-                    AnnotationSpec.builder(ClassName("kotlin", "OptIn"))
+                    AnnotationSpec
+                        .builder(ClassName("kotlin", "OptIn"))
                         .addMember("%T::class", ClassName("kotlin.io.encoding", "ExperimentalEncodingApi"))
                         .build(),
-                )
-                .addParameter("base64String", String::class)
+                ).addParameter("base64String", String::class)
                 .addStatement("val xmlString = %T.Default.encode(base64String.toByteArray())", Base64::class)
                 .addStatement("val factory = %T.newInstance()", DocumentBuilderFactory::class)
                 .addStatement("val builder = factory.newDocumentBuilder()")
@@ -137,7 +138,8 @@ class SvgGraphicsCodeGenerator(
         )
 
         file.addFunction(
-            FunSpec.builder("toFile")
+            FunSpec
+                .builder("toFile")
                 .receiver(Document::class)
                 .addParameter("fileToSave", File::class)
                 .addStatement("val transformerFactory = %T.newInstance()", TransformerFactory::class)
@@ -149,39 +151,39 @@ class SvgGraphicsCodeGenerator(
         )
 
         file.addFunction(
-            FunSpec.builder("toByteArray")
+            FunSpec
+                .builder("toByteArray")
                 .receiver(Document::class)
                 .addStatement(
                     "val byteArrayOutputStream = %T()",
                     ByteArrayOutputStream::class,
-                )
-                .addStatement(
+                ).addStatement(
                     "val transformer = %T.newInstance().newTransformer()",
                     TransformerFactory::class,
-                )
-                .addStatement(
+                ).addStatement(
                     "transformer.transform(%T(this), %T(byteArrayOutputStream))",
                     DOMSource::class,
                     StreamResult::class,
-                )
-                .addStatement(
+                ).addStatement(
                     "return byteArrayOutputStream.toByteArray()",
-                )
-                .returns(ByteArray::class)
+                ).returns(ByteArray::class)
                 .build(),
         )
 
-        return StringBuilder().apply {
-            file.build().writeTo(this)
-        }.toString()
+        return StringBuilder()
+            .apply {
+                file.build().writeTo(this)
+            }.toString()
     }
 
     fun generateJavaCode(): String {
         val qrCodeGenerator =
-            com.squareup.javapoet.TypeSpec.classBuilder("QrCodeGenerator")
+            com.squareup.javapoet.TypeSpec
+                .classBuilder("QrCodeGenerator")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
 
-        MethodSpec.methodBuilder("main")
+        MethodSpec
+            .methodBuilder("main")
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addParameter(Array<String>::class.java, "args", Modifier.FINAL)
             .addException(IOException::class.java)
@@ -190,9 +192,9 @@ class SvgGraphicsCodeGenerator(
             .addException(SAXException::class.java)
             .addStatement(
                 "final var qrCodeGenerator = new $T()",
-                com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
-            )
-            .addStatement("final var logo = parseBase64EncodedStringToDocument(\"Replace-by-Base64-encoded-SVGImage\")")
+                com.squareup.javapoet.ClassName
+                    .get("io.github.simonscholz", "QrCodeGenerator"),
+            ).addStatement("final var logo = parseBase64EncodedStringToDocument(\"Replace-by-Base64-encoded-SVGImage\")")
             .addStatement("final var qrCodeImage = qrCodeGenerator.generateQrCode(logo)")
             .addStatement("final var transformerFactory = $T.newInstance()", TransformerFactory::class.java)
             .addStatement("final var transformer = transformerFactory.newTransformer()")
@@ -202,7 +204,8 @@ class SvgGraphicsCodeGenerator(
             .build()
             .let(qrCodeGenerator::addMethod)
 
-        MethodSpec.methodBuilder("parseBase64EncodedStringToDocument")
+        MethodSpec
+            .methodBuilder("parseBase64EncodedStringToDocument")
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addException(IOException::class.java)
             .addException(ParserConfigurationException::class.java)
@@ -217,7 +220,8 @@ class SvgGraphicsCodeGenerator(
             .build()
             .let(qrCodeGenerator::addMethod)
 
-        MethodSpec.methodBuilder("generateQrCode")
+        MethodSpec
+            .methodBuilder("generateQrCode")
             .addModifiers(Modifier.PUBLIC)
             .addParameter(Document::class.java, "svgLogo")
             .addStatement(
@@ -236,8 +240,7 @@ class SvgGraphicsCodeGenerator(
                 Color::class.java,
                 Color::class.java,
                 Color::class.java,
-            )
-            .addStatement(
+            ).addStatement(
                 """
                 |final var qrCodeConfig = new $T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}}")
                 |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
@@ -254,66 +257,58 @@ class SvgGraphicsCodeGenerator(
                 |    .qrCodeDotStyler($T.${qrCodeConfigViewModel.dotShape.value.name})
                 |    .build()
                 """.trimMargin(),
-                QrCodeSvgConfig::class.java,
+                QrCodeConfig::class.java,
                 Color::class.java,
                 Color::class.java,
                 Color::class.java,
                 LogoShape::class.java,
                 Color::class.java,
                 QrCodeDotShape::class.java,
-            )
-            .addStatement(
+            ).addStatement(
                 "return $T.createQrCodeApi().createQrCodeSvg(qrCodeConfig)",
                 QrCodeSvgFactory::class.java,
-            )
-            .returns(Document::class.java)
+            ).returns(Document::class.java)
             .build()
             .let(qrCodeGenerator::addMethod)
 
-        MethodSpec.methodBuilder("createQrCodeByteArray")
+        MethodSpec
+            .methodBuilder("createQrCodeByteArray")
             .addModifiers(Modifier.PUBLIC)
             .addException(IOException::class.java)
             .addException(TransformerException::class.java)
             .addParameter(Document::class.java, "svgLogo")
             .addStatement(
                 "final var qrCodeGenerator = new $T()",
-                com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
-            )
-            .addStatement(
+                com.squareup.javapoet.ClassName
+                    .get("io.github.simonscholz", "QrCodeGenerator"),
+            ).addStatement(
                 "final var qrCodeImage = qrCodeGenerator.generateQrCode(svgLogo)",
-            )
-            .addStatement(
+            ).addStatement(
                 "final var byteArrayOutputStream = new $T()",
-                com.squareup.javapoet.ClassName.get("java.io", "ByteArrayOutputStream"),
-            )
-            .addStatement(
+                com.squareup.javapoet.ClassName
+                    .get("java.io", "ByteArrayOutputStream"),
+            ).addStatement(
                 "final var transformer = $T.newInstance().newTransformer()",
                 TransformerFactory::class.java,
-            )
-            .addStatement(
+            ).addStatement(
                 "transformer.transform(new $T(qrCodeImage), new $T(byteArrayOutputStream))",
                 DOMSource::class.java,
                 StreamResult::class.java,
-            )
-            .addStatement(
+            ).addStatement(
                 "return byteArrayOutputStream.toByteArray()",
-            )
-            .returns(ByteArray::class.java)
+            ).returns(ByteArray::class.java)
             .build()
             .let(qrCodeGenerator::addMethod)
 
-        return StringBuilder().apply {
-            JavaFile.builder("io.github.simonscholz", qrCodeGenerator.build()).build().writeTo(this)
-        }.toString()
+        return StringBuilder()
+            .apply {
+                JavaFile.builder("io.github.simonscholz", qrCodeGenerator.build()).build().writeTo(this)
+            }.toString()
     }
 
-    private fun colorInstanceStringKotlin(color: Color): String {
-        return "%T(${color.red}, ${color.green}, ${color.blue})"
-    }
+    private fun colorInstanceStringKotlin(color: Color): String = "%T(${color.red}, ${color.green}, ${color.blue})"
 
-    private fun colorInstanceStringJava(color: Color): String {
-        return "new $T(${color.red}, ${color.green}, ${color.blue})"
-    }
+    private fun colorInstanceStringJava(color: Color): String = "new $T(${color.red}, ${color.green}, ${color.blue})"
 
     companion object {
         // https://github.com/square/javapoet/issues/831#issuecomment-817238209

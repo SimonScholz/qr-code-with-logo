@@ -32,7 +32,9 @@ class QrCodeConfig
             require(qrCodeSize > 0) { "qrCodeSize must be greater than 0." }
         }
 
-        class Builder(private val qrCodeText: String) {
+        class Builder(
+            private val qrCodeText: String,
+        ) {
             private var qrCodeSize: Int = DEFAULT_IMG_SIZE
             private var qrLogoConfig: QrLogoConfig? = null
             private var qrCodeColorConfig: QrCodeColorConfig = QrCodeColorConfig()
@@ -49,9 +51,8 @@ class QrCodeConfig
                 shape: LogoShape = LogoShape.CIRCLE,
             ) = apply {
                 this.qrLogoConfig =
-                    QrLogoConfig(
-                        logo = logo,
-                        base64Logo = null,
+                    QrLogoConfig.Bitmap(
+                        image = logo,
                         relativeSize = relativeSize,
                         bgColor = bgColor,
                         shape = shape,
@@ -65,8 +66,8 @@ class QrCodeConfig
                 shape: LogoShape = LogoShape.CIRCLE,
             ) = apply {
                 this.qrLogoConfig =
-                    QrLogoConfig(
-                        base64Logo = base64Logo,
+                    QrLogoConfig.Base64Image(
+                        base64Image = base64Logo,
                         relativeSize = relativeSize,
                         bgColor = bgColor,
                         shape = shape,
@@ -112,29 +113,54 @@ class QrCodeConfig
     }
 
 /**
- * Pass a logo as BufferedImage or base64 encoded image,
- * specify the relativeSize of the logo in the qr code and choose the logo shape.
+ * Represents a source for embedding a logo into a QR code.
  *
- * @param logo - [Image] to be rendered as logo in the center of the qr code
- * @param base64Logo - base64 encoded image to be rendered as logo in the center of the qr code
- * @param relativeSize - relative size of the logo, defaults to 0.2
- * @param bgColor - specify the background color of the logo, defaults to null
- * @param shape - specify the shape of the logo, defaults to [LogoShape.CIRCLE]
+ * Implementations of this interface define the type and format of the logo,
+ * such as a bitmap image, base64-encoded image, or SVG document.
+ *
+ * Each logo source supports common styling options like size, background color, and shape.
+ *
+ * @property relativeSize The relative size of the logo compared to the full QR code. Must be between 0.1 and 1.0. Defaults to 0.2.
+ * @property bgColor Optional background color behind the logo. Can be used to increase contrast or improve visual clarity.
+ * @property shape Shape in which the logo should be rendered (e.g., circle, square, original).
  */
-class QrLogoConfig
-    @JvmOverloads
-    constructor(
-        val logo: Image? = null,
-        val base64Logo: String? = null,
-        val relativeSize: Double = .2,
-        val bgColor: Color? = null,
-        val shape: LogoShape = LogoShape.CIRCLE,
-    ) {
-        init {
-            require(relativeSize in .1..1.0) { "relativeSize must be in between 0.1 and 1." }
-            require(logo != null || base64Logo != null) { "Either logo or base64Logo must be set." }
+interface QrLogoConfig {
+    val relativeSize: Double
+    val bgColor: Color?
+    val shape: LogoShape
+
+    /**
+     * Represents a logo provided as a bitmap image (e.g., PNG, JPG).
+     */
+    class Bitmap
+        @JvmOverloads
+        constructor(
+            val image: Image,
+            override val relativeSize: Double = 0.2,
+            override val bgColor: Color? = null,
+            override val shape: LogoShape = LogoShape.CIRCLE,
+        ) : QrLogoConfig {
+            init {
+                require(relativeSize in 0.1..1.0) { "relativeSize must be in between 0.1 and 1." }
+            }
         }
-    }
+
+    /**
+     * Represents a logo provided as a base64-encoded image string.
+     */
+    class Base64Image
+        @JvmOverloads
+        constructor(
+            val base64Image: String,
+            override val relativeSize: Double = 0.2,
+            override val bgColor: Color? = null,
+            override val shape: LogoShape = LogoShape.CIRCLE,
+        ) : QrLogoConfig {
+            init {
+                require(relativeSize in 0.1..1.0) { "relativeSize must be in between 0.1 and 1." }
+            }
+        }
+}
 
 /**
  * Specify the shape of the logo.

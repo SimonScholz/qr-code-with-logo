@@ -2,7 +2,9 @@ package io.github.simonscholz.qrcode.internal.api
 
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeConfig
+import io.github.simonscholz.qrcode.QrLogoConfig
 import io.github.simonscholz.qrcode.imageFromBase64
+import io.github.simonscholz.qrcode.internal.LoggerFactory
 import io.github.simonscholz.qrcode.internal.border.BorderGraphics
 import io.github.simonscholz.qrcode.internal.logo.LogoGraphics
 import io.github.simonscholz.qrcode.internal.qr.QrCodeCreator
@@ -11,7 +13,11 @@ import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import kotlin.math.floor
 
-internal class QrCodeApiImpl : QrCodeApi, InternalDrawQrCode {
+private val logger = LoggerFactory.forClass<QrCodeApiImpl>()
+
+internal class QrCodeApiImpl :
+    QrCodeApi,
+    InternalDrawQrCode {
     override fun createQrCodeImage(qrCodeConfig: QrCodeConfig): BufferedImage {
         val image = BufferedImage(qrCodeConfig.qrCodeSize, qrCodeConfig.qrCodeSize, BufferedImage.TYPE_4BYTE_ABGR)
         val graphics = image.graphics as Graphics2D
@@ -63,29 +69,36 @@ internal class QrCodeApiImpl : QrCodeApi, InternalDrawQrCode {
             customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,
         )
 
-        qrCodeConfig.qrLogoConfig?.also { qrCodeLogoConfig ->
-            if (qrCodeLogoConfig.base64Logo != null) {
-                runCatching {
-                    qrCodeLogoConfig.base64Logo.imageFromBase64()
-                }.onSuccess {
+        qrCodeConfig.qrLogoConfig?.let { logoConfig ->
+            when (logoConfig) {
+                is QrLogoConfig.Base64Image -> {
+                    runCatching {
+                        logoConfig.base64Image.imageFromBase64()
+                    }.onSuccess { decodedImage ->
+                        LogoGraphics.drawLogo(
+                            graphics,
+                            qrCodeConfig.qrCodeSize,
+                            decodedImage,
+                            logoConfig.relativeSize,
+                            logoConfig.bgColor,
+                            logoConfig.shape,
+                        )
+                    }.onFailure {
+                        logger.severe {
+                            "Failed to decode base64 image for logo: ${logoConfig.base64Image}, error: ${it.message}"
+                        }
+                    }
+                }
+                is QrLogoConfig.Bitmap -> {
                     LogoGraphics.drawLogo(
                         graphics,
                         qrCodeConfig.qrCodeSize,
-                        it,
-                        qrCodeLogoConfig.relativeSize,
-                        qrCodeLogoConfig.bgColor,
-                        qrCodeLogoConfig.shape,
+                        logoConfig.image,
+                        logoConfig.relativeSize,
+                        logoConfig.bgColor,
+                        logoConfig.shape,
                     )
                 }
-            } else if (qrCodeLogoConfig.logo != null) {
-                LogoGraphics.drawLogo(
-                    graphics,
-                    qrCodeConfig.qrCodeSize,
-                    qrCodeLogoConfig.logo,
-                    qrCodeLogoConfig.relativeSize,
-                    qrCodeLogoConfig.bgColor,
-                    qrCodeLogoConfig.shape,
-                )
             }
         }
     }

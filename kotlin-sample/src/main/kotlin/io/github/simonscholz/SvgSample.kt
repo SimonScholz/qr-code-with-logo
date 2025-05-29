@@ -1,6 +1,6 @@
 package io.github.simonscholz
 
-import io.github.simonscholz.svg.QrCodeSvgConfig
+import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.svg.QrCodeSvgFactory
 import org.w3c.dom.Document
 import java.io.File
@@ -9,7 +9,7 @@ import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
 fun main() {
-    val svgConfig = QrCodeSvgConfig.Builder("").build()
+    val svgConfig = QrCodeConfig.Builder("https://simonscholz.dev/").build()
     val qrCodeSvg = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(svgConfig)
     qrCodeSvg.toFile(File("svg-qr-code.svg"))
 }
