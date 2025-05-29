@@ -1,7 +1,7 @@
 package io.github.simonscholz;
 
 
-import io.github.simonscholz.svg.QrCodeSvgConfig;
+import io.github.simonscholz.qrcode.QrCodeConfig;
 import io.github.simonscholz.svg.QrCodeSvgFactory;
 import org.w3c.dom.Document;
 
@@ -14,7 +14,7 @@ import java.io.File;
 
 public class SVGSamples {
     public static void main(final String[] args) throws TransformerException {
-        QrCodeSvgConfig qrCodeConfig = new QrCodeSvgConfig.Builder("https://simonscholz.dev/}").build();
+        QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").build();
         Document qrCodeDocument = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(qrCodeConfig);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();

@@ -70,7 +70,7 @@ public class BasicsMain {
     private static void createDefaultQrCodeWithLogo(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE, new QrLogoConfig(logo));
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE, new QrLogoConfig.Bitmap(logo));
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-java.png"));
     }

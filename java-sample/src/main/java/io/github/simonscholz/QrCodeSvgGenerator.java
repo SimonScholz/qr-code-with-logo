@@ -1,9 +1,8 @@
 package io.github.simonscholz;
 
-import io.github.simonscholz.qrcode.LogoShape;
+import io.github.simonscholz.qrcode.QrCodeConfig;
 import io.github.simonscholz.qrcode.QrCodeDotShape;
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig;
-import io.github.simonscholz.svg.QrCodeSvgConfig;
 import io.github.simonscholz.svg.QrCodeSvgFactory;
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
@@ -20,6 +19,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -55,10 +55,10 @@ public final class QrCodeSvgGenerator {
             .outerSquareColor(new Color(0, 0, 0))
             .outerBorderColor(new Color(255, 255, 255))
             .build();
-    final QrCodeSvgConfig qrCodeConfig = new QrCodeSvgConfig.Builder("https://simonscholz.dev/")
+    final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrCodeSize(800)
             .qrCodeColorConfig(new Color(255, 255, 255), new Color(0, 0, 0))
-            .qrLogoConfig(svgLogo, 0.2, new Color(255, 255, 255), LogoShape.CIRCLE)
+            //.qrLogoConfig(new QrSvgLogoConfig(svgLogo,0.2, new Color(255, 255, 255), LogoShape.CIRCLE))
             .qrBorderConfig(new Color(0, 0, 0), 0.05, 0.2)
             .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
             .qrCodeDotStyler(QrCodeDotShape.SQUARE)

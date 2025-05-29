@@ -74,6 +74,11 @@ class QrCodeConfig
                     )
             }
 
+            fun qrLogoConfig(qrLogoConfig: QrLogoConfig) =
+                apply {
+                    this.qrLogoConfig = qrLogoConfig
+                }
+
             @JvmOverloads fun qrCodeColorConfig(
                 bgColor: Color = Color.WHITE,
                 fillColor: Color = Color.BLACK,
