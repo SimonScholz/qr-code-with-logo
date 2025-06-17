@@ -152,9 +152,11 @@ because it adds the opportunity to make use of a SVG image as logo besides using
 
 [source, java]
 ----
-import io.github.simonscholz.svg.QrCodeSvgConfig;
+import io.github.simonscholz.qrcode.QrCodeConfig;
 import io.github.simonscholz.svg.QrCodeSvgFactory;
+import org.w3c.dom.Document;
 
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -163,12 +165,12 @@ import java.io.File;
 
 public class SVGSamples {
     public static void main(final String[] args) throws TransformerException {
-        var qrCodeConfig = new QrCodeSvgConfig.Builder("https://simonscholz.dev/}").build();
-        var qrCodeDocument = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(qrCodeConfig);
-        var transformerFactory = TransformerFactory.newInstance();
-        var transformer = transformerFactory.newTransformer();
-        var source = new DOMSource(qrCodeDocument);
-        var result = new StreamResult(new File("qr-code.svg"));
+        QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").build();
+        Document qrCodeDocument = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(qrCodeConfig);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(qrCodeDocument);
+        StreamResult result = new StreamResult(new File("qr-code.svg"));
         transformer.transform(source, result);
     }
 }
@@ -178,7 +180,7 @@ public class SVGSamples {
 
 [source, kotlin]
 ----
-import io.github.simonscholz.svg.QrCodeSvgConfig
+import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.svg.QrCodeSvgFactory
 import org.w3c.dom.Document
 import java.io.File
@@ -187,7 +189,7 @@ import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
 fun main() {
-    val svgConfig = QrCodeSvgConfig.Builder("https://simonscholz.dev/").build()
+    val svgConfig = QrCodeConfig.Builder("https://simonscholz.dev/").build()
     val qrCodeSvg = QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(svgConfig)
     qrCodeSvg.toFile(File("svg-qr-code.svg"))
 }
