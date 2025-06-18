@@ -387,6 +387,8 @@ String email = SimpleTypes.email("simon@example.com", "Hello World", "This is a 
 String phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678");
 
 String sms = SimpleTypes.sms("+49 176 12345678", "Hello, this is a test SMS");
+
+String wifi = SimpleTypes.wifi("My-Wifi", "MyWifiPassword");
 ```
 
 These String values can be used to create a QR code.
@@ -413,6 +415,10 @@ image::./docs/types/simple-phoneNumber.png[]
 Simple sms:
 
 image::./docs/types/simple-sms.png[]
+
+Simple wifi:
+
+image::./docs/types/simple-wifi.png[]
 ====
 
 ==== More complex types

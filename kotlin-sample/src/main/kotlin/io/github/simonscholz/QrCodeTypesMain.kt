@@ -9,6 +9,7 @@ import io.github.simonscholz.qrcode.types.SimpleTypes.geolocation
 import io.github.simonscholz.qrcode.types.SimpleTypes.phoneNumber
 import io.github.simonscholz.qrcode.types.SimpleTypes.sms
 import io.github.simonscholz.qrcode.types.SimpleTypes.url
+import io.github.simonscholz.qrcode.types.SimpleTypes.wifi
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
 import java.io.File
@@ -31,6 +32,7 @@ fun main() {
     createWithEmail(qrCodeApi, qrCodeDir)
     createWithPhoneNumber(qrCodeApi, qrCodeDir)
     createWithSms(qrCodeApi, qrCodeDir)
+    createWithWifi(qrCodeApi, qrCodeDir)
     createWithVEvent(qrCodeApi, qrCodeDir)
     createWithVCard(qrCodeApi, qrCodeDir)
 }
@@ -75,12 +77,21 @@ private fun createWithSms(
     createDefaultQrCode(qrCodeApi, sms, File(qrCodeDir, "simple-sms.png"))
 }
 
+private fun createWithWifi(
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
+    val wifi = wifi("My-Wifi", "MyWifiPassword")
+    createDefaultQrCode(qrCodeApi, wifi, File(qrCodeDir, "simple-wifi.png"))
+}
+
 private fun createWithVEvent(
     qrCodeApi: QrCodeApi,
     qrCodeDir: String,
 ) {
     val startDateTime =
-        LocalDateTime.now()
+        LocalDateTime
+            .now()
             .plusWeeks(2)
     val vEventQrCodeText =
         VEvent()
