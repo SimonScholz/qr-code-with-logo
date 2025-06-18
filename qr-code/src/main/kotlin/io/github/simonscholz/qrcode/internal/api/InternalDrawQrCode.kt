@@ -8,7 +8,7 @@ import java.awt.Graphics2D
  * This interface might change in the further development of this library and should not be considered stable.
  * For now the only purpose of this interface is to expose this functionality to the qr-code-svg module.
  */
-interface InternalDrawQrCode {
+fun interface InternalDrawQrCode {
     /**
      * Draw the qr code on the given Graphics2D instance, e.g., SVGGraphics2D.
      */

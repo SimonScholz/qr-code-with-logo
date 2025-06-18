@@ -12,7 +12,5 @@ object QrCodeFactory {
      * @return QrCodeApi, which can be used to generate BufferedImages of custom qr codes.
      */
     @JvmStatic
-    fun createQrCodeApi(): QrCodeApi {
-        return QrCodeApiImpl()
-    }
+    fun createQrCodeApi(): QrCodeApi = QrCodeApiImpl()
 }
