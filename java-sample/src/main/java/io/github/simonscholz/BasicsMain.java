@@ -26,6 +26,7 @@ import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
 public class BasicsMain {
     private static final double RELATIVE_SQUARE_BORDER_ROUND = .5;
     private static final Color VIOLET = new Color(0x0063, 0x000B, 0x00A5);
+    public static final String MY_DOMAIN = "https://simonscholz.dev/";
 
     public static void main(final String[] args) throws IOException {
         final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
@@ -63,14 +64,14 @@ public class BasicsMain {
     }
 
     private static void createDefaultQrCode(final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
-        final BufferedImage qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE));
+        final BufferedImage qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig(MY_DOMAIN, DEFAULT_IMG_SIZE));
         ImageIO.write(qrCode, "png", new File(qrCodeDir, "/qr-with-defaults-java.png"));
     }
 
     private static void createDefaultQrCodeWithLogo(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE, new QrLogoConfig.Bitmap(logo));
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig(MY_DOMAIN, DEFAULT_IMG_SIZE, new QrLogoConfig.Bitmap(logo));
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-java.png"));
     }
@@ -78,7 +79,7 @@ public class BasicsMain {
     private static void createDefaultQrCodeWithLogoAndBorder(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrBorderConfig(Color.BLACK)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.BLACK)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .build();
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
@@ -88,7 +89,7 @@ public class BasicsMain {
     private static void createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrBorderConfig(Color.BLACK)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.BLACK)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig.Builder().relativeSquareBorderRound(RELATIVE_SQUARE_BORDER_ROUND)
                                                                                                                                                                 .build())
@@ -100,7 +101,7 @@ public class BasicsMain {
     private static void createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrBorderConfig(Color.BLACK)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.BLACK)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true))
                                                                                                     .build();
@@ -111,7 +112,7 @@ public class BasicsMain {
     private static void decentRedColor(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrBorderConfig(Color.BLACK)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.BLACK)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true, 0.2, Color.RED))
                                                                                                     .build();
@@ -134,7 +135,7 @@ public class BasicsMain {
                                                                                                          .outerBorderColor(darkerGreen)
                                                                                                          .build();
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrBorderConfig(Color.WHITE)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.WHITE)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrCodeColorConfig(darkerGreen, brighterGreen)
                                                                                                     .qrPositionalSquaresConfig(positionalSquaresConfig)
@@ -149,7 +150,7 @@ public class BasicsMain {
                                                                                .outerSquareColor(Color.BLUE)
                                                                                .outerBorderColor(VIOLET)
                                                                                .build();
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrCodeColorConfig(Color.BLUE, VIOLET)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrCodeColorConfig(Color.BLUE, VIOLET)
                                                                                                     .qrPositionalSquaresConfig(positionalSquaresConfig)
                                                                                                     .build();
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
@@ -161,7 +162,7 @@ public class BasicsMain {
                                                                     .getResource("rainbow.png"));
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/").qrBorderConfig(Color.YELLOW)
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.YELLOW)
                                                                                                     .qrLogoConfig(logo)
                                                                                                     .qrCodeColorConfig(Color.BLUE, VIOLET)
                                                                                                     .qrPositionalSquaresConfig(new QrPositionalSquaresConfig(true, RELATIVE_SQUARE_BORDER_ROUND, Color.PINK, Color.GREEN, Color.RED, Color.CYAN))
@@ -183,7 +184,7 @@ public class BasicsMain {
                  .outerBorderColor(transparent)
                  .build();
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/")
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN)
             .qrCodeSize(150)
             .qrPositionalSquaresConfig(positionalSquaresConfig)
             .qrLogoConfig(logo)
