@@ -13,6 +13,7 @@ import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrCodeDotShape
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
 import io.github.simonscholz.svg.QrCodeSvgFactory
+import io.github.simonscholz.svg.QrSvgLogoConfig
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
@@ -75,10 +76,12 @@ class SvgGraphicsCodeGenerator(
             |        fillColor = ${colorInstanceStringKotlin(qrCodeConfigViewModel.foregroundColor.value)},
             |    )
             |    .qrLogoConfig(
-            |        logo = svgLogo,
-            |        relativeSize = ${qrCodeConfigViewModel.logoRelativeSize.value},
-            |        bgColor = ${colorInstanceStringKotlin(qrCodeConfigViewModel.logoBackgroundColor.value)},
-            |        shape = %T.${qrCodeConfigViewModel.logoShape.value},
+            |        %T(
+            |           svgLogo = svgLogo,
+            |           relativeSize = ${qrCodeConfigViewModel.logoRelativeSize.value},
+            |           bgColor = ${colorInstanceStringKotlin(qrCodeConfigViewModel.logoBackgroundColor.value)},
+            |           shape = %T.${qrCodeConfigViewModel.logoShape.value},
+            |        ),
             |    )
             |    .qrBorderConfig(
             |        color = ${colorInstanceStringKotlin(qrCodeConfigViewModel.borderColor.value)},
@@ -92,6 +95,7 @@ class SvgGraphicsCodeGenerator(
                     QrCodeConfig::class,
                     Color::class,
                     Color::class,
+                    QrSvgLogoConfig::class,
                     Color::class,
                     LogoShape::class,
                     Color::class,
@@ -247,9 +251,9 @@ class SvgGraphicsCodeGenerator(
                 |    .qrCodeColorConfig(${colorInstanceStringJava(
                     qrCodeConfigViewModel.backgroundColor.value,
                 )}, ${colorInstanceStringJava(qrCodeConfigViewModel.foregroundColor.value)})
-                |    .qrLogoConfig(svgLogo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(
+                |    .qrLogoConfig(new $T(svgLogo, ${qrCodeConfigViewModel.logoRelativeSize.value}, ${colorInstanceStringJava(
                     qrCodeConfigViewModel.logoBackgroundColor.value,
-                )}, $T.${qrCodeConfigViewModel.logoShape.value})
+                )}, $T.${qrCodeConfigViewModel.logoShape.value}))
                 |    .qrBorderConfig(${colorInstanceStringJava(
                     qrCodeConfigViewModel.borderColor.value,
                 )}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
@@ -260,6 +264,7 @@ class SvgGraphicsCodeGenerator(
                 QrCodeConfig::class.java,
                 Color::class.java,
                 Color::class.java,
+                QrSvgLogoConfig::class.java,
                 Color::class.java,
                 LogoShape::class.java,
                 Color::class.java,
