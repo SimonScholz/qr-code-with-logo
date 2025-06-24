@@ -13,7 +13,7 @@ ktlint = "12.3.0"
 detekt = "1.23.8"
 ben-manes-versions = "0.52.0"
 dokka = "2.0.0"
-vaniktech-publish = "0.32.0"
+vaniktech-publish = "0.33.0"
 
 [libraries]
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
