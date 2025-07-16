@@ -21,6 +21,17 @@ Just run the `qr-code-app` project and create your QR code with a nice UI.
 ./gradlew :qr-code-app:run
 ----
 
+https://www.jbang.dev/documentation/jbang-idea/latest/installation.html[jbang] can also be used to run the application:
+
+[source, bash]
+----
+jbang catalog add --name simonscholz https://github.com/SimonScholz/jbang-catalog/blob/main/jbang-catalog.json
+
+jbang trust add https://github.com/SimonScholz/qr-code-with-logo/releases/download/
+
+jbang qr-code-app@simonscholz
+----
+
 Or download the appropriate distribution from the https://github.com/SimonScholz/qr-code-with-logo/releases[releases section].
 
 More details about the application can be found https://github.com/SimonScholz/qr-code-with-logo#qr-code-app[here]
