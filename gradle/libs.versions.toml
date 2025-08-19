@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.0"
+kotlin = "2.2.10"
 jackson-kotlin = "2.19.1"
 zxing = "3.5.3"
 databinding = "1.13.500"
