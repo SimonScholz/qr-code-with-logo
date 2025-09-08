@@ -2,7 +2,7 @@
 kotlin = "2.2.0"
 jackson-kotlin = "2.19.1"
 zxing = "3.5.3"
-databinding = "1.13.500"
+databinding = "1.13.600"
 kotlinpoet-javapoet = "2.2.0"
 junit = "5.13.1"
 junit-platform-launcher = "1.13.1"
