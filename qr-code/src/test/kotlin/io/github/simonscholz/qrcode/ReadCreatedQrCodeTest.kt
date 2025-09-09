@@ -60,7 +60,8 @@ class ReadCreatedQrCodeTest {
 
     private fun logoUrl(): URL =
         Objects.requireNonNull(
-            CreateQrCodeTest::class.java.getClassLoader()
+            CreateQrCodeTest::class.java
+                .getClassLoader()
                 .getResource("rainbow.png"),
         )
 
@@ -70,11 +71,13 @@ class ReadCreatedQrCodeTest {
     ): BufferedImage {
         val logo = ImageIO.read(resource)
         val positionalSquaresConfig =
-            QrPositionalSquaresConfig.Builder()
+            QrPositionalSquaresConfig
+                .Builder()
                 .circleShaped(true)
                 .build()
         val qrCodeConfig =
-            QrCodeConfig.Builder("https://simonscholz.dev/")
+            QrCodeConfig
+                .Builder("https://simonscholz.dev/")
                 .qrBorderConfig(Color.RED)
                 .qrLogoConfig(logo)
                 .qrPositionalSquaresConfig(positionalSquaresConfig)
@@ -90,7 +93,8 @@ class ReadCreatedQrCodeTest {
         val bgColor = Color.RED
         val fillColor = Color.BLUE
         val positionalSquaresConfig =
-            QrPositionalSquaresConfig.Builder()
+            QrPositionalSquaresConfig
+                .Builder()
                 .circleShaped(true)
                 .centerColor(fillColor)
                 .innerSquareColor(bgColor)
@@ -98,7 +102,8 @@ class ReadCreatedQrCodeTest {
                 .outerBorderColor(bgColor)
                 .build()
         val qrCodeConfig =
-            QrCodeConfig.Builder("https://simonscholz.dev/")
+            QrCodeConfig
+                .Builder("https://simonscholz.dev/")
                 .qrBorderConfig(Color.WHITE)
                 .qrLogoConfig(logo)
                 .qrCodeColorConfig(bgColor, fillColor)
@@ -132,7 +137,8 @@ class ReadCreatedQrCodeTest {
             val phoneNumber = SimpleTypes.phoneNumber("+49 176 12345678")
             val sms = SimpleTypes.sms("+49 176 12345678", "Hello World")
             val startDateTime =
-                LocalDateTime.now()
+                LocalDateTime
+                    .now()
                     .plusWeeks(2)
             val vEvent =
                 VEvent()

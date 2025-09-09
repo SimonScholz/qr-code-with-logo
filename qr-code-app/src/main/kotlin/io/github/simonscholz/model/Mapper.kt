@@ -3,8 +3,8 @@ package io.github.simonscholz.model
 import java.awt.Color
 
 object Mapper {
-    fun fromViewModel(viewModel: QrCodeConfigViewModel): QrCodeConfig {
-        return QrCodeConfig(
+    fun fromViewModel(viewModel: QrCodeConfigViewModel): QrCodeConfig =
+        QrCodeConfig(
             qrCodeContent = viewModel.qrCodeContent.value,
             size = viewModel.size.value,
             backgroundColor = viewModel.backgroundColor.value.toColorInfo(),
@@ -24,7 +24,6 @@ object Mapper {
             positionalSquareOuterSquareColor = viewModel.positionalSquareOuterSquareColor.value.toColorInfo(),
             positionalSquareOuterBorderColor = viewModel.positionalSquareOuterBorderColor.value.toColorInfo(),
         )
-    }
 
     fun applyViewModel(
         qrCodeConfig: QrCodeConfig,

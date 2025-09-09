@@ -142,20 +142,18 @@ class FileUI(
     ) : Transferable {
         private var files: MutableList<File>? = null
 
-        override fun getTransferDataFlavors(): Array<DataFlavor> {
-            return arrayOf(
+        override fun getTransferDataFlavors(): Array<DataFlavor> =
+            arrayOf(
                 DataFlavor.imageFlavor,
                 DataFlavor.javaFileListFlavor,
             )
-        }
 
-        override fun isDataFlavorSupported(flavor: DataFlavor): Boolean {
-            return if (flavor === DataFlavor.imageFlavor) {
+        override fun isDataFlavorSupported(flavor: DataFlavor): Boolean =
+            if (flavor === DataFlavor.imageFlavor) {
                 true
             } else {
                 flavor === DataFlavor.javaFileListFlavor
             }
-        }
 
         override fun getTransferData(flavor: DataFlavor): Any {
             // log.fine("doing get trans data: " + flavor);

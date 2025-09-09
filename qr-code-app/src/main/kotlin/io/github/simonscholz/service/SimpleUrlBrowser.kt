@@ -44,7 +44,13 @@ object SimpleUrlBrowser {
     private fun openUrlInDefaultUnixBrowser(url: String?) {
         var browser: String? = null
         for (b in browsers) {
-            if (browser == null && Runtime.getRuntime().exec(arrayOf("which", b)).inputStream.read() != -1) {
+            if (browser == null &&
+                Runtime
+                    .getRuntime()
+                    .exec(arrayOf("which", b))
+                    .inputStream
+                    .read() != -1
+            ) {
                 println("Attempting to open that address in the default browser now...")
                 Runtime.getRuntime().exec(arrayOf(b.also { browser = it }, url))
             }
@@ -56,7 +62,16 @@ object SimpleUrlBrowser {
 
     private val browsers =
         arrayOf(
-            "google-chrome", "firefox", "mozilla", "epiphany",
-            "konqueror", "netscape", "opera", "links", "lynx", "chromium", "brave-browser",
+            "google-chrome",
+            "firefox",
+            "mozilla",
+            "epiphany",
+            "konqueror",
+            "netscape",
+            "opera",
+            "links",
+            "lynx",
+            "chromium",
+            "brave-browser",
         )
 }

@@ -9,7 +9,10 @@ import javax.swing.JPanel
 import javax.swing.border.LineBorder
 import javax.swing.border.TitledBorder
 
-class JCollapsiblePanel(title: String, titleColor: Color = Color.black) : JPanel() {
+class JCollapsiblePanel(
+    title: String,
+    titleColor: Color = Color.black,
+) : JPanel() {
     private val border = TitledBorder("▼ $title")
     private var visibleSize: Dimension? = null
 

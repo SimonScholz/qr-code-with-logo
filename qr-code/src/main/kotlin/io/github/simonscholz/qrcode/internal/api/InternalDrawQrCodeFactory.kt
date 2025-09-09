@@ -5,7 +5,5 @@ package io.github.simonscholz.qrcode.internal.api
  * Clients should use the [QrCodeApi] interface and [QrCodeFactory] to interact with the library.
  */
 object InternalDrawQrCodeFactory {
-    fun createInternalDrawQrCode(): InternalDrawQrCode {
-        return QrCodeApiImpl()
-    }
+    fun createInternalDrawQrCode(): InternalDrawQrCode = QrCodeApiImpl()
 }

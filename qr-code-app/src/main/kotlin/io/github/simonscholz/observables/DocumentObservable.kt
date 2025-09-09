@@ -7,7 +7,9 @@ import javax.swing.event.DocumentListener
 import javax.swing.text.Document
 import javax.swing.text.JTextComponent
 
-class DocumentObservable(private val document: Document) : AbstractObservableValue<String>() {
+class DocumentObservable(
+    private val document: Document,
+) : AbstractObservableValue<String>() {
     private var documentValue = document.getText(0, document.length)
 
     constructor(jTextComponent: JTextComponent) : this(jTextComponent.document)

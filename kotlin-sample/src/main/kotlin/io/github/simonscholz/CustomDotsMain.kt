@@ -15,138 +15,168 @@ fun main() {
     Files.createDirectories(path)
     val qrCodeDir = path.toAbsolutePath().toString()
     val qrCodeApi = QrCodeFactory.createQrCodeApi()
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.CIRCLE)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-CIRCLE-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.ROUNDED_SQUARE)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-ROUND-SQUARE-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.HEXAGON)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-HEXAGON-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.TRIANGLE)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-TRIANGLE-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.HEART)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-HEART-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.HOUSE)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-HOUSE-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.STAR)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-STAR-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.DIAMOND)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-DIAMOND-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(QrCodeDotShape.CROSS)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-CROSS-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawColorfulHouseWithDoorAndWindow)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-COLORFUL-HOUSE-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawSmiley)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-SMILEY-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawSkull)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-SKULL-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawPumpkin)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-pumpkin-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawEvilPumpkin)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-pumpkin-evil-dots-kotlin.png"))
         }
 
-    QrCodeConfig.Builder("https://simonscholz.dev/")
+    QrCodeConfig
+        .Builder("https://simonscholz.dev/")
         .qrCodeDotStyler(::drawChristmasTree)
         .qrCodeSize(800)
         .build()
         .run {
-            qrCodeApi.createQrCodeImage(this)
+            qrCodeApi
+                .createQrCodeImage(this)
                 .toFile(File(qrCodeDir, "/qr-with-christmas-tree-dots-kotlin.png"))
         }
 }

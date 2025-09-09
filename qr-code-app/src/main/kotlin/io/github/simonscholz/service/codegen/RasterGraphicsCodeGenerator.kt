@@ -37,7 +37,8 @@ class RasterGraphicsCodeGenerator(
         file.addImport("javax.imageio", "ImageIO")
 
         val generateQrCodeFunction =
-            FunSpec.builder("generateQrCode")
+            FunSpec
+                .builder("generateQrCode")
                 .addParameter("base64Logo", String::class)
                 .addStatement(
                     """
@@ -55,8 +56,7 @@ class RasterGraphicsCodeGenerator(
                     Color::class,
                     Color::class,
                     Color::class,
-                )
-                .addStatement(
+                ).addStatement(
                     """
             |val qrCodeConfig = %T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}")
             |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
@@ -85,24 +85,24 @@ class RasterGraphicsCodeGenerator(
                     Color::class,
                     LogoShape::class,
                     Color::class,
-                )
-                .addStatement(
+                ).addStatement(
                     """
             |return %T.createQrCodeApi().createQrCodeImage(qrCodeConfig)
                     """.trimMargin(),
                     QrCodeFactory::class,
-                )
-                .returns(BufferedImage::class)
+                ).returns(BufferedImage::class)
                 .build()
 
         file.addType(
-            TypeSpec.classBuilder("QrCodeGenerator")
+            TypeSpec
+                .classBuilder("QrCodeGenerator")
                 .addFunction(generateQrCodeFunction)
                 .build(),
         )
 
         file.addFunction(
-            FunSpec.builder("main")
+            FunSpec
+                .builder("main")
                 .addStatement("val logo = \"${qrCodeConfigViewModel.logoBase64.value}\"")
                 .addStatement("val qrCodeGenerator = %T()", ClassName("io.github.simonscholz", "QrCodeGenerator"))
                 .addStatement("%N.generateQrCode(logo).toFile(File(\"qr-code.png\"))", "qrCodeGenerator")
@@ -110,7 +110,8 @@ class RasterGraphicsCodeGenerator(
         )
 
         file.addFunction(
-            FunSpec.builder("toFile")
+            FunSpec
+                .builder("toFile")
                 .receiver(BufferedImage::class)
                 .addParameter("fileToSave", File::class)
                 .addStatement("ImageIO.write(this, \"png\", fileToSave)")
@@ -118,7 +119,8 @@ class RasterGraphicsCodeGenerator(
         )
 
         file.addFunction(
-            FunSpec.builder("toByteArray")
+            FunSpec
+                .builder("toByteArray")
                 .receiver(BufferedImage::class)
                 .addStatement(
                     """
@@ -128,40 +130,42 @@ class RasterGraphicsCodeGenerator(
                     """.trimMargin(),
                     ClassName("java.io", "ByteArrayOutputStream"),
                     ClassName("javax.imageio", "ImageIO"),
-                )
-                .returns(ByteArray::class)
+                ).returns(ByteArray::class)
                 .build(),
         )
 
-        return StringBuilder().apply {
-            file.build().writeTo(this)
-        }.toString()
+        return StringBuilder()
+            .apply {
+                file.build().writeTo(this)
+            }.toString()
     }
 
     fun generateJavaCode(): String {
         val qrCodeGenerator =
-            com.squareup.javapoet.TypeSpec.classBuilder("QrCodeGenerator")
+            com.squareup.javapoet.TypeSpec
+                .classBuilder("QrCodeGenerator")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
 
-        MethodSpec.methodBuilder("main")
+        MethodSpec
+            .methodBuilder("main")
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addParameter(Array<String>::class.java, "args", Modifier.FINAL)
             .addException(IOException::class.java)
             .addStatement(
                 "final var qrCodeGenerator = new $T()",
-                com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
-            )
-            .addStatement("final var logo = \"${qrCodeConfigViewModel.logoBase64.value}\"")
+                com.squareup.javapoet.ClassName
+                    .get("io.github.simonscholz", "QrCodeGenerator"),
+            ).addStatement("final var logo = \"${qrCodeConfigViewModel.logoBase64.value}\"")
             .addStatement("final var qrCodeImage = qrCodeGenerator.generateQrCode(logo)")
             .addStatement(
                 "ImageIO.write(qrCodeImage, \"png\", new $T(\"qr-code.png\"))",
                 File::class.java,
-            )
-            .build()
+            ).build()
             .let(qrCodeGenerator::addMethod)
 
         val generateQrCodeMethod =
-            MethodSpec.methodBuilder("generateQrCode")
+            MethodSpec
+                .methodBuilder("generateQrCode")
                 .addModifiers(Modifier.PUBLIC)
                 .addException(IOException::class.java)
                 .addParameter(String::class.java, "base64Logo")
@@ -181,8 +185,7 @@ class RasterGraphicsCodeGenerator(
                     Color::class.java,
                     Color::class.java,
                     Color::class.java,
-                )
-                .addStatement(
+                ).addStatement(
                     """
                 |final var qrCodeConfig = new $T.Builder("${qrCodeConfigViewModel.qrCodeContent.value}}")
                 |    .qrCodeSize(${qrCodeConfigViewModel.size.value})
@@ -206,56 +209,50 @@ class RasterGraphicsCodeGenerator(
                     LogoShape::class.java,
                     Color::class.java,
                     QrCodeDotShape::class.java,
-                )
-                .addStatement(
+                ).addStatement(
                     "return $T.createQrCodeApi().createQrCodeImage(qrCodeConfig)",
                     QrCodeFactory::class.java,
-                )
-                .returns(BufferedImage::class.java)
+                ).returns(BufferedImage::class.java)
                 .build()
 
         qrCodeGenerator.addMethod(generateQrCodeMethod)
 
         val createQrCodeByteArrayMethod =
-            MethodSpec.methodBuilder("createQrCodeByteArray")
+            MethodSpec
+                .methodBuilder("createQrCodeByteArray")
                 .addModifiers(Modifier.PUBLIC)
                 .addException(IOException::class.java)
                 .addParameter(String::class.java, "base64Logo")
                 .addStatement(
                     "final var qrCodeGenerator = new $T()",
-                    com.squareup.javapoet.ClassName.get("io.github.simonscholz", "QrCodeGenerator"),
-                )
-                .addStatement(
+                    com.squareup.javapoet.ClassName
+                        .get("io.github.simonscholz", "QrCodeGenerator"),
+                ).addStatement(
                     "final var qrCodeImage = qrCodeGenerator.generateQrCode(base64Logo)",
-                )
-                .addStatement(
+                ).addStatement(
                     "final var byteArrayOutputStream = new $T()",
-                    com.squareup.javapoet.ClassName.get("java.io", "ByteArrayOutputStream"),
-                )
-                .addStatement(
+                    com.squareup.javapoet.ClassName
+                        .get("java.io", "ByteArrayOutputStream"),
+                ).addStatement(
                     "$T.write(qrCodeImage, \"png\", byteArrayOutputStream)",
-                    com.squareup.javapoet.ClassName.get("javax.imageio", "ImageIO"),
-                )
-                .addStatement(
+                    com.squareup.javapoet.ClassName
+                        .get("javax.imageio", "ImageIO"),
+                ).addStatement(
                     "return byteArrayOutputStream.toByteArray()",
-                )
-                .returns(ByteArray::class.java)
+                ).returns(ByteArray::class.java)
                 .build()
 
         qrCodeGenerator.addMethod(createQrCodeByteArrayMethod)
 
-        return StringBuilder().apply {
-            JavaFile.builder("io.github.simonscholz", qrCodeGenerator.build()).build().writeTo(this)
-        }.toString()
+        return StringBuilder()
+            .apply {
+                JavaFile.builder("io.github.simonscholz", qrCodeGenerator.build()).build().writeTo(this)
+            }.toString()
     }
 
-    private fun colorInstanceStringKotlin(color: Color): String {
-        return "%T(${color.red}, ${color.green}, ${color.blue})"
-    }
+    private fun colorInstanceStringKotlin(color: Color): String = "%T(${color.red}, ${color.green}, ${color.blue})"
 
-    private fun colorInstanceStringJava(color: Color): String {
-        return "new $T(${color.red}, ${color.green}, ${color.blue})"
-    }
+    private fun colorInstanceStringJava(color: Color): String = "new $T(${color.red}, ${color.green}, ${color.blue})"
 
     companion object {
         // https://github.com/square/javapoet/issues/831#issuecomment-817238209

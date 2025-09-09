@@ -35,8 +35,8 @@ class QrCodeConfigViewModel {
             String::class.java,
         )
 
-    override fun toString(): String {
-        return "QrCodeConfigViewModel(logoRelativeSize=$logoRelativeSize, logoBackgroundColor=$logoBackgroundColor," +
+    override fun toString(): String =
+        "QrCodeConfigViewModel(logoRelativeSize=$logoRelativeSize, logoBackgroundColor=$logoBackgroundColor," +
             " logoShape=$logoShape, borderColor=$borderColor, relativeBorderSize=$relativeBorderSize," +
             " borderRadius=$borderRadius, positionalSquareIsCircleShaped=$positionalSquareIsCircleShaped," +
             " positionalSquareRelativeBorderRound=$positionalSquareRelativeBorderRound," +
@@ -44,5 +44,4 @@ class QrCodeConfigViewModel {
             " positionalSquareInnerSquareColor=$positionalSquareInnerSquareColor," +
             " positionalSquareOuterSquareColor=$positionalSquareOuterSquareColor," +
             " positionalSquareOuterBorderColor=$positionalSquareOuterBorderColor)"
-    }
 }

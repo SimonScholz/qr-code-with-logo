@@ -192,28 +192,29 @@ object MainMenu {
         vCardMenuItem.addActionListener {
             InputDialogs.showVCardInputDialog()?.let {
                 val qrCodeText =
-                    VCard().apply {
-                        it.formattedName.takeIf { it.isNotEmpty() }?.let { formattedName(it) }
-                        it.familyName.takeIf { it.isNotEmpty() }?.let { name(familyName = it) }
-                        it.givenName.takeIf { it.isNotEmpty() }?.let { name(givenName = it) }
-                        it.additionalName.takeIf { it.isNotEmpty() }?.let { name(additionalName = it) }
-                        it.namePrefix.takeIf { it.isNotEmpty() }?.let { name(namePrefix = it) }
-                        it.nameSuffix.takeIf { it.isNotEmpty() }?.let { name(nameSuffix = it) }
-                        it.organization.takeIf { it.isNotEmpty() }?.let { organization(it) }
-                        it.phoneNumber.takeIf { it.isNotEmpty() }?.let { phoneNumber(it) }
-                        it.email.takeIf { it.isNotEmpty() }?.let { email(it) }
-                        it.address.takeIf { it.isNotEmpty() }?.let { address(it) }
-                        it.website.takeIf { it.isNotEmpty() }?.let { website(it) }
-                        it.birthday?.let { birthday(it) }
-                        it.photo.takeIf { it.isNotEmpty() }?.let { photo(it) }
-                        it.note.takeIf { it.isNotEmpty() }?.let { note(it) }
-                        it.title.takeIf { it.isNotEmpty() }?.let { title(it) }
-                        it.revisionDate.takeIf { it.isNotEmpty() }?.let { revisionDate(it) }
-                        geographicPosition(it.latitude, it.longitude)
-                        it.instantMessaging.takeIf { it.isNotEmpty() }?.let { impp(it) }
-                        it.categories.takeIf { it.isNotEmpty() }?.let { categories(it) }
-                        it.other.takeIf { it.isNotEmpty() }?.let { other(it) }
-                    }.toVCardQrCodeText()
+                    VCard()
+                        .apply {
+                            it.formattedName.takeIf { it.isNotEmpty() }?.let { formattedName(it) }
+                            it.familyName.takeIf { it.isNotEmpty() }?.let { name(familyName = it) }
+                            it.givenName.takeIf { it.isNotEmpty() }?.let { name(givenName = it) }
+                            it.additionalName.takeIf { it.isNotEmpty() }?.let { name(additionalName = it) }
+                            it.namePrefix.takeIf { it.isNotEmpty() }?.let { name(namePrefix = it) }
+                            it.nameSuffix.takeIf { it.isNotEmpty() }?.let { name(nameSuffix = it) }
+                            it.organization.takeIf { it.isNotEmpty() }?.let { organization(it) }
+                            it.phoneNumber.takeIf { it.isNotEmpty() }?.let { phoneNumber(it) }
+                            it.email.takeIf { it.isNotEmpty() }?.let { email(it) }
+                            it.address.takeIf { it.isNotEmpty() }?.let { address(it) }
+                            it.website.takeIf { it.isNotEmpty() }?.let { website(it) }
+                            it.birthday?.let { birthday(it) }
+                            it.photo.takeIf { it.isNotEmpty() }?.let { photo(it) }
+                            it.note.takeIf { it.isNotEmpty() }?.let { note(it) }
+                            it.title.takeIf { it.isNotEmpty() }?.let { title(it) }
+                            it.revisionDate.takeIf { it.isNotEmpty() }?.let { revisionDate(it) }
+                            geographicPosition(it.latitude, it.longitude)
+                            it.instantMessaging.takeIf { it.isNotEmpty() }?.let { impp(it) }
+                            it.categories.takeIf { it.isNotEmpty() }?.let { categories(it) }
+                            it.other.takeIf { it.isNotEmpty() }?.let { other(it) }
+                        }.toVCardQrCodeText()
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -224,13 +225,14 @@ object MainMenu {
         vEventMenuItem.addActionListener {
             InputDialogs.showVEventInputDialog()?.let { (summary, description, location, startDate, endDate) ->
                 val qrCodeText =
-                    VEvent().apply {
-                        summary?.let { summary(summary) }
-                        description?.let { description(description) }
-                        location?.let { location(location) }
-                        startDate?.let { startDate(startDate) }
-                        endDate?.let { endDate(endDate) }
-                    }.toVEventQrCodeText()
+                    VEvent()
+                        .apply {
+                            summary?.let { summary(summary) }
+                            description?.let { description(description) }
+                            location?.let { location(location) }
+                            startDate?.let { startDate(startDate) }
+                            endDate?.let { endDate(endDate) }
+                        }.toVEventQrCodeText()
 
                 qrCodeContentObservable.value = qrCodeText
             }
@@ -239,19 +241,20 @@ object MainMenu {
 
         val geolocationMenuItem = JMenuItem("Geolocation")
         geolocationMenuItem.addActionListener {
-            InputDialogs.showTwoValueInputDialog(
-                title = "Geolocation",
-                firstLabel = "Latitude:",
-                secondLabel = "Longitude:",
-            )?.let { (latitude, longitude) ->
-                val qrCodeText =
-                    SimpleTypes.geolocation(
-                        latitude = latitude.toDouble(),
-                        longitude = longitude.toDouble(),
-                    )
+            InputDialogs
+                .showTwoValueInputDialog(
+                    title = "Geolocation",
+                    firstLabel = "Latitude:",
+                    secondLabel = "Longitude:",
+                )?.let { (latitude, longitude) ->
+                    val qrCodeText =
+                        SimpleTypes.geolocation(
+                            latitude = latitude.toDouble(),
+                            longitude = longitude.toDouble(),
+                        )
 
-                qrCodeContentObservable.value = qrCodeText
-            }
+                    qrCodeContentObservable.value = qrCodeText
+                }
         }
         specialContentMenu.add(geolocationMenuItem)
 
@@ -282,19 +285,20 @@ object MainMenu {
 
         val smsMenuItem = JMenuItem("SMS")
         smsMenuItem.addActionListener {
-            InputDialogs.showTwoValueInputDialog(
-                title = "SMS",
-                firstLabel = "Phone Number:",
-                secondLabel = "Message:",
-            )?.let { (phoneNumber, message) ->
-                val qrCodeText =
-                    SimpleTypes.sms(
-                        phoneNumber = phoneNumber,
-                        message = message,
-                    )
+            InputDialogs
+                .showTwoValueInputDialog(
+                    title = "SMS",
+                    firstLabel = "Phone Number:",
+                    secondLabel = "Message:",
+                )?.let { (phoneNumber, message) ->
+                    val qrCodeText =
+                        SimpleTypes.sms(
+                            phoneNumber = phoneNumber,
+                            message = message,
+                        )
 
-                qrCodeContentObservable.value = qrCodeText
-            }
+                    qrCodeContentObservable.value = qrCodeText
+                }
         }
         specialContentMenu.add(smsMenuItem)
 
@@ -310,15 +314,16 @@ object MainMenu {
 
         val wifiMenuItem = JMenuItem("WIFI")
         wifiMenuItem.addActionListener {
-            InputDialogs.showThreeValueInputDialog(
-                title = "WIFI",
-                firstLabel = "SSID",
-                secondLabel = "Password",
-                thirdLabel = "Encryption type (e.g., WPA)",
-            )?.let { (ssid, password, encryptionType) ->
-                val qrCodeText = SimpleTypes.wifi(ssid, password, encryptionType)
-                qrCodeContentObservable.value = qrCodeText
-            }
+            InputDialogs
+                .showThreeValueInputDialog(
+                    title = "WIFI",
+                    firstLabel = "SSID",
+                    secondLabel = "Password",
+                    thirdLabel = "Encryption type (e.g., WPA)",
+                )?.let { (ssid, password, encryptionType) ->
+                    val qrCodeText = SimpleTypes.wifi(ssid, password, encryptionType)
+                    qrCodeContentObservable.value = qrCodeText
+                }
         }
         specialContentMenu.add(wifiMenuItem)
     }

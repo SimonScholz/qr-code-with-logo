@@ -34,13 +34,15 @@ class CreateQrCodeTest {
         assertDoesNotThrow {
             val resource =
                 Objects.requireNonNull(
-                    CreateQrCodeTest::class.java.getClassLoader()
+                    CreateQrCodeTest::class.java
+                        .getClassLoader()
                         .getResource("rainbow.png"),
                 )
             val logo = ImageIO.read(resource)
 
             val positionalSquaresConfig =
-                QrPositionalSquaresConfig.Builder()
+                QrPositionalSquaresConfig
+                    .Builder()
                     .relativeSquareBorderRound(0.2)
                     .innerSquareColor(Color.RED)
                     .centerColor(Color.GREEN)
@@ -48,7 +50,8 @@ class CreateQrCodeTest {
                     .outerBorderColor(Color.YELLOW)
                     .build()
             val qrCodeConfig =
-                QrCodeConfig.Builder("Testing")
+                QrCodeConfig
+                    .Builder("Testing")
                     .qrCodeSize(1000)
                     .qrCodeColorConfig(Color.RED, Color.BLUE)
                     .qrPositionalSquaresConfig(positionalSquaresConfig)
@@ -73,12 +76,11 @@ class CreateQrCodeTest {
     }
 
     @OptIn(ExperimentalEncodingApi::class)
-    private fun isBase64Encoded(input: String): Boolean {
-        return try {
+    private fun isBase64Encoded(input: String): Boolean =
+        try {
             Base64.decode(input)
             true
         } catch (e: IllegalArgumentException) {
             false
         }
-    }
 }
