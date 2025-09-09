@@ -71,7 +71,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Publish qr-code artifact
-        run: ./gradlew qr-code:publishAllPublicationsToMavenCentral
+        run: ./gradlew qr-code:publish
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
@@ -80,7 +80,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
 
       - name: Publish qr-code-svg artifact
-        run: ./gradlew qr-code-svg:publishAllPublicationsToMavenCentral
+        run: ./gradlew qr-code-svg:publish
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
