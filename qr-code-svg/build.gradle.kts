@@ -72,5 +72,6 @@ tasks.withType<Detekt>().configureEach {
 }
 
 mavenPublishing {
+    publishToMavenCentral()
     signAllPublications()
 }
