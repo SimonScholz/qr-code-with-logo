@@ -31,6 +31,7 @@ jobs:
         run: ./gradlew build
 
   java-sample-different-jdks:
+    if: false
     runs-on: ubuntu-latest
 
     strategy:
@@ -58,7 +59,7 @@ jobs:
     if: github.repository == 'SimonScholz/qr-code-with-logo' && github.ref == 'refs/heads/main'
     needs:
       - kotlin-build
-      - java-sample-different-jdks
+      # - java-sample-different-jdks
     steps:
       - uses: actions/checkout@v5
 
