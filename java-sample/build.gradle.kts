@@ -9,7 +9,7 @@ version = "0.1.0"
 repositories {
     mavenCentral()
     maven(
-        url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        url = "https://central.sonatype.com/repository/maven-snapshots/"
     )
 }
 
