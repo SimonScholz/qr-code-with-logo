@@ -11,7 +11,7 @@ miglayout = "11.4.2"
 batik = "1.19"
 ktlint = "13.1.0"
 detekt = "1.23.8"
-ben-manes-versions = "0.52.0"
+ben-manes-versions = "0.53.0"
 dokka = "2.0.0"
 vaniktech-publish = "0.34.0"
 
