@@ -12,7 +12,7 @@ batik = "1.19"
 ktlint = "13.1.0"
 detekt = "1.23.8"
 ben-manes-versions = "0.52.0"
-dokka = "2.0.0"
+dokka = "2.1.0"
 vaniktech-publish = "0.34.0"
 
 [libraries]
