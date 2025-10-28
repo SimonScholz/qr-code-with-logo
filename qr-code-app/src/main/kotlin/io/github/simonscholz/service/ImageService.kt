@@ -37,6 +37,7 @@ class ImageService(
                             innerSquareColor = qrCodeConfigViewModel.positionalSquareInnerSquareColor.value,
                             outerSquareColor = qrCodeConfigViewModel.positionalSquareOuterSquareColor.value,
                             outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
+                            colorAdjustmentPatterns = !qrCodeConfigViewModel.positionalSquareColorAdjustmentPatterns.value,
                         ),
                 )
         if (qrCodeConfigViewModel.logoBase64.value.isNotBlank()) {

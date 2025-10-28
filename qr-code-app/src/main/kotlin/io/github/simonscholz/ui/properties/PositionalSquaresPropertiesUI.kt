@@ -64,6 +64,14 @@ object PositionalSquaresPropertiesUI {
             dataBindingContext,
         )
 
+        positionalSquaresPropertiesPanel.add(JLabel("Skip Coloring Patterns:"))
+        val colorAdjustmentPatterns = JCheckBox("(Disables Coloring)")
+        positionalSquaresPropertiesPanel.add(colorAdjustmentPatterns, "wrap, growx, width 200:220:300")
+        dataBindingContext.bindValue(
+            colorAdjustmentPatterns.toButtonSelectedObservable(),
+            qrCodeConfigViewModel.positionalSquareColorAdjustmentPatterns,
+        )
+
         return positionalSquaresPropertiesPanel
     }
 }

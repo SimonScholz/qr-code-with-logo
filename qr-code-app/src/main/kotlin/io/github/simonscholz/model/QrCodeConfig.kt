@@ -21,6 +21,7 @@ data class QrCodeConfig(
     val positionalSquareInnerSquareColor: ColorInfo,
     val positionalSquareOuterSquareColor: ColorInfo,
     val positionalSquareOuterBorderColor: ColorInfo,
+    var positionalSquareColorAdjustmentPatterns: Boolean,
 )
 
 data class ColorInfo(

@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.10"
+kotlin = "2.2.21"
 jackson-kotlin = "2.20.0"
 zxing = "3.5.3"
 databinding = "1.13.600"
@@ -11,9 +11,9 @@ miglayout = "11.4.2"
 batik = "1.19"
 ktlint = "13.1.0"
 detekt = "1.23.8"
-ben-manes-versions = "0.52.0"
-dokka = "2.0.0"
-vaniktech-publish = "0.34.0"
+ben-manes-versions = "0.53.0"
+dokka = "2.1.0"
+vanniktech-publish = "0.34.0"
 
 [libraries]
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
@@ -42,6 +42,6 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "ben-manes-versions" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-vaniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vaniktech-publish" }
-jlink = { id = "com.ryandens.jlink-application", version = "0.4.1" }
+vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-publish" }
+jlink = { id = "com.ryandens.jlink-application", version = "0.5.1" }
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }

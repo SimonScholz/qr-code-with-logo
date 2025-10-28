@@ -4,11 +4,11 @@ import io.gitlab.arturbosch.detekt.Detekt
 plugins {
     `java-library`
 
-    alias(libs.plugins.kotlin.jvm)
+    kotlin("jvm")
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.ben.manes.versions)
-    alias(libs.plugins.vaniktech.publish)
+    alias(libs.plugins.vanniktech.publish)
     alias(libs.plugins.dokka)
 }
 

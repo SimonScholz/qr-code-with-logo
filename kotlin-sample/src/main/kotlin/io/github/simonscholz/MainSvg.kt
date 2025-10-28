@@ -35,6 +35,7 @@ fun main() {
         createDefaultQrCodeWithLogoAndBorder(it, qrCodeSvgApi, qrCodeDir)
         createDefaultQrCodeWithLogoAndBorderAndPositionalSquareBorderRadius(it, qrCodeSvgApi, qrCodeDir)
         createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(it, qrCodeSvgApi, qrCodeDir)
+        createDefaultQrCodeWithLogoAndDisabledAdjustmentPatternsColoring(it, qrCodeSvgApi, qrCodeDir)
         decentRedColor(it, qrCodeSvgApi, qrCodeDir)
         mineCraftCreeperColor(it, qrCodeSvgApi, qrCodeDir)
     }
@@ -151,6 +152,36 @@ private fun createDefaultQrCodeWithLogoAndBorderAndPositionalSquareCircle(
         .createQrCodeSvg(
             qrCodeConfig,
         ).toFile(File(qrCodeDir, "/qr-with-logo-and-border-and-positional-square-circle-kotlin.svg"))
+}
+
+private fun createDefaultQrCodeWithLogoAndDisabledAdjustmentPatternsColoring(
+    resource: URL,
+    qrCodeSvgApi: QrCodeSvgApi,
+    qrCodeDir: String,
+) {
+    val logo = ImageIO.read(resource)
+    val qrCodeConfig =
+        QrCodeConfig
+            .Builder(
+                "Create QR Codes with Kotlin or Java by using library qr-code-with-logo" +
+                    "(https://github.com/SimonScholz/qr-code-with-logo)",
+            ).qrBorderConfig(Color.BLACK)
+            .qrLogoConfig(logo)
+            .qrPositionalSquaresConfig(
+                QrPositionalSquaresConfig(
+                    relativeSquareBorderRound = 0.2,
+                    centerColor = Color.BLUE,
+                    innerSquareColor = Color.WHITE,
+                    outerSquareColor = Color.BLUE,
+                    outerBorderColor = Color.BLUE,
+                    // Disables coloring of adjustment patterns for long payloads
+                    colorAdjustmentPatterns = false,
+                ),
+            ).build()
+    qrCodeSvgApi
+        .createQrCodeSvg(
+            qrCodeConfig,
+        ).toFile(File(qrCodeDir, "/qr-with-logo-and-and-disabled-adjust-patterns-kotlin.svg"))
 }
 
 private fun decentRedColor(

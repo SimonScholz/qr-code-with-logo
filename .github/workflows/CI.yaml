@@ -31,7 +31,6 @@ jobs:
         run: ./gradlew build
 
   java-sample-different-jdks:
-    if: false
     runs-on: ubuntu-latest
 
     strategy:

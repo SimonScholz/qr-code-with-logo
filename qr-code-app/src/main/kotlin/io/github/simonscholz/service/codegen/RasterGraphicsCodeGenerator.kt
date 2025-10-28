@@ -49,6 +49,7 @@ class RasterGraphicsCodeGenerator(
             |    .innerSquareColor(${colorInstanceStringKotlin(qrCodeConfigViewModel.positionalSquareInnerSquareColor.value)})
             |    .outerSquareColor(${colorInstanceStringKotlin(qrCodeConfigViewModel.positionalSquareOuterSquareColor.value)})
             |    .outerBorderColor(${colorInstanceStringKotlin(qrCodeConfigViewModel.positionalSquareOuterBorderColor.value)})
+            |    .colorAdjustmentPatterns(${qrCodeConfigViewModel.positionalSquareColorAdjustmentPatterns.value})
             |    .build()
                     """.trimMargin(),
                     QrPositionalSquaresConfig::class,
@@ -178,6 +179,7 @@ class RasterGraphicsCodeGenerator(
                 |    .innerSquareColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareInnerSquareColor.value)})
                 |    .outerSquareColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareOuterSquareColor.value)})
                 |    .outerBorderColor(${colorInstanceStringJava(qrCodeConfigViewModel.positionalSquareOuterBorderColor.value)})
+                |    .colorAdjustmentPatterns(${qrCodeConfigViewModel.positionalSquareColorAdjustmentPatterns.value})
                 |    .build()
                     """.trimMargin(),
                     QrPositionalSquaresConfig::class.java,

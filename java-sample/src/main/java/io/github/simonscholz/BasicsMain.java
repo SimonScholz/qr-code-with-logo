@@ -1,5 +1,6 @@
 package io.github.simonscholz;
 
+import io.github.simonscholz.qrcode.LogoShape;
 import io.github.simonscholz.qrcode.QrCodeApi;
 import io.github.simonscholz.qrcode.QrCodeConfig;
 import io.github.simonscholz.qrcode.QrCodeFactory;
@@ -56,6 +57,8 @@ public class BasicsMain {
             mineCraftCreeperColor(resource, qrCodeApi, qrCodeDir);
 
             createTransparentQrCode(resource, qrCodeApi, qrCodeDir);
+
+            createDefaultQrCodeWithLogoAndDisabledAdjustmentPatternsColoring(resource, qrCodeApi, qrCodeDir);
         }
 
         rainbowColor(qrCodeApi, qrCodeDir);
@@ -202,5 +205,34 @@ public class BasicsMain {
         graphics.drawImage(qrCode, 330, 600, null);
         graphics.dispose();
         ImageIO.write(mainImg, "png", new File(qrCodeDir, "/transparent-color-java.png"));
+    }
+
+    private static void createDefaultQrCodeWithLogoAndDisabledAdjustmentPatternsColoring(
+        final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir
+    ) throws IOException {
+        final QrPositionalSquaresConfig qrPositionalSquaresConfig = new QrPositionalSquaresConfig.Builder()
+            .relativeSquareBorderRound(0.5)
+            .centerColor(Color.BLUE)
+            .innerSquareColor(Color.WHITE)
+            .outerSquareColor(Color.BLUE)
+            .outerBorderColor(Color.BLUE)
+            .colorAdjustmentPatterns(false)
+            .build();
+
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(
+            "Create QR Codes with Kotlin or Java by using library qr-code-with-logo" +
+                "(https://github.com/SimonScholz/qr-code-with-logo)")
+        )
+            .qrCodeSize(DEFAULT_IMG_SIZE)
+            .qrBorderConfig(Color.BLACK)
+            .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
+            .qrLogoConfig(ImageIO.read(resource), 0.25, Color.WHITE, LogoShape.ELLIPSE)
+            .build();
+
+        ImageIO.write(
+            qrCodeApi.createQrCodeImage(qrCodeConfig),
+            "png",
+            new File(qrCodeDir, "/qr-with-logo-and-disabled-adjustment-patterns-coloring-java.png")
+        );
     }
 }
