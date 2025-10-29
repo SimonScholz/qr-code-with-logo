@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0-SNAPSHOT")
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.5.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.5.0-SNAPSHOT")
 
     testImplementation(libs.junit.jupiter.engine)
     testImplementation(libs.junit.jupiter.params)
