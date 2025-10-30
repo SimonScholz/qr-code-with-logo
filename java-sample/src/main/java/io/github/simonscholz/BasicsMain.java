@@ -221,8 +221,7 @@ public class BasicsMain {
 
         final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(
             "Create QR Codes with Kotlin or Java by using library qr-code-with-logo" +
-                "(https://github.com/SimonScholz/qr-code-with-logo)")
-        )
+                "(https://qr.simonscholz.dev)")
             .qrCodeSize(DEFAULT_IMG_SIZE)
             .qrBorderConfig(Color.BLACK)
             .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
