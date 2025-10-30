@@ -51,7 +51,7 @@ jobs:
 
       - name: Build
         working-directory: java-sample/
-        run: ./gradlew build
+        run: ./gradlew build --refresh-dependencies
 
   publish:
     runs-on: ubuntu-latest
