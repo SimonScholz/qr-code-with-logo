@@ -216,6 +216,7 @@ class QrCodeColorConfig
  * @param centerColor - specify the color of the center of the positional squares, defaults to Color.BLACK
  * @param isCircleShaped - specify whether the shape shall be a circle or a square, defaults to false
  * @param relativeSquareBorderRound - in case isCircleShaped==false the borders of the square may be round at the edges, defaults to 0.05
+ * @param colorAdjustmentPatterns - specify whether small adjustment patterns should be colored for version >= 2 qr codes, defaults to true
  */
 class QrPositionalSquaresConfig
     @JvmOverloads
@@ -226,6 +227,7 @@ class QrPositionalSquaresConfig
         val innerSquareColor: Color = Color.WHITE,
         val outerSquareColor: Color = Color.BLACK,
         val outerBorderColor: Color = Color.WHITE,
+        val colorAdjustmentPatterns: Boolean = true,
     ) {
         init {
             require(relativeSquareBorderRound in 0.0..1.0) { "relativeSquareBorderRound must be in between 0 and 1." }
@@ -238,6 +240,7 @@ class QrPositionalSquaresConfig
             private var innerSquareColor: Color = Color.WHITE
             private var outerSquareColor: Color = Color.BLACK
             private var outerBorderColor: Color = Color.WHITE
+            private var colorAdjustmentPatterns: Boolean = true
 
             fun circleShaped(isCircleShaped: Boolean) = apply { this.isCircleShaped = isCircleShaped }
 
@@ -252,6 +255,8 @@ class QrPositionalSquaresConfig
 
             fun outerBorderColor(outerBorderColor: Color) = apply { this.outerBorderColor = outerBorderColor }
 
+            fun colorAdjustmentPatterns(colorAdjustmentPatterns: Boolean) = apply { this.colorAdjustmentPatterns = colorAdjustmentPatterns }
+
             fun build() =
                 QrPositionalSquaresConfig(
                     isCircleShaped = isCircleShaped,
@@ -260,6 +265,7 @@ class QrPositionalSquaresConfig
                     innerSquareColor = innerSquareColor,
                     outerSquareColor = outerSquareColor,
                     outerBorderColor = outerBorderColor,
+                    colorAdjustmentPatterns = colorAdjustmentPatterns,
                 )
         }
     }

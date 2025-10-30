@@ -67,6 +67,7 @@ internal class QrCodeApiImpl :
             borderWidth = qrCodeConfig.qrBorderConfig?.let { relativeSize(qrCodeConfig.qrCodeSize, it.relativeSize) } ?: 0,
             relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
             customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,
+            colorAdjustmentPatterns = qrCodeConfig.qrPositionalSquaresConfig.colorAdjustmentPatterns,
         )
 
         qrCodeConfig.qrLogoConfig?.let { logoConfig ->

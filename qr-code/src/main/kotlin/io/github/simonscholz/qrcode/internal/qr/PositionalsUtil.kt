@@ -24,7 +24,6 @@
 
 package io.github.simonscholz.qrcode.internal.qr
 
-import com.google.zxing.qrcode.decoder.Version
 import com.google.zxing.qrcode.encoder.ByteMatrix
 import com.google.zxing.qrcode.encoder.QRCode
 import io.github.simonscholz.qrcode.internal.qr.MatrixUtil.embedDarkDotAtLeftBottomCorner
@@ -99,6 +98,7 @@ internal object PositionalsUtil {
         qrCode: QRCode,
         size: Int,
         quietZone: Int,
+        colorAdjustmentPatterns: Boolean,
     ): Pair<List<PositionalSquare>, List<DataSquare>> {
         requireNotNull(qrCode.matrix) { "No matrix available on given QRCode" }
 
@@ -121,7 +121,7 @@ internal object PositionalsUtil {
         val leftPadding = (outputWidth - inputWidth * multiple) / 2
         val topPadding = (outputHeight - inputHeight * multiple) / 2
 
-        val positionalSquares = positionalSquares(qrCode, multiple, topPadding, leftPadding)
+        val positionalSquares = positionalSquares(qrCode, multiple, topPadding, leftPadding, colorAdjustmentPatterns)
 
         val squares: List<DataSquare> =
             dataSquares(
@@ -141,8 +141,9 @@ internal object PositionalsUtil {
         multiple: Int,
         topPadding: Int,
         leftPadding: Int,
+        colorAdjustmentPatterns: Boolean,
     ): List<PositionalSquare> {
-        val positionals = positionalSquares(qrCode.version, qrCode.matrix.width, qrCode.matrix.height)
+        val positionals = positionalSquares(qrCode, colorAdjustmentPatterns)
         val mappedPoistionals =
             positionals.map {
                 PositionalSquare(
@@ -200,11 +201,10 @@ internal object PositionalsUtil {
     }
 
     private fun positionalSquares(
-        version: Version,
-        width: Int,
-        height: Int,
+        qrCode: QRCode,
+        colorAdjustmentPatterns: Boolean,
     ): List<PositionalSquare> {
-        val matrix = ByteMatrix(width, height)
+        val matrix = ByteMatrix(qrCode.matrix.width, qrCode.matrix.height)
         matrix.clear(-1)
         embedPositionDetectionPatternsAndSeparators(matrix)
         embedDarkDotAtLeftBottomCorner(matrix)
@@ -218,7 +218,11 @@ internal object PositionalsUtil {
         positionals.add(PositionalSquare(matrix.width - pdpWidth, 0, pdpWidth, 1, 1))
         // Left bottom corner.
         positionals.add(PositionalSquare(0, matrix.width - pdpWidth, pdpWidth, 1, 1))
-        if (version.versionNumber < 2) { // The patterns appear if version >= 2
+
+        val version = qrCode.version
+
+        // Skip coloring adjustment patterns when QR version < 2 or when coloring is explicitly disabled
+        if (version.versionNumber < 2 || !colorAdjustmentPatterns) {
             return positionals
         }
         val index = version.versionNumber - 1

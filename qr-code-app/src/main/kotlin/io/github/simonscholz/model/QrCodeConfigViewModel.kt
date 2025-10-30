@@ -27,6 +27,7 @@ class QrCodeConfigViewModel {
     val positionalSquareInnerSquareColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
     val positionalSquareOuterSquareColor: WritableValue<Color> = WritableValue(Color.BLACK, Color::class.java)
     val positionalSquareOuterBorderColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
+    val positionalSquareColorAdjustmentPatterns: WritableValue<Boolean> = WritableValue(true, Boolean::class.java)
 
     @Suppress("ktlint:standard:max-line-length")
     private fun createLogoBase64WritableValue(): WritableValue<String> =
@@ -43,5 +44,6 @@ class QrCodeConfigViewModel {
             " positionalSquareCenterColor=$positionalSquareCenterColor," +
             " positionalSquareInnerSquareColor=$positionalSquareInnerSquareColor," +
             " positionalSquareOuterSquareColor=$positionalSquareOuterSquareColor," +
-            " positionalSquareOuterBorderColor=$positionalSquareOuterBorderColor)"
+            " positionalSquareOuterBorderColor=$positionalSquareOuterBorderColor," +
+            " positionalSquareColorAdjustmentPatterns=$positionalSquareColorAdjustmentPatterns)"
 }

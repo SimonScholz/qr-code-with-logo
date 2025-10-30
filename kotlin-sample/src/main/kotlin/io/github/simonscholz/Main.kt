@@ -1,6 +1,7 @@
 package io.github.simonscholz
 
 import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
+import io.github.simonscholz.qrcode.LogoShape
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeColorConfig
 import io.github.simonscholz.qrcode.QrCodeConfig
@@ -43,6 +44,7 @@ fun main() {
         decentRedColor(it, qrCodeApi, qrCodeDir)
         mineCraftCreeperColor(it, qrCodeApi, qrCodeDir)
         createTransparentQrCode(it, qrCodeApi, qrCodeDir)
+        createDefaultQrCodeWithLogoAndDisabledAdjustmentPatternsColoring(resource, qrCodeApi, qrCodeDir)
     }
 
     rainbowColor(qrCodeApi, qrCodeDir)
@@ -275,4 +277,38 @@ private fun notEnoughContrast(
             qrPositionalSquaresConfig = positionalSquaresConfig,
         )
     qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/not-enough-contrast-kotlin.png"))
+}
+
+private fun createDefaultQrCodeWithLogoAndDisabledAdjustmentPatternsColoring(
+    resource: URL,
+    qrCodeApi: QrCodeApi,
+    qrCodeDir: String,
+) {
+    val qrPositionalSquaresConfig =
+        QrPositionalSquaresConfig
+            .Builder()
+            .relativeSquareBorderRound(0.5)
+            .centerColor(Color.BLUE)
+            .innerSquareColor(Color.BLACK)
+            .outerSquareColor(Color.BLUE)
+            .outerBorderColor(Color.BLUE)
+            .colorAdjustmentPatterns(false)
+            .build()
+
+    val qrCodeConfig =
+        QrCodeConfig
+            .Builder(
+                "Create QR Codes with Kotlin or Java by using library qr-code-with-logo" +
+                    "(https://github.com/SimonScholz/qr-code-with-logo)",
+            ).qrCodeSize(DEFAULT_IMG_SIZE)
+            .qrBorderConfig(Color.BLACK)
+            .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
+            .qrLogoConfig(ImageIO.read(resource), 0.25, Color.WHITE, LogoShape.ELLIPSE)
+            .build()
+
+    ImageIO.write(
+        qrCodeApi.createQrCodeImage(qrCodeConfig),
+        "png",
+        File(qrCodeDir, "/qr-with-logo-and-disabled-adjustment-patterns-coloring-kotlin.png"),
+    )
 }

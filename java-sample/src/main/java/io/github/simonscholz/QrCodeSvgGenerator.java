@@ -56,6 +56,7 @@ public final class QrCodeSvgGenerator {
             .innerSquareColor(new Color(255, 255, 255))
             .outerSquareColor(new Color(0, 0, 0))
             .outerBorderColor(new Color(255, 255, 255))
+            .colorAdjustmentPatterns(false)
             .build();
     final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder("https://simonscholz.dev/")
             .qrCodeSize(800)

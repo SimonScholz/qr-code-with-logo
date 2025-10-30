@@ -95,6 +95,7 @@ private fun trackChanges(
             qrCodeConfigViewModel.positionalSquareInnerSquareColor.value
             qrCodeConfigViewModel.positionalSquareOuterSquareColor.value
             qrCodeConfigViewModel.positionalSquareOuterBorderColor.value
+            qrCodeConfigViewModel.positionalSquareColorAdjustmentPatterns.value
         },
     ) {
         if (applyOnChange()) {

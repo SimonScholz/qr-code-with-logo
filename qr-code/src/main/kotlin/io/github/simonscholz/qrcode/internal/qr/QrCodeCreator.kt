@@ -48,9 +48,10 @@ internal class QrCodeCreator {
         borderWidth: Int,
         relativeBorderRound: Double,
         customDotStyler: ((x: Int, y: Int, size: Int, graphics: Graphics2D) -> Unit)? = null,
+        colorAdjustmentPatterns: Boolean,
     ) {
         val qrCode: QRCode = Encoder.encode(qrCodeText, ErrorCorrectionLevel.H, encodeHintTypes())
-        val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone)
+        val (positionalSquares, dataSquares) = PositionalsUtil.renderResult(qrCode, size, quietZone, colorAdjustmentPatterns)
 
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
