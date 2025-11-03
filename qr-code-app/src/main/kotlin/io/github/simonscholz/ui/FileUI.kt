@@ -1,10 +1,13 @@
 package io.github.simonscholz.ui
 
+import io.github.simonscholz.extension.toFile
+import io.github.simonscholz.extension.toXmlString
 import io.github.simonscholz.qrcode.toBase64
 import io.github.simonscholz.service.CodeGeneratorService
 import io.github.simonscholz.service.ConfigService
 import io.github.simonscholz.service.ImageService
 import org.jdesktop.swingx.graphics.GraphicsUtilities
+import org.w3c.dom.Document
 import java.awt.Image
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
@@ -12,10 +15,14 @@ import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 import java.awt.datatransfer.Transferable
 import java.io.File
+import java.io.StringWriter
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
 import javax.swing.filechooser.FileNameExtensionFilter
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
 
 class FileUI(
     private val codeGeneratorService: CodeGeneratorService,
@@ -32,6 +39,13 @@ class FileUI(
     fun copyImageToClipboard() {
         val qrCodeImage = imageService.renderImage()
         val transferableImage = ImageTransferable(qrCodeImage)
+        val clipboard = Toolkit.getDefaultToolkit().systemClipboard
+        clipboard.setContents(transferableImage, null)
+    }
+
+    fun copySvgImageToClipboard() {
+        val qrCodeImage = imageService.generateSvg()
+        val transferableImage = StringSelection(qrCodeImage.toXmlString())
         val clipboard = Toolkit.getDefaultToolkit().systemClipboard
         clipboard.setContents(transferableImage, null)
     }
@@ -82,6 +96,27 @@ class FileUI(
 
             val qrCodeImage = imageService.renderImage()
             ImageIO.write(qrCodeImage, "png", fileToSave)
+        }
+    }
+
+    fun saveQrCodeSvgFile() {
+        val fileChooser = JFileChooser()
+        fileChooser.fileSelectionMode = JFileChooser.FILES_ONLY
+        fileChooser.fileFilter = FileNameExtensionFilter("Svg Image Files (*.svg)", "svg")
+        fileChooser.currentDirectory = configService.getLastUsedDirectory("saveQrCodeSvgFile")
+        val result = fileChooser.showSaveDialog(null)
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            val fileToSave =
+                if (fileChooser.selectedFile.name.endsWith(".svg")) {
+                    fileChooser.selectedFile
+                } else {
+                    File("${fileChooser.selectedFile.absolutePath}.svg")
+                }
+            configService.saveLastUsedDirectory("saveQrCodeSvgFile", fileToSave.parentFile)
+
+            val qrCodeSvgImage = imageService.generateSvg()
+            qrCodeSvgImage.toFile(fileToSave)
         }
     }
 

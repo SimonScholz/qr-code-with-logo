@@ -7,6 +7,8 @@ import io.github.simonscholz.qrcode.QrCodeDotShape
 import io.github.simonscholz.qrcode.QrCodeDotStyler
 import io.github.simonscholz.qrcode.QrCodeFactory
 import io.github.simonscholz.qrcode.QrPositionalSquaresConfig
+import io.github.simonscholz.svg.QrCodeSvgFactory
+import org.w3c.dom.Document
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
@@ -15,7 +17,17 @@ import javax.imageio.ImageIO
 class ImageService(
     private val qrCodeConfigViewModel: QrCodeConfigViewModel,
 ) {
+    fun generateSvg(): Document {
+        val qrCodeConfig = qrCodeConfig()
+        return QrCodeSvgFactory.createQrCodeApi().createQrCodeSvg(qrCodeConfig)
+    }
+
     fun renderImage(): BufferedImage {
+        val qrCodeConfig = qrCodeConfig()
+        return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
+    }
+
+    private fun qrCodeConfig(): QrCodeConfig {
         val builder =
             QrCodeConfig
                 .Builder(qrCodeConfigViewModel.qrCodeContent.value)
@@ -49,7 +61,7 @@ class ImageService(
             )
         }
         val qrCodeConfig = builder.build()
-        return QrCodeFactory.createQrCodeApi().createQrCodeImage(qrCodeConfig)
+        return qrCodeConfig
     }
 
     private fun mapCustomDotStyler(value: DotShapes): QrCodeDotStyler =

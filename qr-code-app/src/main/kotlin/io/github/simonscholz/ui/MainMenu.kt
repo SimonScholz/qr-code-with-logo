@@ -103,6 +103,8 @@ object MainMenu {
             },
         )
 
+        val saveSvgMenuItem = JMenuItem("Save Qr Code as SVG")
+
         val copyMenuItem = JMenuItem("Copy Qr Code Image")
         // Add the keybinding for Save (Ctrl + C)
         copyMenuItem.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK)
@@ -126,6 +128,8 @@ object MainMenu {
                 }
             },
         )
+
+        val copySvgMenuItem = JMenuItem("Copy Svg Qr Code Image")
 
         val importConfigMenuItem = JMenuItem("Import Config")
         // Add the keybinding for Save (Ctrl + I)
@@ -163,16 +167,20 @@ object MainMenu {
         )
 
         saveMenuItem.addActionListener { fileUI.saveQrCodeImageFile() }
+        saveSvgMenuItem.addActionListener { fileUI.saveQrCodeSvgFile() }
         copyMenuItem.addActionListener { fileUI.copyImageToClipboard() }
         copyBase64MenuItem.addActionListener { fileUI.copyBase64ImageToClipboard() }
+        copySvgMenuItem.addActionListener { fileUI.copySvgImageToClipboard() }
         importConfigMenuItem.addActionListener { fileUI.loadConfig() }
         exportConfigMenuItem.addActionListener { fileUI.saveConfig() }
         exitMenuItem.addActionListener { exitApplication(configService) }
 
         fileMenu.add(saveMenuItem)
+        fileMenu.add(saveSvgMenuItem)
         fileMenu.add(JSeparator())
         fileMenu.add(copyMenuItem)
         fileMenu.add(copyBase64MenuItem)
+        fileMenu.add(copySvgMenuItem)
         fileMenu.add(JSeparator())
         fileMenu.add(importConfigMenuItem)
         fileMenu.add(exportConfigMenuItem)
