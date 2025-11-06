@@ -7,7 +7,6 @@ import io.github.simonscholz.service.CodeGeneratorService
 import io.github.simonscholz.service.ConfigService
 import io.github.simonscholz.service.ImageService
 import org.jdesktop.swingx.graphics.GraphicsUtilities
-import org.w3c.dom.Document
 import java.awt.Image
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
@@ -15,14 +14,10 @@ import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 import java.awt.datatransfer.Transferable
 import java.io.File
-import java.io.StringWriter
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
 import javax.swing.filechooser.FileNameExtensionFilter
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
 
 class FileUI(
     private val codeGeneratorService: CodeGeneratorService,
