@@ -8,7 +8,7 @@ The entry point for this library is the `QrCodeFactory`,
 which will give you an instance of the `QrCodeApi` to create a QR code as `BufferedImage`.
 This `BufferedImage` can be configured by passing an instance of `QrCodeConfig` and use for further image processing.
 
-Examples for Java or Kotlin can be found in the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample`] or https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/Main.kt[`kotlin-sample`] module.
+Examples for Java or Kotlin can be found in the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz[`java-sample`] or https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz[`kotlin-sample`] module.
 
 The qr-code-app project makes it even easier to create QR codes with this library.
 
@@ -47,9 +47,9 @@ Getting a released version:
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.5.0")
     // Optional if you´d want to create QR code SVG images
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.5.0")
 }
 ----
 
@@ -78,14 +78,14 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 
 <!-- Optional if you´d want to create QR code SVG images -->
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo-svg</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 ----
 
@@ -106,11 +106,11 @@ fun BufferedImage.toFile(file: File) {
 }
 
 val qrCodeApi = createQrCodeApi()
-qrCodeApi.createQrImage(QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE))
+qrCodeApi.createQrCodeImage(QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE))
     .toFile(File("qr-with-defaults.png"))
 ----
 
-For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/Main.kt[`kotlin-sample` module].
+For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz[`kotlin-sample` module].
 
 == java
 
@@ -125,11 +125,11 @@ import java.io.File;
 import static io.github.simonscholz.qrcode.QrCodeConfigKt.DEFAULT_IMG_SIZE;
 
 final QrCodeApi qrCodeApi = QrCodeFactory.createQrCodeApi();
-final var qrCode = qrCodeApi.createQrImage(new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE));
+final var qrCode = qrCodeApi.createQrCodeImage(new QrCodeConfig("https://simonscholz.dev/", DEFAULT_IMG_SIZE));
 ImageIO.write(qrCode, "png", new File("qr-with-defaults-java.png"));
 ----
 
-For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/Main.java[`java-sample` module].
+For more advanced examples, please have a look at the https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz[`java-sample` module].
 
 == SVG QR codes
 
@@ -138,7 +138,7 @@ This project has a new module called `qr-code-svg`, which will be available begi
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.5.0")
 }
 ----
 
@@ -147,7 +147,7 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo-svg</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 ----
 
