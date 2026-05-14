@@ -2,12 +2,17 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
 }
 
-tasks.register("installKtlintGitPrePushHook", Copy::class) {
+val copyGitHook by tasks.registering(Copy::class) {
     from("${rootProject.rootDir}/git-hook/pre-push")
     into("${rootProject.rootDir}/.git/hooks")
-    doLast {
-        exec {
-            commandLine("chmod", "+x", "${rootProject.rootDir}/.git/hooks/pre-push")
-        }
-    }
+}
+
+tasks.register<Exec>("installKtlintGitPrePushHook") {
+    dependsOn(copyGitHook)
+
+    commandLine(
+        "chmod",
+        "+x",
+        "${rootProject.rootDir}/.git/hooks/pre-push",
+    )
 }
