@@ -1,5 +1,6 @@
 package io.github.simonscholz.qrcode.internal.api
 
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeConfig
 import io.github.simonscholz.qrcode.QrLogoConfig
@@ -68,6 +69,7 @@ internal class QrCodeApiImpl :
             relativeBorderRound = qrCodeConfig.qrBorderConfig?.relativeBorderRound ?: .0,
             customDotStyler = qrCodeConfig.qrCodeDotStyler::createDot,
             colorAdjustmentPatterns = qrCodeConfig.qrPositionalSquaresConfig.colorAdjustmentPatterns,
+            errorCorrectionLevel = mapErrorCorrectionLevel(qrCodeConfig.errorCorrectionLevel),
         )
 
         qrCodeConfig.qrLogoConfig?.let { logoConfig ->
@@ -90,6 +92,7 @@ internal class QrCodeApiImpl :
                         }
                     }
                 }
+
                 is QrLogoConfig.Bitmap -> {
                     LogoGraphics.drawLogo(
                         graphics,
@@ -103,6 +106,14 @@ internal class QrCodeApiImpl :
             }
         }
     }
+
+    private fun mapErrorCorrectionLevel(errorCorrectionLevel: io.github.simonscholz.qrcode.ErrorCorrectionLevel): ErrorCorrectionLevel =
+        when (errorCorrectionLevel) {
+            io.github.simonscholz.qrcode.ErrorCorrectionLevel.L -> ErrorCorrectionLevel.L
+            io.github.simonscholz.qrcode.ErrorCorrectionLevel.M -> ErrorCorrectionLevel.M
+            io.github.simonscholz.qrcode.ErrorCorrectionLevel.Q -> ErrorCorrectionLevel.Q
+            io.github.simonscholz.qrcode.ErrorCorrectionLevel.H -> ErrorCorrectionLevel.H
+        }
 
     private fun relativeSize(
         size: Int,

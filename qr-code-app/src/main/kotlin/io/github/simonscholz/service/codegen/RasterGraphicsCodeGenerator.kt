@@ -78,6 +78,7 @@ class RasterGraphicsCodeGenerator(
             |    )
             |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
             |    .qrCodeDotStyler(QrCodeDotShape.${qrCodeConfigViewModel.dotShape.value.name})
+            |    .errorCorrectionLevel(${qrCodeConfigViewModel.errorCorrectionLevel.value})
             |    .build()
                     """.trimMargin(),
                     QrCodeConfig::class,
@@ -202,6 +203,7 @@ class RasterGraphicsCodeGenerator(
                     )}, ${qrCodeConfigViewModel.relativeBorderSize.value}, ${qrCodeConfigViewModel.borderRadius.value})
                 |    .qrPositionalSquaresConfig(qrPositionalSquaresConfig)
                 |    .qrCodeDotStyler($T.${qrCodeConfigViewModel.dotShape.value.name})
+                |    .errorCorrectionLevel(${qrCodeConfigViewModel.errorCorrectionLevel.value})
                 |    .build()
                     """.trimMargin(),
                     QrCodeConfig::class.java,

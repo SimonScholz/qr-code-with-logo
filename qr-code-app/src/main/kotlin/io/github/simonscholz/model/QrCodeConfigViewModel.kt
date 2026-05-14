@@ -1,6 +1,7 @@
 package io.github.simonscholz.model
 
 import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
+import io.github.simonscholz.qrcode.ErrorCorrectionLevel
 import io.github.simonscholz.qrcode.LogoShape
 import org.eclipse.core.databinding.observable.value.WritableValue
 import java.awt.Color
@@ -28,6 +29,7 @@ class QrCodeConfigViewModel {
     val positionalSquareOuterSquareColor: WritableValue<Color> = WritableValue(Color.BLACK, Color::class.java)
     val positionalSquareOuterBorderColor: WritableValue<Color> = WritableValue(Color.WHITE, Color::class.java)
     val positionalSquareColorAdjustmentPatterns: WritableValue<Boolean> = WritableValue(true, Boolean::class.java)
+    val errorCorrectionLevel: WritableValue<ErrorCorrectionLevel> = WritableValue(ErrorCorrectionLevel.H, ErrorCorrectionLevel::class.java)
 
     @Suppress("ktlint:standard:max-line-length")
     private fun createLogoBase64WritableValue(): WritableValue<String> =
@@ -45,5 +47,6 @@ class QrCodeConfigViewModel {
             " positionalSquareInnerSquareColor=$positionalSquareInnerSquareColor," +
             " positionalSquareOuterSquareColor=$positionalSquareOuterSquareColor," +
             " positionalSquareOuterBorderColor=$positionalSquareOuterBorderColor," +
-            " positionalSquareColorAdjustmentPatterns=$positionalSquareColorAdjustmentPatterns)"
+            " positionalSquareColorAdjustmentPatterns=$positionalSquareColorAdjustmentPatterns" +
+            " errorCorrectionLevel=$errorCorrectionLevel)"
 }

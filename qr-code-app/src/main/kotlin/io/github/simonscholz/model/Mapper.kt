@@ -24,6 +24,7 @@ object Mapper {
             positionalSquareOuterSquareColor = viewModel.positionalSquareOuterSquareColor.value.toColorInfo(),
             positionalSquareOuterBorderColor = viewModel.positionalSquareOuterBorderColor.value.toColorInfo(),
             positionalSquareColorAdjustmentPatterns = viewModel.positionalSquareColorAdjustmentPatterns.value,
+            errorCorrectionLevel = viewModel.errorCorrectionLevel.value,
         )
 
     fun applyViewModel(
@@ -50,6 +51,7 @@ object Mapper {
             positionalSquareOuterSquareColor.value = qrCodeConfig.positionalSquareOuterSquareColor.toColor()
             positionalSquareOuterBorderColor.value = qrCodeConfig.positionalSquareOuterBorderColor.toColor()
             positionalSquareColorAdjustmentPatterns.value = qrCodeConfig.positionalSquareColorAdjustmentPatterns
+            errorCorrectionLevel.value = qrCodeConfig.errorCorrectionLevel
         }
     }
 }

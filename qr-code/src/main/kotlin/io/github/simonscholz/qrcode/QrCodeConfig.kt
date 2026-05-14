@@ -26,6 +26,7 @@ class QrCodeConfig
         val qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig(),
         val qrCodeDotStyler: QrCodeDotStyler = QrCodeDotShape.SQUARE,
         val qrBorderConfig: QrBorderConfig? = null,
+        val errorCorrectionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.H,
     ) {
         init {
             require(qrCodeText.isNotBlank()) { "qrCodeText must not be blank." }
@@ -41,6 +42,7 @@ class QrCodeConfig
             private var qrPositionalSquaresConfig: QrPositionalSquaresConfig = QrPositionalSquaresConfig()
             private var qrBorderConfig: QrBorderConfig? = null
             private var qrCodeDotStyler: QrCodeDotStyler = QrCodeDotShape.SQUARE
+            private var errorCorrectionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.H
 
             fun qrCodeSize(qrCodeSize: Int) = apply { this.qrCodeSize = qrCodeSize }
 
@@ -104,6 +106,11 @@ class QrCodeConfig
                     this.qrCodeDotStyler = qrCodeDotStyler
                 }
 
+            fun errorCorrectionLevel(errorCorrectionLevel: ErrorCorrectionLevel) =
+                apply {
+                    this.errorCorrectionLevel = errorCorrectionLevel
+                }
+
             fun build() =
                 QrCodeConfig(
                     qrCodeText = qrCodeText,
@@ -113,9 +120,29 @@ class QrCodeConfig
                     qrPositionalSquaresConfig = qrPositionalSquaresConfig,
                     qrCodeDotStyler = qrCodeDotStyler,
                     qrBorderConfig = qrBorderConfig,
+                    errorCorrectionLevel = errorCorrectionLevel,
                 )
         }
     }
+
+/**
+ * Specify the ErrorCorrectionLevel of the QR code.
+ *
+ * Also see com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+ */
+enum class ErrorCorrectionLevel {
+    /** L = ~7% correction */
+    L,
+
+    /** M = ~15% correction */
+    M,
+
+    /** Q = ~25% correction */
+    Q,
+
+    /** H = ~30% correction */
+    H,
+}
 
 /**
  * Represents a source for embedding a logo into a QR code.

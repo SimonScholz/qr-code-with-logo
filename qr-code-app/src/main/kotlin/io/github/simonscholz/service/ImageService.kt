@@ -51,7 +51,7 @@ class ImageService(
                             outerBorderColor = qrCodeConfigViewModel.positionalSquareOuterBorderColor.value,
                             colorAdjustmentPatterns = !qrCodeConfigViewModel.positionalSquareColorAdjustmentPatterns.value,
                         ),
-                )
+                ).errorCorrectionLevel(qrCodeConfigViewModel.errorCorrectionLevel.value)
         if (qrCodeConfigViewModel.logoBase64.value.isNotBlank()) {
             builder.qrLogoConfig(
                 base64Logo = qrCodeConfigViewModel.logoBase64.value,
@@ -66,40 +66,91 @@ class ImageService(
 
     private fun mapCustomDotStyler(value: DotShapes): QrCodeDotStyler =
         when (value) {
-            DotShapes.SQUARE -> QrCodeDotShape.SQUARE
-            DotShapes.CIRCLE -> QrCodeDotShape.CIRCLE
-            DotShapes.ROUNDED_SQUARE -> QrCodeDotShape.ROUNDED_SQUARE
-            DotShapes.HEXAGON -> QrCodeDotShape.HEXAGON
-            DotShapes.TRIANGLE -> QrCodeDotShape.TRIANGLE
-            DotShapes.HEART -> QrCodeDotShape.HEART
-            DotShapes.HOUSE -> QrCodeDotShape.HOUSE
-            DotShapes.STAR -> QrCodeDotShape.STAR
-            DotShapes.DIAMOND -> QrCodeDotShape.DIAMOND
-            DotShapes.CROSS -> QrCodeDotShape.CROSS
-            DotShapes.FLOWER -> QrCodeDotShape.FLOWER
-            DotShapes.FLOWER_2 -> QrCodeDotShape.FLOWER_2
-            DotShapes.FLOWER_3 -> QrCodeDotShape.FLOWER_3
-            DotShapes.EASTER_EGG -> QrCodeDotShape.EASTER_EGG
-            DotShapes.HOUSE_WITH_DOOR_AND_WINDOW ->
+            DotShapes.SQUARE -> {
+                QrCodeDotShape.SQUARE
+            }
+
+            DotShapes.CIRCLE -> {
+                QrCodeDotShape.CIRCLE
+            }
+
+            DotShapes.ROUNDED_SQUARE -> {
+                QrCodeDotShape.ROUNDED_SQUARE
+            }
+
+            DotShapes.HEXAGON -> {
+                QrCodeDotShape.HEXAGON
+            }
+
+            DotShapes.TRIANGLE -> {
+                QrCodeDotShape.TRIANGLE
+            }
+
+            DotShapes.HEART -> {
+                QrCodeDotShape.HEART
+            }
+
+            DotShapes.HOUSE -> {
+                QrCodeDotShape.HOUSE
+            }
+
+            DotShapes.STAR -> {
+                QrCodeDotShape.STAR
+            }
+
+            DotShapes.DIAMOND -> {
+                QrCodeDotShape.DIAMOND
+            }
+
+            DotShapes.CROSS -> {
+                QrCodeDotShape.CROSS
+            }
+
+            DotShapes.FLOWER -> {
+                QrCodeDotShape.FLOWER
+            }
+
+            DotShapes.FLOWER_2 -> {
+                QrCodeDotShape.FLOWER_2
+            }
+
+            DotShapes.FLOWER_3 -> {
+                QrCodeDotShape.FLOWER_3
+            }
+
+            DotShapes.EASTER_EGG -> {
+                QrCodeDotShape.EASTER_EGG
+            }
+
+            DotShapes.HOUSE_WITH_DOOR_AND_WINDOW -> {
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawColorfulHouseWithDoorAndWindow(x, y, size, graphic)
                 }
-            DotShapes.SMILEY ->
+            }
+
+            DotShapes.SMILEY -> {
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawSmiley(x, y, size, graphic)
                 }
-            DotShapes.PUMPKIN ->
+            }
+
+            DotShapes.PUMPKIN -> {
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawPumpkin(x, y, size, graphic)
                 }
-            DotShapes.CHRISTMAS_TREE ->
+            }
+
+            DotShapes.CHRISTMAS_TREE -> {
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawChristmasTree(x, y, size, graphic)
                 }
-            DotShapes.CAR ->
+            }
+
+            DotShapes.CAR -> {
                 QrCodeDotStyler { x, y, size, graphic ->
                     drawCar(x, y, size, graphic)
                 }
+            }
         }
 
     private fun drawSmiley(

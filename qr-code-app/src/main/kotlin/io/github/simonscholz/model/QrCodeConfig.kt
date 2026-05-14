@@ -1,5 +1,6 @@
 package io.github.simonscholz.model
 
+import io.github.simonscholz.qrcode.ErrorCorrectionLevel
 import io.github.simonscholz.qrcode.LogoShape
 
 data class QrCodeConfig(
@@ -22,6 +23,7 @@ data class QrCodeConfig(
     val positionalSquareOuterSquareColor: ColorInfo,
     val positionalSquareOuterBorderColor: ColorInfo,
     var positionalSquareColorAdjustmentPatterns: Boolean,
+    var errorCorrectionLevel: ErrorCorrectionLevel,
 )
 
 data class ColorInfo(

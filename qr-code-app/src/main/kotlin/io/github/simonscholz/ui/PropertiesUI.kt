@@ -6,6 +6,7 @@ import io.github.simonscholz.extension.toObservable
 import io.github.simonscholz.extension.toSelectedItemObservable
 import io.github.simonscholz.model.DotShapes
 import io.github.simonscholz.model.QrCodeConfigViewModel
+import io.github.simonscholz.qrcode.ErrorCorrectionLevel
 import io.github.simonscholz.ui.properties.BorderPropertiesUI
 import io.github.simonscholz.ui.properties.LogoPropertiesUI
 import io.github.simonscholz.ui.properties.PositionalSquaresPropertiesUI
@@ -67,6 +68,13 @@ object PropertiesUI {
         shapeComboBox.changeItemOnScroll()
         dataBindingContext.bindValue(shapeComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.dotShape)
         baseTaskPane.add(shapeComboBox, "wrap, growx, span 3, width 200:220:300")
+
+        baseTaskPane.add(JLabel("ErrorCorrectionLevel:"))
+        val errorCorrectionLevels = ErrorCorrectionLevel.entries.toTypedArray()
+        val errorCorrectionLevelComboBox = JComboBox(errorCorrectionLevels)
+        errorCorrectionLevelComboBox.changeItemOnScroll()
+        dataBindingContext.bindValue(errorCorrectionLevelComboBox.toSelectedItemObservable(), qrCodeConfigViewModel.errorCorrectionLevel)
+        baseTaskPane.add(errorCorrectionLevelComboBox, "wrap, growx, span 3, width 200:220:300")
 
         jxTaskPaneContainer.add(baseTaskPane)
 
