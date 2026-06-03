@@ -1,11 +1,11 @@
 [versions]
-kotlin = "2.3.21"
-jackson-kotlin = "2.21.3"
+kotlin = "2.4.0"
+jackson-kotlin = "2.22.0"
 zxing = "3.5.4"
 databinding = "1.13.700"
 kotlinpoet-javapoet = "2.2.0"
-junit = "5.14.4"
-junit-platform-launcher = "1.14.4"
+junit = "6.1.0"
+junit-platform-launcher = "6.1.0"
 assertk = "0.28.1"
 miglayout = "11.4.3"
 batik = "1.19"
@@ -44,4 +44,4 @@ ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "ben-
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-publish" }
 jlink = { id = "com.ryandens.jlink-application", version = "0.8.0" }
-shadow = { id = "com.gradleup.shadow", version = "9.4.1" }
+shadow = { id = "com.gradleup.shadow", version = "9.4.2" }
