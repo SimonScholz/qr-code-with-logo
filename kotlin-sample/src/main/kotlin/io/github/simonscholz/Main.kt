@@ -1,6 +1,7 @@
 package io.github.simonscholz
 
 import io.github.simonscholz.qrcode.DEFAULT_IMG_SIZE
+import io.github.simonscholz.qrcode.ErrorCorrectionLevel
 import io.github.simonscholz.qrcode.LogoShape
 import io.github.simonscholz.qrcode.QrCodeApi
 import io.github.simonscholz.qrcode.QrCodeColorConfig
@@ -35,7 +36,7 @@ fun main() {
 
     createDefaultQrCode(qrCodeApi, qrCodeDir)
 
-    val resource = Main::class.java.getClassLoader().getResource("avatar-60x.png")
+    val resource = Main::class.java.classLoader.getResource("avatar-60x.png")
     resource?.let {
         createDefaultQrCodeWithLogo(it, qrCodeApi, qrCodeDir)
         createDefaultQrCodeWithLogoAndBorder(it, qrCodeApi, qrCodeDir)
@@ -87,6 +88,7 @@ private fun createDefaultQrCodeWithLogoAndBorder(
             .Builder(MY_DOMAIN)
             .qrBorderConfig(Color.BLACK)
             .qrLogoConfig(logo)
+            .errorCorrectionLevel(ErrorCorrectionLevel.H)
             .build()
     qrCodeApi.createQrCodeImage(qrCodeConfig).toFile(File(qrCodeDir, "/qr-with-logo-and-border-kotlin.png"))
 }
@@ -224,7 +226,7 @@ private fun drawQrCodeOnImage(
     val url =
         Objects.requireNonNull(
             Main::class.java
-                .getClassLoader()
+                .classLoader
                 .getResource("cup.jpg"),
         )
     val mainImg = ImageIO.read(url)
@@ -238,7 +240,7 @@ private fun rainbowColor(
     qrCodeApi: QrCodeApi,
     qrCodeDir: String,
 ) {
-    val resource = Objects.requireNonNull(Main::class.java.getClassLoader().getResource("rainbow.png"))
+    val resource = Objects.requireNonNull(Main::class.java.classLoader.getResource("rainbow.png"))
     val logo = ImageIO.read(resource)
     val qrCodeConfig =
         QrCodeConfig
