@@ -1,11 +1,6 @@
 package io.github.simonscholz;
 
-import io.github.simonscholz.qrcode.LogoShape;
-import io.github.simonscholz.qrcode.QrCodeApi;
-import io.github.simonscholz.qrcode.QrCodeConfig;
-import io.github.simonscholz.qrcode.QrCodeFactory;
-import io.github.simonscholz.qrcode.QrLogoConfig;
-import io.github.simonscholz.qrcode.QrPositionalSquaresConfig;
+import io.github.simonscholz.qrcode.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -82,9 +77,11 @@ public class BasicsMain {
     private static void createDefaultQrCodeWithLogoAndBorder(final URL resource, final QrCodeApi qrCodeApi, final String qrCodeDir) throws IOException {
         final BufferedImage logo = ImageIO.read(resource);
 
-        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN).qrBorderConfig(Color.BLACK)
-                                                                                                    .qrLogoConfig(logo)
-                                                                                                    .build();
+        final QrCodeConfig qrCodeConfig = new QrCodeConfig.Builder(MY_DOMAIN)
+            .qrBorderConfig(Color.BLACK)
+            .qrLogoConfig(logo)
+            .errorCorrectionLevel(ErrorCorrectionLevel.H)
+            .build();
         final BufferedImage qrWithImage = qrCodeApi.createQrCodeImage(qrCodeConfig);
         ImageIO.write(qrWithImage, "png", new File(qrCodeDir, "/qr-with-logo-and-border-java.png"));
     }
