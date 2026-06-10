@@ -47,9 +47,9 @@ Getting a released version:
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.5.0")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.6.0")
     // Optional if you´d want to create QR code SVG images
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.5.0")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.6.0")
 }
 ----
 
@@ -65,9 +65,9 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.4.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.6.0-SNAPSHOT")
     // Optional if you´d want to create QR code SVG images
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.4.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.6.0-SNAPSHOT")
 }
 ----
 
@@ -78,14 +78,14 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 </dependency>
 
 <!-- Optional if you´d want to create QR code SVG images -->
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo-svg</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 </dependency>
 ----
 
@@ -138,7 +138,7 @@ This project has a new module called `qr-code-svg`, which will be available begi
 [source, kotlin]
 ----
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.5.0")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.6.0")
 }
 ----
 
@@ -147,7 +147,7 @@ dependencies {
 <dependency>
     <groupId>io.github.simonscholz</groupId>
     <artifactId>qr-code-with-logo-svg</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 </dependency>
 ----
 
@@ -615,7 +615,6 @@ To get started, please follow these guidelines:
 
 . Fork the repository and clone it to your local machine.
 . Create a new branch for your feature or bug fix.
-. Run `./gradlew installKtlintGitPrePushHook` to ensure that ktlint does not have issues with your code.
 . Make your changes and ensure they adhere to the project's coding standards and guidelines.
 . Test your changes thoroughly.
 . Commit your changes with clear and descriptive messages.

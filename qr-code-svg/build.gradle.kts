@@ -1,12 +1,9 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     `java-library`
 
     kotlin("jvm")
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
     alias(libs.plugins.ben.manes.versions)
     alias(libs.plugins.vanniktech.publish)
     alias(libs.plugins.dokka)
@@ -53,22 +50,6 @@ fun isNonStable(version: String): Boolean {
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
-}
-
-detekt {
-    // Using the latest detekt version (1.23.8) from libs.versions.toml
-    config.setFrom(file("${project.rootDir}/config/detekt/detekt.yml"))
-    buildUponDefaultConfig = true
-}
-
-tasks.withType<Detekt>().configureEach {
-    reports {
-        xml.required.set(false)
-        html.required.set(true)
-        txt.required.set(false)
-        sarif.required.set(false)
-        md.required.set(false)
-    }
 }
 
 mavenPublishing {

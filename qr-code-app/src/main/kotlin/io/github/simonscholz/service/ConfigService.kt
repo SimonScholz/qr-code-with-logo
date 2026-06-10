@@ -73,12 +73,16 @@ class ConfigService(
                 System.getenv("APPDATA")?.let { "$it/qr-code-app" }
                     ?: throw IllegalStateException("APPDATA environment variable not found.")
             }
+
             os.contains("nix") || os.contains("nux") || os.contains("mac") -> {
                 // Linux or macOS
                 val homeDir = System.getProperty("user.home")
                 "$homeDir/.config/qr-code-app"
             }
-            else -> throw UnsupportedOperationException("Unsupported operating system: $os")
+
+            else -> {
+                throw UnsupportedOperationException("Unsupported operating system: $os")
+            }
         }
     }
 

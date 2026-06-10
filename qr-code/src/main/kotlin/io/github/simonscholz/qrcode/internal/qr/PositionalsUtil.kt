@@ -1,3 +1,4 @@
+@file:Suppress("ktlint:standard:kdoc")
 /**
  * MIT License
  *

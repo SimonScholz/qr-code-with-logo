@@ -1,18 +1,22 @@
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.spotless) apply false
 }
 
-val copyGitHook by tasks.registering(Copy::class) {
-    from("${rootProject.rootDir}/git-hook/pre-push")
-    into("${rootProject.rootDir}/.git/hooks")
-}
+subprojects {
+    apply(plugin = "com.diffplug.spotless")
 
-tasks.register<Exec>("installKtlintGitPrePushHook") {
-    dependsOn(copyGitHook)
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        kotlin {
+            target("src/**/*.kt") // Targets all Kotlin source files
+            ktlint("1.8.0")
 
-    commandLine(
-        "chmod",
-        "+x",
-        "${rootProject.rootDir}/.git/hooks/pre-push",
-    )
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+        kotlinGradle {
+            target("*.gradle.kts")
+            ktlint()
+        }
+    }
 }

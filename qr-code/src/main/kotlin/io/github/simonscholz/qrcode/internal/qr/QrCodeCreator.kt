@@ -1,3 +1,4 @@
+@file:Suppress("ktlint:standard:kdoc")
 /**
  * MIT License
  *
@@ -21,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.simonscholz.qrcode.internal.qr
 
 import com.google.zxing.EncodeHintType
