@@ -1,5 +1,6 @@
 package io.github.simonscholz.ui
 
+import io.github.simonscholz.qrcode.types.EpcGiroCode
 import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
@@ -246,6 +247,26 @@ object MainMenu {
             }
         }
         specialContentMenu.add(vEventMenuItem)
+
+        val epcGiroCodeMenuItem = JMenuItem("EPC GiroCode")
+        epcGiroCodeMenuItem.addActionListener {
+            InputDialogs.showEpcGiroCodeInputDialog()?.let {
+                val qrCodeText =
+                    EpcGiroCode()
+                        .apply {
+                            it.bic.takeIf { it.isNotEmpty() }?.let { bic(it) }
+                            it.recipient.takeIf { it.isNotEmpty() }?.let { recipient(it) }
+                            it.iban.takeIf { it.isNotEmpty() }?.let { iban(it) }
+                            it.amount.takeIf { it.isNotEmpty() }?.let { amount(it) }
+                            it.purposeCode.takeIf { it.isNotEmpty() }?.let { purposeCode(it) }
+                            it.reference.takeIf { it.isNotEmpty() }?.let { reference(it) }
+                            it.remittanceInformation.takeIf { it.isNotEmpty() }?.let { remittanceInformation(it) }
+                        }.toEpcGiroCodeQrCodeText()
+
+                qrCodeContentObservable.value = qrCodeText
+            }
+        }
+        specialContentMenu.add(epcGiroCodeMenuItem)
 
         val geolocationMenuItem = JMenuItem("Geolocation")
         geolocationMenuItem.addActionListener {

@@ -342,6 +342,62 @@ object InputDialogs {
         return null
     }
 
+    fun showEpcGiroCodeInputDialog(): EpcGiroCodeInput? {
+        val panel = JPanel(MigLayout())
+
+        val bicLabel = JLabel("BIC (optional)")
+        val bicTextField = JTextField()
+
+        val recipientLabel = JLabel("Recipient")
+        val recipientTextField = JTextField()
+
+        val ibanLabel = JLabel("IBAN")
+        val ibanTextField = JTextField()
+
+        val amountLabel = JLabel("Amount (EUR123.45)")
+        val amountTextField = JTextField()
+
+        val purposeCodeLabel = JLabel("Purpose Code (optional)")
+        val purposeCodeTextField = JTextField()
+
+        val referenceLabel = JLabel("Reference (optional)")
+        val referenceTextField = JTextField()
+
+        val remittanceInformationLabel = JLabel("Remittance Information (optional)")
+        val remittanceInformationTextField = JTextField()
+
+        panel.add(bicLabel)
+        panel.add(bicTextField, "wrap, grow, width 300:300:300")
+        panel.add(recipientLabel)
+        panel.add(recipientTextField, "wrap, grow, width 300:300:300")
+        panel.add(ibanLabel)
+        panel.add(ibanTextField, "wrap, grow, width 300:300:300")
+        panel.add(amountLabel)
+        panel.add(amountTextField, "wrap, grow, width 300:300:300")
+        panel.add(purposeCodeLabel)
+        panel.add(purposeCodeTextField, "wrap, grow, width 300:300:300")
+        panel.add(referenceLabel)
+        panel.add(referenceTextField, "wrap, grow, width 300:300:300")
+        panel.add(remittanceInformationLabel)
+        panel.add(remittanceInformationTextField, "wrap, grow, width 300:300:300")
+
+        val result = JOptionPane.showConfirmDialog(null, panel, "EPC GiroCode", JOptionPane.OK_CANCEL_OPTION)
+
+        if (result == JOptionPane.OK_OPTION) {
+            return EpcGiroCodeInput(
+                bic = bicTextField.text,
+                recipient = recipientTextField.text,
+                iban = ibanTextField.text,
+                amount = amountTextField.text,
+                purposeCode = purposeCodeTextField.text,
+                reference = referenceTextField.text,
+                remittanceInformation = remittanceInformationTextField.text,
+            )
+        }
+
+        return null
+    }
+
     private fun getLocalDateTime(
         startDate: LocalDate?,
         startTime: LocalTime?,
@@ -383,5 +439,15 @@ object InputDialogs {
         val location: String?,
         val startDate: LocalDateTime?,
         val endDate: LocalDateTime?,
+    )
+
+    data class EpcGiroCodeInput(
+        val bic: String,
+        val recipient: String,
+        val iban: String,
+        val amount: String,
+        val purposeCode: String,
+        val reference: String,
+        val remittanceInformation: String,
     )
 }
