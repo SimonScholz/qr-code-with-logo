@@ -7,6 +7,7 @@ import com.google.zxing.DecodeHintType
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.multi.qrcode.QRCodeMultiReader
+import io.github.simonscholz.qrcode.types.EpcGiroCode
 import io.github.simonscholz.qrcode.types.SimpleTypes
 import io.github.simonscholz.qrcode.types.VCard
 import io.github.simonscholz.qrcode.types.VEvent
@@ -156,6 +157,15 @@ class ReadCreatedQrCodeTest {
                     .phoneNumber("+49 176 12345678")
                     .website("https://simonscholz.dev/")
                     .toVCardQrCodeText()
+            val epcGiroCode =
+                EpcGiroCode()
+                    .bic("DEUTDEFFXXX")
+                    .recipient("Max Mustermann")
+                    .iban("DE89370400440532013000")
+                    .amount("EUR123.45")
+                    .reference("Rechnung 2026-001")
+                    .remittanceInformation("Vielen Dank fuer Ihren Einkauf")
+                    .toEpcGiroCodeQrCodeText()
             return listOf(
                 Arguments.of(url),
                 Arguments.of(geolocation),
@@ -164,6 +174,7 @@ class ReadCreatedQrCodeTest {
                 Arguments.of(sms),
                 Arguments.of(vEvent),
                 Arguments.of(vCard),
+                Arguments.of(epcGiroCode),
             )
         }
     }

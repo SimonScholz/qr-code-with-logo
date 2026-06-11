@@ -65,9 +65,9 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.simonscholz:qr-code-with-logo:0.6.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo:0.7.0-SNAPSHOT")
     // Optional if you´d want to create QR code SVG images
-    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.6.0-SNAPSHOT")
+    implementation("io.github.simonscholz:qr-code-with-logo-svg:0.7.0-SNAPSHOT")
 }
 ----
 
@@ -382,7 +382,7 @@ For more advanced examples and Java usage, please have a look at the `kotlin-sam
 
 === Types
 
-In order to create certain types of QR codes, you can may want to use the following utils.
+In order to create certain types of QR codes, you may want to use the following utils.
 
 Please see https://github.com/SimonScholz/qr-code-with-logo/blob/main/kotlin-sample/src/main/kotlin/io/github/simonscholz/QrCodeTypesMain.kt[`kotlin-sample` module] or https://github.com/SimonScholz/qr-code-with-logo/blob/main/java-sample/src/main/java/io/github/simonscholz/QrCodeTypesMain.java[`java-sample` module] to use these types and run the samples.
 
@@ -438,13 +438,13 @@ VEVENT type:
 
 ```java
 LocalDateTime startDateTime = LocalDateTime.now().plusWeeks(2);
-VEvent vevent = new VEvent.Builder("QR Codes with Kotlin & Java")
+String vEventQrCodeText = new VEvent()
+                .summary("QR Codes with Kotlin & Java")
                 .location("Java User Group Hamburg")
                 .startDate(startDateTime)
                 .endDate(startDateTime.plusHours(2))
                 .description("Let's create QR Codes with Kotlin & Java")
-                .build();
-String vEventQrCodeText = vevent.toVEventQrCodeText();
+                .toVEventQrCodeText();
 ```
 
 The `vEventQrCodeText` can then be used to create a QR code.
@@ -458,14 +458,14 @@ image::./docs/types/vevent.png[]
 VCARD type:
 
 ```java
-VCard vCard = new VCard.Builder("Simon Scholz")
+String vCardQrCodeText = new VCard()
+                .formattedName("Simon Scholz")
                 .email("simon@example.com")
                 .address("Main Street 1", "Hamburg", "22855")
                 .organization("Self Employed")
                 .phoneNumber("+49 176 12345678")
                 .website("https://simonscholz.dev/")
-                .build();
-String vCardQrCodeText = vCard.toVCardQrCodeText();
+                .toVCardQrCodeText();
 ```
 
 The `vCardQrCodeText` can then be used to create a QR code.
@@ -475,6 +475,37 @@ The `vCardQrCodeText` can then be used to create a QR code.
 ====
 image::./docs/types/vCard.png[]
 ====
+
+EPC GiroCode (SEPA Credit Transfer) type:
+
+```java
+String epcGiroCodeQrCodeText = new EpcGiroCode()
+                .bic("DEUTDEFFXXX")
+                .recipient("Max Mustermann")
+                .iban("DE89370400440532013000")
+                .amount("EUR123.45")
+                .reference("Rechnung 2026-001")
+                .remittanceInformation("Vielen Dank fuer Ihren Einkauf")
+                .toEpcGiroCodeQrCodeText();
+```
+
+The `epcGiroCodeQrCodeText` can then be used to create a QR code.
+
+Example output:
+
+```text
+BCD
+002
+1
+SCT
+DEUTDEFFXXX
+Max Mustermann
+DE89370400440532013000
+EUR123.45
+
+Rechnung 2026-001
+Vielen Dank fuer Ihren Einkauf
+```
 
 == Base64 encoded qr code image and logo
 
