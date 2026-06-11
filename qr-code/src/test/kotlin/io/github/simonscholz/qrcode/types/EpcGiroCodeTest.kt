@@ -31,5 +31,28 @@ class EpcGiroCodeTest {
                 "Vielen Dank fuer Ihren Einkauf",
         )
     }
-}
 
+    @Test
+    fun `toEpcGiroCodeQrCodeText should automatically prefix amount with EUR when missing`() {
+        val epcGiroCodeText =
+            EpcGiroCode()
+                .bic("DEUTDEFFXXX")
+                .recipient("Max Mustermann")
+                .iban("DE89370400440532013000")
+                .amount("123.45")
+                .toEpcGiroCodeQrCodeText()
+
+        assertThat(epcGiroCodeText).isEqualTo(
+            "BCD\n" +
+                "002\n" +
+                "1\n" +
+                "SCT\n" +
+                "DEUTDEFFXXX\n" +
+                "Max Mustermann\n" +
+                "DE89370400440532013000\n" +
+                "EUR123.45\n" +
+                "\n" +
+                "\n",
+        )
+    }
+}

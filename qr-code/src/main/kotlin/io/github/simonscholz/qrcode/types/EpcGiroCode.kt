@@ -28,7 +28,7 @@ class EpcGiroCode {
     fun amount(amount: String) = apply { this.amount = amount }
 
     /** Amount based on a decimal value formatted as EUR with two decimals. */
-    fun amount(amount: BigDecimal) = apply { this.amount = "EUR${amount.setScale(2, RoundingMode.HALF_UP)}" }
+    fun amount(amount: BigDecimal) = apply { this.amount = "$CURRENCY${amount.setScale(2, RoundingMode.HALF_UP)}" }
 
     /** Optional purpose code. */
     fun purposeCode(purposeCode: String) = apply { this.purposeCode = purposeCode }
@@ -39,8 +39,9 @@ class EpcGiroCode {
     /** Optional unstructured remittance information. */
     fun remittanceInformation(remittanceInformation: String) = apply { this.remittanceInformation = remittanceInformation }
 
-    fun toEpcGiroCodeQrCodeText(): String =
-        listOf(
+    fun toEpcGiroCodeQrCodeText(): String {
+        val formattedAmount = if (amount.isNotEmpty() && !amount.startsWith(CURRENCY)) "$CURRENCY$amount" else amount
+        return listOf(
             SERVICE_TAG,
             VERSION,
             CHARACTER_SET,
@@ -48,11 +49,12 @@ class EpcGiroCode {
             bic,
             recipient,
             iban,
-            amount,
+            formattedAmount,
             purposeCode,
             reference,
             remittanceInformation,
         ).joinToString("\n")
+    }
 
     override fun toString(): String = toEpcGiroCodeQrCodeText()
 
@@ -61,5 +63,6 @@ class EpcGiroCode {
         const val VERSION = "002"
         const val CHARACTER_SET = "1"
         const val IDENTIFICATION = "SCT"
+        const val CURRENCY = "EUR"
     }
 }
