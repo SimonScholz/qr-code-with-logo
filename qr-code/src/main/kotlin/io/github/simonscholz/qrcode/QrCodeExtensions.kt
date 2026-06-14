@@ -29,6 +29,8 @@ fun RenderedImage.toBase64(imageFormatName: String = "png"): String =
 fun String.imageFromBase64(): BufferedImage =
     Base64.Default.decode(this.toByteArray()).run {
         ByteArrayInputStream(this).use {
-            ImageIO.read(it)
+            // ImageIO.read returns null when no registered reader can decode the data; turn that into
+            // an explicit IOException so callers don't get a surprising NPE from the non-null type.
+            ImageIO.read(it) ?: throw IOException("Could not decode image from base64 string.")
         }
     }
