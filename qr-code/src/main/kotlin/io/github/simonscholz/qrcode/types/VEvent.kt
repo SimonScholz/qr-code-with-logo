@@ -60,7 +60,7 @@ class VEvent {
     fun toVEventQrCodeText(): String {
         val properties = mutableListOf<String>()
         if (summary.isNotEmpty()) {
-            properties.add("SUMMARY:$summary")
+            properties.add("SUMMARY:${escape(summary)}")
         }
         if (start.isNotEmpty()) {
             properties.add("DTSTART:$start")
@@ -69,10 +69,10 @@ class VEvent {
             properties.add("DTEND:$end")
         }
         if (location.isNotEmpty()) {
-            properties.add("LOCATION:$location")
+            properties.add("LOCATION:${escape(location)}")
         }
         if (description.isNotEmpty()) {
-            properties.add("DESCRIPTION:$description")
+            properties.add("DESCRIPTION:${escape(description)}")
         }
         if (other.isNotEmpty()) {
             other.entries.forEach {
@@ -88,5 +88,19 @@ class VEvent {
 
     companion object {
         private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss")
+
+        /**
+         * Escapes a free-text value according to RFC 5545 (iCalendar):
+         * a backslash, comma, semicolon and newline must be escaped with a backslash.
+         * Escaping the backslash first avoids escaping the backslashes we add afterwards.
+         */
+        private fun escape(value: String): String =
+            value
+                .replace("\\", "\\\\")
+                .replace("\r\n", "\\n")
+                .replace("\n", "\\n")
+                .replace("\r", "\\n")
+                .replace(";", "\\;")
+                .replace(",", "\\,")
     }
 }

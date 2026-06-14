@@ -51,7 +51,12 @@ class VCard {
         additionalName: String = "",
         namePrefix: String = "",
         nameSuffix: String = "",
-    ) = apply { this.name = "$familyName;$givenName;$additionalName;$namePrefix;$nameSuffix" }
+    ) = apply {
+        // escape each component individually so the structural `;` separators are preserved
+        this.name =
+            listOf(familyName, givenName, additionalName, namePrefix, nameSuffix)
+                .joinToString(";") { escape(it) }
+    }
 
     /**
      * The organization
@@ -89,7 +94,10 @@ class VCard {
         postOfficeBox: String = "",
         extendedAddress: String = "",
     ) = apply {
-        this.address = "$postOfficeBox;$extendedAddress;$street;$city;$state;$postalCode;$country"
+        // escape each component individually so the structural `;` separators are preserved
+        this.address =
+            listOf(postOfficeBox, extendedAddress, street, city, state, postalCode, country)
+                .joinToString(";") { escape(it) }
     }
 
     /**
@@ -169,12 +177,13 @@ class VCard {
 
     fun toVCardQrCodeText(): String {
         val properties = mutableListOf<String>()
-        properties.add("FN:$formattedName")
+        properties.add("FN:${escape(formattedName)}")
+        // name is already escaped per component in name()
         if (name.isNotEmpty()) {
             properties.add("N:$name")
         }
         if (organization.isNotEmpty()) {
-            properties.add("ORG:$organization")
+            properties.add("ORG:${escape(organization)}")
         }
         if (phoneNumber.isNotEmpty()) {
             properties.add("TEL:$phoneNumber")
@@ -182,6 +191,7 @@ class VCard {
         if (email.isNotEmpty()) {
             properties.add("EMAIL:$email")
         }
+        // address is already escaped per component in address()
         if (address.isNotEmpty()) {
             properties.add("ADR:$address")
         }
@@ -192,13 +202,15 @@ class VCard {
             properties.add("BDAY:$birthday")
         }
         if (photo.isNotEmpty()) {
-            properties.add("PHOTO;$photo")
+            // PHOTO is a URI value (e.g. a data: URI). It must use a `:` separator and must not be
+            // text-escaped, otherwise the `;` and `,` inside a data URI would be corrupted.
+            properties.add("PHOTO:$photo")
         }
         if (note.isNotEmpty()) {
-            properties.add("NOTE:$note")
+            properties.add("NOTE:${escape(note)}")
         }
         if (title.isNotEmpty()) {
-            properties.add("TITLE:$title")
+            properties.add("TITLE:${escape(title)}")
         }
         if (revisionDate.isNotEmpty()) {
             properties.add("REV:$revisionDate")
@@ -223,4 +235,20 @@ class VCard {
     }
 
     override fun toString(): String = toVCardQrCodeText()
+
+    private companion object {
+        /**
+         * Escapes a free-text value according to RFC 6350 (vCard 4.0):
+         * a backslash, comma, semicolon and newline must be escaped with a backslash.
+         * Escaping the backslash first avoids escaping the backslashes we add afterwards.
+         */
+        fun escape(value: String): String =
+            value
+                .replace("\\", "\\\\")
+                .replace("\r\n", "\\n")
+                .replace("\n", "\\n")
+                .replace("\r", "\\n")
+                .replace(";", "\\;")
+                .replace(",", "\\,")
+    }
 }

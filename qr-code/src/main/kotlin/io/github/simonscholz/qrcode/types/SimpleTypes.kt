@@ -1,5 +1,7 @@
 package io.github.simonscholz.qrcode.types
 
+import java.net.URLEncoder
+
 /**
  * This class is a utility to create simple Qr Code types with proper syntax,
  * such as geolocation, email, phone number, sms, url.
@@ -32,7 +34,7 @@ object SimpleTypes {
         emailAddress: String,
         subject: String = "",
         body: String = "",
-    ) = "mailto:$emailAddress?subject=$subject&body=$body"
+    ) = "mailto:$emailAddress?subject=${urlEncode(subject)}&body=${urlEncode(body)}"
 
     /**
      * tel: number.
@@ -87,5 +89,23 @@ object SimpleTypes {
         ssid: String,
         password: String,
         encryptionType: String = "WPA",
-    ) = "WIFI:T:$encryptionType;S:$ssid;P:$password;;"
+    ) = "WIFI:T:$encryptionType;S:${escapeWifi(ssid)};P:${escapeWifi(password)};;"
+
+    /**
+     * Percent-encodes a value for use in a mailto query, using `%20` for spaces (as required by
+     * RFC 6068) rather than the `+` that [URLEncoder] produces.
+     */
+    private fun urlEncode(value: String): String = URLEncoder.encode(value, "UTF-8").replace("+", "%20")
+
+    /**
+     * Escapes the special characters (`\`, `;`, `,`, `:`, `"`) in a WiFi SSID or password with a
+     * backslash, as required by the WiFi QR code format.
+     */
+    private fun escapeWifi(value: String): String =
+        value
+            .replace("\\", "\\\\")
+            .replace(";", "\\;")
+            .replace(",", "\\,")
+            .replace(":", "\\:")
+            .replace("\"", "\\\"")
 }
