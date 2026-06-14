@@ -5,8 +5,23 @@ import io.github.simonscholz.svg.toRgbString
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.awt.Color
+import java.util.Locale
 
 internal object BackgroundCreator {
+    private const val OPAQUE_ALPHA = 255
+
+    /**
+     * Sets the `fill` color and, for translucent colors, an additional `fill-opacity` attribute.
+     * SVG's `fill` does not carry an alpha channel, so a transparent background color would
+     * otherwise be rendered fully opaque.
+     */
+    private fun Element.applyFill(color: Color) {
+        setAttribute("fill", color.toRgbString())
+        if (color.alpha < OPAQUE_ALPHA) {
+            setAttribute("fill-opacity", String.format(Locale.US, "%.3f", color.alpha / 255.0))
+        }
+    }
+
     fun createBackground(
         document: Document,
         bgColor: Color,
@@ -33,7 +48,7 @@ internal object BackgroundCreator {
         backgroundCircle.setAttribute("cx", (x + size / 2).toString())
         backgroundCircle.setAttribute("cy", (y + size / 2).toString())
         backgroundCircle.setAttribute("r", (size / 2).toString())
-        backgroundCircle.setAttribute("fill", bgColor.toRgbString())
+        backgroundCircle.applyFill(bgColor)
         return backgroundCircle
     }
 
@@ -49,7 +64,7 @@ internal object BackgroundCreator {
         backgroundSquare.setAttribute("y", y.toString())
         backgroundSquare.setAttribute("width", size.toString())
         backgroundSquare.setAttribute("height", size.toString())
-        backgroundSquare.setAttribute("fill", bgColor.toRgbString())
+        backgroundSquare.applyFill(bgColor)
         return backgroundSquare
     }
 
@@ -73,7 +88,7 @@ internal object BackgroundCreator {
         backgroundEllipse.setAttribute("cy", (y + size / 2).toString())
         backgroundEllipse.setAttribute("rx", (size / 2).toString())
         backgroundEllipse.setAttribute("ry", (size / 2).toString())
-        backgroundEllipse.setAttribute("fill", bgColor.toRgbString())
+        backgroundEllipse.applyFill(bgColor)
         return backgroundEllipse
     }
 }
