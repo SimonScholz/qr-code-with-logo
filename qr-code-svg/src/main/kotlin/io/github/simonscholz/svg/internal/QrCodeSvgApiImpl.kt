@@ -53,8 +53,7 @@ internal class QrCodeSvgApiImpl : QrCodeSvgApi {
         val qrCodeSize = qrCodeConfig.qrCodeSize.toDouble()
 
         val logoMaxSize = qrCodeSize * logoConfig.relativeSize
-        val x = (qrCodeSize - logoMaxSize) / 2
-        val y = (qrCodeSize - logoMaxSize) / 2
+        val backgroundXy = (qrCodeSize - logoMaxSize) / 2
 
         val root = document.documentElement
         logoConfig.bgColor?.let { bgColor ->
@@ -63,8 +62,8 @@ internal class QrCodeSvgApiImpl : QrCodeSvgApi {
                     document = document,
                     bgColor = bgColor,
                     logoShape = logoConfig.shape,
-                    x = x,
-                    y = y,
+                    x = backgroundXy,
+                    y = backgroundXy,
                     logoMaxSize = logoMaxSize,
                 ).let { backgroundRect ->
                     // Append the background rectangle to the main SVG document
@@ -86,6 +85,11 @@ internal class QrCodeSvgApiImpl : QrCodeSvgApi {
             croppedHeight = logoMaxSize.toInt()
             croppedWidth = (croppedHeight * aspectRatio).toInt()
         }
+
+        // Center the logo using its actual (cropped) dimensions, not the square logoMaxSize,
+        // otherwise a non-square logo ends up off-center.
+        val x = (qrCodeSize - croppedWidth) / 2
+        val y = (qrCodeSize - croppedHeight) / 2
 
         logoConfig.svgLogo.documentElement.setAttribute("x", x.toString())
         logoConfig.svgLogo.documentElement.setAttribute("y", y.toString())
