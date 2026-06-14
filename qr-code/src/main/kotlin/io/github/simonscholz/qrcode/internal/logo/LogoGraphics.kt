@@ -25,7 +25,6 @@ internal object LogoGraphics {
             LogoShape.ORIGINAL -> drawOriginalShape(size, logoSize, logoBackgroundColor, graphics, logoImage)
             LogoShape.ELLIPSE -> drawEllipseShape(size, logoSize, logoBackgroundColor, graphics, logoImage)
         }
-        graphics.dispose()
     }
 
     private fun drawCircleShape(
