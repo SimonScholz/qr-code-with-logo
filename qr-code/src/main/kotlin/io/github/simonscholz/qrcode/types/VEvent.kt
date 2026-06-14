@@ -2,6 +2,7 @@ package io.github.simonscholz.qrcode.types
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 /**
  * This class is a utility to create VEvents with proper syntax
@@ -15,6 +16,8 @@ class VEvent {
     private var location = ""
     private var start = ""
     private var end = ""
+    private var uid = ""
+    private var dtStamp = ""
     private var other = emptyMap<String, String>()
 
     /**
@@ -53,12 +56,34 @@ class VEvent {
     fun endDate(end: LocalDateTime) = apply { this.end = end.format(dateFormatter) }
 
     /**
+     * The globally unique identifier of the event (iCalendar `UID`).
+     * Only used by [toCalendarQrCodeText]; a random one is generated when left unset.
+     */
+    fun uid(uid: String) = apply { this.uid = uid }
+
+    /**
+     * The timestamp when the event was created (iCalendar `DTSTAMP`).
+     * Only used by [toCalendarQrCodeText]; the current time is used when left unset.
+     */
+    fun dtStamp(dtStamp: String) = apply { this.dtStamp = dtStamp }
+
+    /**
+     * The timestamp when the event was created (iCalendar `DTSTAMP`).
+     * Only used by [toCalendarQrCodeText]; the current time is used when left unset.
+     */
+    fun dtStamp(dtStamp: LocalDateTime) = apply { this.dtStamp = dtStamp.format(dateFormatter) }
+
+    /**
      * New properties, which might be missing here or also custom properties can be defined using the X- prefix, followed by a unique name
      */
     fun other(other: Map<String, String>) = apply { this.other = other }
 
-    fun toVEventQrCodeText(): String {
+    private fun eventProperties(includeMandatory: Boolean): List<String> {
         val properties = mutableListOf<String>()
+        if (includeMandatory) {
+            properties.add("UID:${uid.ifEmpty { UUID.randomUUID().toString() }}")
+            properties.add("DTSTAMP:${dtStamp.ifEmpty { LocalDateTime.now().format(dateFormatter) }}")
+        }
         if (summary.isNotEmpty()) {
             properties.add("SUMMARY:${escape(summary)}")
         }
@@ -79,9 +104,23 @@ class VEvent {
                 properties.add("${it.key}:${it.value}")
             }
         }
+        return properties
+    }
 
-        val vEventData = properties.joinToString("\n")
-        return "BEGIN:VEVENT\n$vEventData\nEND:VEVENT"
+    /**
+     * Builds a bare `VEVENT` block. This is what most QR-code scanners (e.g. zxing based) expect.
+     * Use [toCalendarQrCodeText] when a full, RFC 5545 compliant iCalendar object is required.
+     */
+    fun toVEventQrCodeText(): String = "BEGIN:VEVENT\n${eventProperties(false).joinToString("\n")}\nEND:VEVENT"
+
+    /**
+     * Builds a full iCalendar (`VCALENDAR`) object wrapping the `VEVENT`, including the mandatory
+     * `UID` and `DTSTAMP` properties (generated when not set). Prefer this for strict calendar
+     * applications; prefer [toVEventQrCodeText] for broad QR-code scanner compatibility.
+     */
+    fun toCalendarQrCodeText(): String {
+        val vEvent = "BEGIN:VEVENT\n${eventProperties(true).joinToString("\n")}\nEND:VEVENT"
+        return "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SimonScholz//qr-code-with-logo//EN\n$vEvent\nEND:VCALENDAR"
     }
 
     override fun toString(): String = toVEventQrCodeText()
