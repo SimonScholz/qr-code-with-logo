@@ -1,5 +1,9 @@
 :toc:
 
+image:https://github.com/SimonScholz/qr-code-with-logo/actions/workflows/CI.yaml/badge.svg[CI/CD,link=https://github.com/SimonScholz/qr-code-with-logo/actions/workflows/CI.yaml]
+image:https://img.shields.io/maven-central/v/io.github.simonscholz/qr-code-with-logo?label=maven+central[Maven Central,link=https://central.sonatype.com/search?namespace=io.github.simonscholz]
+image:https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat[Apache License 2.0,link=https://www.apache.org/licenses/LICENSE-2.0]
+
 This library uses the zxing library, which provides a simple API to create QR codes.
 
 == Creating QR Codes with Kotlin or Java
